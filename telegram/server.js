@@ -33,17 +33,39 @@ let payment = {};
     // require('http')
     // .createServer(bot.webhookCallback('/telegram'))
     // .listen(8000)
-
+let chatId;
    app.post('/telegram',(req,res)=>{
                 // console.log(req)
                 payment = req.body
                 // res.send({message: "success"})
+                let message='Новый платеж!\n';
+
+            // payments.map((item)=>{
+                
+                message+=(payment.paided? 'оплачен ' : 'не оплачен '+'\n');
+                message+=( payment.repeatability? 'повторяющийся ' : 'не повторяющийся '+'\n');
+                message+=('назначение : '+ payment.appointment+'\n');
+                message+=('плательщик : '+ payment.payer+'\n');
+                message+=('счет : '+ payment.invoice+'\n');
+                message+=('сумма : '+ payment.sum+'\n');
+                message+=('дата платежа : '+ payment.dateOfPayment+'\n');
+                message+=('подядчик : '+ payment.contractor+'\n');
+                message+=('приоритет : '+ payment.priority+'\n');
+                if(payment.image && payment.image!==''){
+                    const link=('http://localhost:8000/uploads/'+payment.image);
+                    message+=link +'\n';
+                }
+                message+='------------------------------------------';
+                bot.telegram.sendMessage('-532910571',message);
+               
             })
 
 
 bot.command('start_notification',async (ctx)=>{
     // interval= setInterval(async ()=>{
         try{
+            chatId=await ctx.getChat()
+            console.log(chatId)
 
             // const resp=await axios.get(baseUrl+'/payments');
             // app.post('/telegram',(req,res)=>{
