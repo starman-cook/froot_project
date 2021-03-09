@@ -14,18 +14,14 @@ app.use(express.json());
 
 const User=require('./models/User');
 
-
-const token='1684002017:AAFEW70j_eq8PhfVrLWTdBbaVdujKCFpH3g';
-
-const baseUrl='http://localhost:8000';
-
+const token=config.token;
+const baseUrl=config.baseUrl;
 
 const bot = new Telegraf(token);
 bot.use(Telegraf.log());
 
-
 bot.start((ctx) => {
-    ctx.reply('Привет! Чтобы получать уведомления введи команду /start_notification \n Для получения инструкций введи команду /help');
+    ctx.reply('Привет! Чтобы авторизироваться и получать уведомления введите команду /start_notification \n Для получения инструкций введите команду /help');
 });
 bot.help(async (ctx) => {
     const comands=await bot.telegram.getMyCommands();
@@ -39,22 +35,13 @@ let payment = {};
   
 let chatId;
 
-    
-    // mongoose.connect(config.db.url+':'+port+'/'+config.db.name, {
-    //     useNewUrlParser:true, 
-    //     useUnifiedTopology: true
-    // });
-    // mongoose.disconnect();
-
-    // payment.chatId=['-532910571','1052153386'];
-
-   app.post('/telegram', async (req,res)=>{
+            app.post('/telegram', async (req,res)=>{
                 payment = req.body;
 
                 if(payment.priority==='Срочный'){
                     let message='Новый платеж!\n';
                 
-                    message+=(payment.paided? 'оплачен ' : 'не оплачен '+'\n');
+                    // message+=(payment.paided? 'оплачен ' : 'не оплачен '+'\n');
                     message+=( payment.repeatability? 'повторяющийся ' : 'не повторяющийся '+'\n');
                     message+=('назначение : '+ payment.appointment+'\n');
                     message+=('плательщик : '+ payment.payer+'\n');
@@ -76,7 +63,7 @@ let chatId;
 
                     const directorList= await User.find({role:'director'});
 
-                    const keyboardAnswer=[['/confirm','/change_date']];
+                    const keyboardAnswer=[['Подтвердить!','Перенести на завтра!']];
 
                     directorList.map(item=>{
                         bot.telegram.sendMessage(item.chatId,message,{reply_markup:{keyboard:keyboardAnswer}});
@@ -85,15 +72,18 @@ let chatId;
                     
                     mongoose.disconnect();
 
-                    bot.command('confirm',async (ctx)=>{
+                    bot.hears('Подтвердить!',async (ctx)=>{
                         chatId=await ctx.getChat();
 
                         if(chatId.type==='private' && payment._id!==''){
-                            const resp= await axios.post(baseUrl+'/payments/telegram/'+payment._id+'/paid');
+                            const resp= await axios.post(baseUrl+'/payments/telegram/'+payment._id+'/approved');
                             
                             if(resp.data.message){
                                 bot.telegram.sendMessage(chatId.id,'Платеж подтвержден!',{reply_markup:{remove_keyboard:true}});
                                 payment._id='';
+                            }
+                            else if(!resp){
+                                ctx.reply('Что то пошло не так!');
                             }
                             else{
                                 ctx.reply('Что то пошло не так!');
@@ -102,9 +92,9 @@ let chatId;
                         else{
                             ctx.reply('Данная команда доступна только в личной переписке с ботом и только в случае поступления новой заявки!');
                         }
-                        
                     });
-                    bot.command('change_date',async (ctx)=>{
+
+                    bot.hears('Перенести на завтра!',async (ctx)=>{
                         chatId=await ctx.getChat();
                         if(chatId.type==='private' && payment._id!==''){
                             const resp= await axios.post(baseUrl+'/payments/telegram/'+payment._id+'/date');
@@ -112,6 +102,9 @@ let chatId;
                             if(resp.data.message){
                                 bot.telegram.sendMessage(chatId.id,'Платеж перенесен на завтра!',{reply_markup:{remove_keyboard:true}});
                                 payment._id='';
+                            }
+                            else if(!resp){
+                                ctx.reply('Что то пошло не так!');
                             }
                             else{
                                 ctx.reply('Что то пошло не так!');
@@ -137,7 +130,7 @@ let chatId;
     
             const newUser= await User.findOne({chatId:chatId.id});
             if(!newUser){
-                ctx.reply('Данный пользователь не авторизирован Froot.kz , для авторизации введите /start_notification');
+                ctx.reply('Данный пользователь не авторизирован, для авторизации введите /start_notification');
             }
             else{
                 await User.findOneAndDelete({chatId:chatId.id});
