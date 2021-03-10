@@ -18,7 +18,7 @@ const token=config.token;
 const baseUrl=config.baseUrl;
 
 const bot = new Telegraf(token);
-bot.use(Telegraf.log());
+// bot.use(Telegraf.log());
 
 bot.start((ctx) => {
     ctx.reply('Привет! Чтобы авторизироваться и получать уведомления введите команду /start_notification \n Для получения инструкций введите команду /help');
@@ -37,10 +37,11 @@ let chatId;
 
             app.post('/telegram', async (req,res)=>{
                 payment = req.body;
+                
 
                 if(payment.priority==='Срочный'){
                     let message='Новый платеж!\n';
-                
+                    
                     // message+=(payment.paided? 'оплачен ' : 'не оплачен '+'\n');
                     message+=( payment.repeatability? 'повторяющийся ' : 'не повторяющийся '+'\n');
                     message+=('назначение : '+ payment.appointment+'\n');
@@ -75,10 +76,10 @@ let chatId;
                     bot.hears('Подтвердить!',async (ctx)=>{
                         chatId=await ctx.getChat();
 
-                        if(chatId.type==='private' && payment._id!==''){
+                        if(chatId.type==='private'){
                             const resp= await axios.post(baseUrl+'/payments/telegram/'+payment._id+'/approved');
                             
-                            if(resp.data.message){
+                            if(resp.data.message && payment._id!==''){
                                 bot.telegram.sendMessage(chatId.id,'Платеж подтвержден!',{reply_markup:{remove_keyboard:true}});
                                 payment._id='';
                             }
@@ -96,17 +97,23 @@ let chatId;
 
                     bot.hears('Перенести на завтра!',async (ctx)=>{
                         chatId=await ctx.getChat();
-                        if(chatId.type==='private' && payment._id!==''){
-                            const resp= await axios.post(baseUrl+'/payments/telegram/'+payment._id+'/date');
+                        if(chatId.type==='private'){
                             
-                            if(resp.data.message){
-                                bot.telegram.sendMessage(chatId.id,'Платеж перенесен на завтра!',{reply_markup:{remove_keyboard:true}});
-                                payment._id='';
+                            try{
+                                const resp= await axios.post(baseUrl+'/payments/telegram/'+payment._id+'/date');
+                            
+                                if(resp.data.message && payment._id!==''){
+                                    bot.telegram.sendMessage(chatId.id,'Платеж перенесен на завтра!',{reply_markup:{remove_keyboard:true}});
+                                    payment._id='';
+                                }
+                                else if(!resp){
+                                    ctx.reply('Что то пошло не так!');
+                                }
+                                else{
+                                    ctx.reply('Что то пошло не так!');
+                                }
                             }
-                            else if(!resp){
-                                ctx.reply('Что то пошло не так!');
-                            }
-                            else{
+                            catch(e){
                                 ctx.reply('Что то пошло не так!');
                             }
                         }
