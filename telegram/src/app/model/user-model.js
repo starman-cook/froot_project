@@ -9,7 +9,6 @@ var Schema = mongoose_1.default.Schema;
 var UserSchema = new Schema({
     chatId: {
         type: String,
-        // required: true
     },
     role: {
         type: String,
@@ -18,4 +17,3 @@ var UserSchema = new Schema({
     name: String
 });
 exports.User = mongoose_1.default.model('users', UserSchema);
-// mongoose.model('films', FilmSchema)
