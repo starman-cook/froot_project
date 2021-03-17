@@ -2,23 +2,27 @@
   "name": "telegram",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
-    "seed":"node fixtures.js",
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "nodemon": "^2.0.7"
-  },
   "dependencies": {
+    "@types/cors": "^2.8.10",
+    "@types/node-telegram-bot-api": "^0.51.1",
     "axios": "^0.21.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^5.11.18",
-    "telegraf": "^4.1.1"
+    "mongoose": "^5.12.0",
+    "node-telegram-bot-api": "^0.51.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.1",
+    "nodemon": "^2.0.7",
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.3"
   }
 }
