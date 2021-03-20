@@ -9,7 +9,8 @@ const UserSchema = new Schema({
         type: String,
         default: 'user'
     },
-    name: String
+    name: String,
+    token: String
 })
 
 export const User = mongoose.model('users', UserSchema)

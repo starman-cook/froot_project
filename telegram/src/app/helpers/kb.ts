@@ -6,8 +6,9 @@ export const kb = {
         myPage: 'Моя учётка',
     },
     loginPage: {
-        register: 'Зарегестрироваться',
-        logout: 'Удалить юзера'
+        register: 'Зарегестрироваться (инструкция)',
+        logout: 'Удалить юзера',
+        info: 'Мои данные',
     },
     goBack: 'Вернуться'
 }

@@ -14,6 +14,7 @@ var UserSchema = new Schema({
         type: String,
         default: 'user'
     },
-    name: String
+    name: String,
+    token: String
 });
 exports.User = mongoose_1.default.model('users', UserSchema);
