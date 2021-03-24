@@ -10,7 +10,8 @@ const UserSchema = new Schema({
         default: 'user'
     },
     name: String,
-    token: String
+    token: String,
+    apiUserId: String
 })
 
 export const User = mongoose.model('users', UserSchema)

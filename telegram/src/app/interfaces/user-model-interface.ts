@@ -5,4 +5,5 @@ export  interface  UserModelInterface{
     role: string
     name: string
     token: string
+    apiUserId: string
 }
