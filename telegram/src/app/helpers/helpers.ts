@@ -20,7 +20,7 @@ export function createTextForMessage(data: PaymentInterface, head: string, subHe
 <b>Контрактор: </b>     <pre>${data.contractor}</pre>
 <b>Дата платежа: </b>   <pre>${data.dateOfPayment}</pre>
 <b>Сумма: </b>          <pre>${data.sum} тг</pre>
-${withId ? `<b>id: </b>             <pre>${data._id}</pre>` : null}
+${withId ? `<b>id: </b>             <pre>${data._id}</pre>` : ""}
     `
 }
 

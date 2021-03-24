@@ -10,8 +10,9 @@ import {User} from "./app/model/user-model";
 import {UserModelInterface} from "./app/interfaces/user-model-interface";
 import {config} from "./app/config";
 import {upload} from "./app/upload";
-const http = require('http'),
-    fs = require('fs');
+import fs from 'fs';
+import fetch from 'node-fetch';
+
 
 mongoose.connect(config.mongoUrl.url + config.mongoUrl.db, {
     useNewUrlParser: true,
@@ -44,16 +45,19 @@ const bot = new TelegramBot(config.telegramToken, {
 app.post('/telegram', upload.single('image'), async (req, res) => {
     if (req.body.image) {
         try {
-            http.get(config.imagePathFromApi+ "/uploads/" + req.body.image, function(response: any) {
-                if (response.statusCode === 200) {
-                    const file = fs.createWriteStream("./public/images/" + req.body.image);
-                    response.pipe(file);
-                }
+            const response = await fetch("http://" + process.env.BACKEND_HOST + ":8000/uploads/" + req.body.image);
+            // const response = await fetch(config.imagePathFromApi+ "/uploads/" + req.body.image);
+            const fileStream = fs.createWriteStream("./public/images/" + req.body.image);
+            await new Promise((resolve, reject) => {
+                response.body.pipe(fileStream);
+                response.body.on("error", reject);
+                fileStream.on("finish", resolve);
             });
-        } catch(err) {
-            console.log("Error while downloading the image")
+        } catch (e) {
+            console.log('error' + e)
         }
     }
+
         const users: Array<UserModelInterface> = await User.find({})
 
     try {
@@ -136,7 +140,7 @@ bot.on('message', async msg => {
         switch(msg.text) {
             case kb.home.getPayments:
                 try {
-                    const resp = await axios.get(`${config.localApiUrl}/payments/today`, {headers: {Authorization: user.token}})
+                    const resp = await axios.get(`${config.localApiUrl}/payments/due/today`, {headers: {Authorization: user.token}})
 
                     const headMessage = `
 <b>Сегодняшние заявки</b>

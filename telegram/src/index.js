@@ -50,7 +50,8 @@ var kb_1 = require("./app/helpers/kb");
 var user_model_1 = require("./app/model/user-model");
 var config_1 = require("./app/config");
 var upload_1 = require("./app/upload");
-var http = require('http'), fs = require('fs');
+var fs_1 = __importDefault(require("fs"));
+var node_fetch_1 = __importDefault(require("node-fetch"));
 mongoose_1.default.connect(config_1.config.mongoUrl.url + config_1.config.mongoUrl.db, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -75,52 +76,59 @@ var bot = new node_telegram_bot_api_1.default(config_1.config.telegramToken, {
 });
 // Прием новых только что созданных заявок. Даже если она никому не будет отправлена изображение все равно сохранится для будущих реестров и уведомлений смен статусов
 app.post('/telegram', upload_1.upload.single('image'), function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var users, i, image, html, err_1;
+    var response_1, fileStream_1, e_1, users, i, image, html, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                if (req.body.image) {
-                    try {
-                        http.get(config_1.config.imagePathFromApi + "/uploads/" + req.body.image, function (response) {
-                            if (response.statusCode === 200) {
-                                var file = fs.createWriteStream("./public/images/" + req.body.image);
-                                response.pipe(file);
-                            }
-                        });
-                    }
-                    catch (err) {
-                        console.log("Error while downloading the image");
-                    }
-                }
-                return [4 /*yield*/, user_model_1.User.find({})];
+                if (!req.body.image) return [3 /*break*/, 5];
+                _a.label = 1;
             case 1:
-                users = _a.sent();
-                _a.label = 2;
+                _a.trys.push([1, 4, , 5]);
+                return [4 /*yield*/, node_fetch_1.default("http://" + process.env.BACKEND_HOST + ":8000/uploads/" + req.body.image)];
             case 2:
-                _a.trys.push([2, 7, , 8]);
-                i = 0;
-                _a.label = 3;
+                response_1 = _a.sent();
+                fileStream_1 = fs_1.default.createWriteStream("./public/images/" + req.body.image);
+                return [4 /*yield*/, new Promise(function (resolve, reject) {
+                        response_1.body.pipe(fileStream_1);
+                        response_1.body.on("error", reject);
+                        fileStream_1.on("finish", resolve);
+                    })];
             case 3:
-                if (!(i < users.length)) return [3 /*break*/, 6];
-                image = helpers_1.applyImage(req.body.image, fs);
-                html = helpers_1.createTextForMessage(req.body, "Hello, " + users[i].name, "Новая заявка", false);
-                if (!(users[i].apiUserId === req.body.user || (users[i].role === 'director' && req.body.priority === 'Срочный'))) return [3 /*break*/, 5];
-                return [4 /*yield*/, botSendsPhoto(users[i].chatId, image, html)];
-            case 4:
                 _a.sent();
-                _a.label = 5;
-            case 5:
-                i++;
-                return [3 /*break*/, 3];
+                return [3 /*break*/, 5];
+            case 4:
+                e_1 = _a.sent();
+                console.log('error' + e_1);
+                return [3 /*break*/, 5];
+            case 5: return [4 /*yield*/, user_model_1.User.find({})];
             case 6:
-                res.send({ message: "File was successfully received" });
-                return [3 /*break*/, 8];
+                users = _a.sent();
+                _a.label = 7;
             case 7:
+                _a.trys.push([7, 12, , 13]);
+                i = 0;
+                _a.label = 8;
+            case 8:
+                if (!(i < users.length)) return [3 /*break*/, 11];
+                image = helpers_1.applyImage(req.body.image, fs_1.default);
+                html = helpers_1.createTextForMessage(req.body, "Hello, " + users[i].name, "Новая заявка", false);
+                if (!(users[i].apiUserId === req.body.user || (users[i].role === 'director' && req.body.priority === 'Срочный'))) return [3 /*break*/, 10];
+                return [4 /*yield*/, botSendsPhoto(users[i].chatId, image, html)];
+            case 9:
+                _a.sent();
+                _a.label = 10;
+            case 10:
+                i++;
+                return [3 /*break*/, 8];
+            case 11:
+                res.send({ message: "File was successfully received" });
+                return [3 /*break*/, 13];
+            case 12:
                 err_1 = _a.sent();
                 console.log(err_1);
                 res.status(400).send({ error: "could not receive data" });
-                return [3 /*break*/, 8];
-            case 8: return [2 /*return*/];
+                return [3 /*break*/, 13];
+            case 13: return [2 /*return*/];
         }
     });
 }); });
@@ -247,7 +255,7 @@ bot.on('message', function (msg) { return __awaiter(void 0, void 0, void 0, func
                 return [3 /*break*/, 35];
             case 2:
                 _b.trys.push([2, 10, , 12]);
-                return [4 /*yield*/, axios_1.default.get(config_1.config.localApiUrl + "/payments/today", { headers: { Authorization: user.token } })];
+                return [4 /*yield*/, axios_1.default.get(config_1.config.localApiUrl + "/payments/due/today", { headers: { Authorization: user.token } })];
             case 3:
                 resp = _b.sent();
                 headMessage = "\n<b>\u0421\u0435\u0433\u043E\u0434\u043D\u044F\u0448\u043D\u0438\u0435 \u0437\u0430\u044F\u0432\u043A\u0438</b>\n<b>\u0412\u0441\u0435\u0433\u043E \u0437\u0430\u044F\u0432\u043E\u043A \u043D\u0430 \u0441\u0435\u0433\u043E\u0434\u043D\u044F: " + resp.data.length + "\u0448\u0442</b>";
@@ -260,7 +268,7 @@ bot.on('message', function (msg) { return __awaiter(void 0, void 0, void 0, func
                 _b.label = 5;
             case 5:
                 if (!(i < resp.data.length)) return [3 /*break*/, 9];
-                image = helpers_1.applyImage(resp.data[i].image, fs);
+                image = helpers_1.applyImage(resp.data[i].image, fs_1.default);
                 numeration = "\n<pre>  </pre>\n            -------<b>" + (i + 1) + "</b>-------\n\n";
                 return [4 /*yield*/, bot.sendMessage(chatId, numeration, { parse_mode: 'HTML' })];
             case 6:
@@ -437,7 +445,7 @@ function dateAndApproveChangingBody(req, res, text) {
                     user = _a.sent();
                     if (!user)
                         res.status(404).send({ message: "user not found" });
-                    image = helpers_1.applyImage(req.body.image, fs);
+                    image = helpers_1.applyImage(req.body.image, fs_1.default);
                     html = helpers_1.createTextForMessage(req.body, user.name + ", " + text, "Данные по заявке: ", false);
                     return [4 /*yield*/, botSendsPhoto(user.chatId, image, html)];
                 case 2:
