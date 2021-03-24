@@ -1,0 +1,31 @@
+.FormElement {
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background: #f5f2f2;
+    color: #4e4e4e;
+    margin: 5px 0;
+    box-sizing: border-box;
+    display: inline-block;
+    width: 100%;
+}
+.FormElement__label {
+    font-size: 18px;
+    font-weight: bold;
+}
+.FormElement:hover {
+    box-shadow: 5px 5px 5px #7a7878;
+}
+.FormElement__error_message {
+    padding: 10px;
+    color: red;
+    width: 100%;
+}
+.FormElement__error {
+    color: red;
+    border: 2px solid red;
+    box-shadow: 5px 5px 5px #e98a8a;
+
+}

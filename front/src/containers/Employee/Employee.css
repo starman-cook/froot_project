@@ -1,0 +1,11 @@
+.Employee__btn {
+    display: inline-block;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    margin: 10px;
+    padding: 10px;
+    background: linear-gradient(64.35deg,#ff7488 9.2%,#ff077d 89.76%);
+    color: white;
+    border-radius: 10px
+}

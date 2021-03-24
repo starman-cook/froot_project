@@ -1,0 +1,53 @@
+.Payments {
+    margin: 0 auto;
+    padding: 15px;
+}
+.Payments__close {
+    margin-left: auto;
+    padding: 3px 3px 0 3px;
+    border-radius: 3px;
+    background: white;
+}
+.Payments__btn {
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    background: #ff067c;
+    border: none;
+    margin: 20px 0;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 3px 2px;
+    outline: none;
+    cursor: pointer;
+}
+.Payments__btn:hover {
+    background: #480866;
+}
+.Payments__btn:active {
+    box-shadow: none;
+}
+.Payments__title {
+    color: #b1b0b0;
+    font-size: 30px;
+    text-align: center;
+    text-shadow: 1px 1px 2px black;
+    margin: 0;
+    margin-bottom: 10px;
+}
+.Payments__total {
+    color: #363636;
+    text-align: center;
+    width: 50%;
+    margin: 0 auto 10px;
+}
+.Payments__total-company {
+    color: #363636;
+    font-size: 20px;
+    font-weight: 500;
+    border: 2px solid grey;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+    width: 50%;
+}

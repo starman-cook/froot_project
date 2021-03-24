@@ -1,0 +1,8 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+.App__main {
+    background: linear-gradient(#dadadb 0%, #ececee 1%, #fbfbfd 2%, white 3%);
+    padding: 5px;
+}

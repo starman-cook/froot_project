@@ -1,0 +1,13 @@
+.PaymentById {
+    margin: 10px 20px;
+}
+.PaymentById__title {
+    border-bottom: 2px solid black;
+}
+.PaymentById__content {
+    align-items: start;
+}
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}

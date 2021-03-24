@@ -1,0 +1,32 @@
+.FileInput__input {
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background: #f5f2f2;
+    color: #4e4e4e;
+    margin: 5px 0;
+    box-sizing: border-box;
+    width: 360px;
+}
+.FileInput__btn {
+    width: 200px;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    background: #ff067c;
+    border: none;
+    margin-left: 35px;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 3px 2px;
+    outline: none;
+    cursor: pointer;
+}
+.FileInput__btn:hover {
+    background: #480866;
+}
+.FileInput__btn:active {
+    box-shadow: none;
+}

@@ -1,0 +1,55 @@
+.Register {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px gray;
+}
+.Register__close {
+    margin-left: auto;
+}
+.Register__form {
+    width: 100%;
+}
+.Register__title {
+    text-align: center;
+    font-size: 24px;
+    margin: 5px;
+}
+.Register__btn {
+    background: linear-gradient(64.35deg,#ff7488 9.2%,#ff077d 89.76%);
+    border: none;
+    margin: 20px 0;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 3px 2px;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px auto;
+}
+.Register__navlink {
+    text-decoration: none;
+    margin: 0 10px;
+    padding: 10px;
+    background: linear-gradient(64.35deg,#ff7488 9.2%,#ff077d 89.76%);
+    color: white;
+    border-radius: 10px
+}
+.flex-end {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 10px;
+}
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.icon {
+    width: 20px;
+    height: 20px;
+}

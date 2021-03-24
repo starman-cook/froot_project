@@ -1,0 +1,46 @@
+.PaymentForm__form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.PaymentForm__textarea {
+    resize: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 18px;
+    height: 100px;
+    border: none;
+    outline: none;
+    background: #fcf8f8;
+    color:#4e4e4e;
+    margin: 5px 0;
+    box-sizing: border-box;
+    width: 100%;
+}
+.PaymentForm__btn {
+    width: 300px;
+    padding: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    background: #ff067c;
+    border: none;
+    margin: 20px 0;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 3px 2px;
+    outline: none;
+    cursor: pointer;
+}
+.PaymentForm__btn:hover {
+    background: #480866;
+}
+.PaymentForm__btn:active {
+    box-shadow: none;
+}
+
+.FormElement__label {
+    color: white;
+}
+.display-none {
+    display: none;
+}

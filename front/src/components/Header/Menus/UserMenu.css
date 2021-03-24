@@ -1,0 +1,15 @@
+.UserMenu__title {
+    color: white;
+    margin: 0;
+}
+.UserMenu__btn {
+    border-radius: 18px;
+    border: 1.5px solid #e5e5ea;
+    width: 80px;
+    height: 32px;
+    background-color: inherit;
+    color: #fff;
+    margin-left: 20px;
+    outline: none;
+    cursor: pointer;
+}
