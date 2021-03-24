@@ -1,0 +1,62 @@
+version: '3.1'
+
+services:
+ mongo: 
+  image: mongo
+  restart: always
+  ports: 
+   - 27017:27017
+  environment:
+   MONGO_INITDB_ROOT_USERNAME: root
+   MONGO_INITDB_ROOT_PASSWORD: example
+
+ backend:
+  build: 
+   context: ../api
+  image: esdp-backend-1
+  restart: on-failure
+  ports: 
+   - 8000:8000
+  depends_on:
+   - mongo
+  environment:
+   BOT_HOST: bot
+   MONGO_HOST: mongo
+   MONGO_PORT: 27017
+   MONGO_USER: root
+   MONGO_PASS: example
+   MONGO_DB: froot
+   MONGO_INITDB: admin
+
+ frontend:
+  build:
+   context: ../front
+  image: esdp-frontend-1
+  # restart: on-failure
+  ports: 
+    - 3000:3000
+  depends_on: 
+    - backend
+
+ bot:
+  build: 
+   context: ../telegram
+  image: esdp-telegram-1
+  restart: on-failure
+  ports: 
+   - 8001:8001
+  depends_on: 
+   - mongo
+   - backend
+  environment: 
+   BACKEND_HOST: backend
+   MONGO_HOST: mongo
+   MONGO_PORT: 27017
+   MONGO_USER: root
+   MONGO_PASS: example
+   MONGO_DB: telega
+   MONGO_INITDB: admin
+
+ 
+
+ 
