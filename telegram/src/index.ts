@@ -46,7 +46,7 @@ app.post('/telegram', upload.single('image'), async (req, res) => {
     if (req.body.image) {
         try {
             const response = await fetch("http://" + process.env.BACKEND_HOST + ":8000/uploads/" + req.body.image);
-            // const response = await fetch(config.imagePathFromApi+ "/uploads/" + req.body.image);
+            // const response = await fetch(config.localApiUrl+ "/uploads/" + req.body.image);
             const fileStream = fs.createWriteStream("./public/images/" + req.body.image);
             await new Promise((resolve, reject) => {
                 response.body.pipe(fileStream);

@@ -7,11 +7,7 @@ const axios = require('axios');
 const moment = require('moment')
 const Payment = require('./models/Payment');
 const ExcelJS = require('exceljs');
-
-// const baseUrl='http://104.248.198.29';
-// const baseUrl = 'http://localhost';
-const baseUrlForTelegram = 'http://'+process.env.BOT_HOST;  //docker
-// const baseUrlForTelegram = 'http://localhost';
+const config = require('./config');
 
 
 const createRouter = () => {
@@ -38,25 +34,19 @@ const createRouter = () => {
     });
 
     router.post('/', [auth, upload.single('image')], async (req, res) => {
-        const payment = new Payment(req.body);
-        if (req.file) {
-            payment.image = req.file.filename;
-        }
-        payment.user = req.user._id;
-        if (payment.repeatability) payment.repeatabilityId = payment._id;
-        await payment.save();
-        res.send(payment);
         try {
 
-            try {
-                axios.post(baseUrlForTelegram + ':8001/telegram', payment);
+            const payment = new Payment(req.body);
+            if (req.file) {
+                payment.image = req.file.filename;
             }
-            catch (e) {
-                console.log('error')
-            }
+            payment.user = req.user._id;
+            if (payment.repeatability) payment.repeatabilityId = payment._id;
+            await payment.save();
+            axios.post(config.baseUrlForTelegram + ':8001/telegram', payment);
             res.send(payment);
-        } catch (e) {
-            res.status(400).send(e);
+        } catch (err) {
+            res.status(400).send({message: err});
         }
     });
     router.post('/filter', async (req, res) => {
@@ -80,11 +70,11 @@ const createRouter = () => {
         }
     });
     router.post('/:id/approved', [auth, permit('director')], async (req, res) => {
-        const payment = await Payment.findById(req.params.id)
+        const payment = await Payment.findById(req.params.id).populate('user', 'surname name workEmail')
         payment.approved = 'true'
         try {
             await payment.save();
-            axios.post(baseUrlForTelegram + `:8001/telegram/${payment.user}/approved`, payment);
+            axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user}/approved`, payment);
             res.send(payment);
         } catch (e) {
             res.status(400).send(e);
@@ -99,7 +89,7 @@ const createRouter = () => {
         };
         try {
             await payment.save();
-            // axios.post(baseUrlForTelegram + ':8001/telegram/:id/paid', { message: "Платеж оплачен!", payment });
+            axios.post(config.baseUrlForTelegram + ':8001/telegram/:id/paid', { message: "Платеж оплачен!", payment });
             res.send(payment);
         } catch (e) {
             res.status(400).send(e);
@@ -113,7 +103,7 @@ const createRouter = () => {
         payment.dateOfPayment = tomorrow
         try {
             await payment.save();
-            await axios.post(baseUrlForTelegram + `:8001/telegram/${payment.user}/date`, payment);
+            await axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user}/date`, payment);
             res.send(payment);
         } catch (e) {
             res.status(400).send(e);
@@ -204,7 +194,7 @@ const createRouter = () => {
             const payment = await Payment.findById(req.params.id)
             payment.approved = 'true'
             await payment.save();
-            await axios.post(baseUrlForTelegram + `:8001/telegram/${payment.user}/approved`, payment);
+            await axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user}/approved`, payment);
             res.send({ message: "Платеж одобрен, оплатить!", payment });
         } catch (error) {
             res.status(404).send({ message: "Not found" });
@@ -217,7 +207,7 @@ const createRouter = () => {
             const tomorrow = momentObj.add(1, 'days').format('YYYY-MM-DD')
             payment.dateOfPayment = tomorrow
             await payment.save();
-            await axios.post(baseUrlForTelegram + `:8001/telegram/${payment.user}/date`, payment);
+            await axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user}/date`, payment);
             res.send({ message: "Платеж пeренесен на завтра", payment });
         } catch (error) {
             res.status(404).send({ message: "Not found" });
