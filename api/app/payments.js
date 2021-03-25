@@ -89,7 +89,7 @@ const createRouter = () => {
         };
         try {
             await payment.save();
-            axios.post(config.baseUrlForTelegram + ':8001/telegram/:id/paid', { message: "Платеж оплачен!", payment });
+            // axios.post(config.baseUrlForTelegram + ':8001/telegram/:id/paid', { message: "Платеж оплачен!", payment });
             res.send(payment);
         } catch (e) {
             res.status(400).send(e);
@@ -103,7 +103,7 @@ const createRouter = () => {
         payment.dateOfPayment = tomorrow
         try {
             await payment.save();
-            await axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user}/date`, payment);
+            axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user}/date`, payment);
             res.send(payment);
         } catch (e) {
             res.status(400).send(e);
@@ -194,7 +194,7 @@ const createRouter = () => {
             const payment = await Payment.findById(req.params.id)
             payment.approved = 'true'
             await payment.save();
-            await axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user}/approved`, payment);
+            axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user}/approved`, payment);
             res.send({ message: "Платеж одобрен, оплатить!", payment });
         } catch (error) {
             res.status(404).send({ message: "Not found" });
@@ -207,7 +207,7 @@ const createRouter = () => {
             const tomorrow = momentObj.add(1, 'days').format('YYYY-MM-DD')
             payment.dateOfPayment = tomorrow
             await payment.save();
-            await axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user}/date`, payment);
+            axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user}/date`, payment);
             res.send({ message: "Платеж пeренесен на завтра", payment });
         } catch (error) {
             res.status(404).send({ message: "Not found" });
