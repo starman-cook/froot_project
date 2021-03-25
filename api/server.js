@@ -34,19 +34,23 @@ const run = async () => {
         console.log(`Server started on port ${port}!`)
     })
     console.log('Mongoose connected!');
+    const admin = await User.findOne({role: "admin"})
 
-    await User.create({
-        workEmail: "admin@admin.com",
-        surname: "Admin",
-        name: "Admin",
-        patronymic: "Admin",
-        position: "admin",
-        telegramName: "@admin",
-        phone: "+7 555 555 55 55",
-        password: "12345a",
-        role: "admin",
-        token: nanoid()
-    });
+    if (!admin) {
+        console.log("Admin created")
+        await User.create({
+            workEmail: "admin@admin.com",
+            surname: "Admin",
+            name: "Admin",
+            patronymic: "Admin",
+            position: "admin",
+            telegramName: "@admin",
+            phone: "+7 555 555 55 55",
+            password: "12345a",
+            role: "admin",
+            token: nanoid()
+        });
+    }
    
     console.log('fixtures connected');
 };
