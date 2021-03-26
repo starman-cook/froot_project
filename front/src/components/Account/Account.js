@@ -81,7 +81,7 @@ const Account = ({ registry, payments, onClick }) => {
               <td>{payment.contractor}</td>
               <td>{payment.priority}</td>
               <td>{payment.sum}</td>
-              <td>{`${payment.user.surname} ${payment.user.name}`}</td>
+              <td>{`${payment.user && payment.user.surname} ${payment.user && payment.user.name}`}</td>
               <td>
                   <span onClick={()=>openModal(apiURL + "/uploads/" + payment.image)}>Посмотреть</span><br/>
                   <a href={apiURL + "/uploads/"+payment.image} download>Скачать</a>
