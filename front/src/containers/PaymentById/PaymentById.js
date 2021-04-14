@@ -43,10 +43,10 @@ const PaymentById = () => {
                     <p><b>Повторящийся платеж:</b> {payment.repeatability? "да": "нет"}</p>
                     <p><b>Периодичность платежа:</b> {periodicity}</p>   
                 </div>
-                <div>
-                    <p className="flex-column"><b>Счет:</b> 
-                        <img src={apiURL + "/uploads/" + payment.image} alt={payment.image}/>
-                    </p>
+                <div className="flex-column">
+                    <h4>Счет:</h4> 
+                        {payment.image? <img src={apiURL + "/uploads/" + payment.image} alt={payment.image}/>: <p>Счет отсутствует</p>}
+                    
                 </div>
             </div>
               

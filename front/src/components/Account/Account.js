@@ -1,52 +1,28 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { apiURL } from "../../config";
-import { fetchApprove, fetchPaid, fetchPayments, fetchSortedData, fetchTodaysPayments } from "../../store/actions/paymentAction";
 import Modal from "../UI/Modal/Modal";
-import icon from"../../assets/images/icon-eye.png"
+import icon from "../../assets/images/icon-eye.png"
 import './Account.css';
 import { NavLink } from "react-router-dom";
+import {download} from '../../../src/functions'
 
-const Account = ({ registry, payments, onClick }) => {
+
+const Account = ({ registry, payments, approve, cancelApprove, pay, cancelPay, stopRepeatability, statusDateChange }) => {
   const user = useSelector(state => state.users.user);
-  
-  // const paymentsSorted = useSelector(state => state.payments.payments);
-  
-  const dispatch = useDispatch();
-  const [approved, setApproved] = useState(false);
-    const [showModal, setShowModal] = useState({
-        show: false,
-        src:""
-    });
-    
-    const openModal = (src) => {
-        setShowModal({show: true,src});
-    }
 
-    const closeModal = () => {
-        setShowModal({show: false})
-    }
-    const approve = (id) => {
-      dispatch(fetchApprove(id));
-      setApproved(!approved);
-    };
-    const pay = (id) => {
-      dispatch(fetchPaid(id));
-      setApproved(!approved);
-    }
-    const statusOnClickHandler =  event => {
-      let status = event.target.innerText
-      if(status==="Не подтвержден"){
-        status = {approved: false};
-      } else if(status==="Подтвержден"){
-        status = {approved: true};
-      } else {
-        status = {paided: true};
-      }
-      console.log(onClick)
-      onClick(status)
-      // await dispatch(fetchSortedData(status));
-    }
+  // --для модалки--
+  const [showModal, setShowModal] = useState({
+    show: false,
+    src: ""
+  });
+  const openModal = (src) => {
+    setShowModal({ show: true, src });
+  }
+  const closeModal = () => {
+    setShowModal({ show: false })
+  }
+ 
   return (
     <>
       <table className="table">
@@ -62,18 +38,21 @@ const Account = ({ registry, payments, onClick }) => {
             <th>Сумма платежа</th>
             <th>Инициатор</th>
             <th>Файл</th>
-            <th>Статус платежа</th>
-            {registry && user && user.role === 'director' && <th>Кнопка подтверждения</th>}
-            {registry && user && user.role === 'accountant' && <th>Кнопка оплаты</th>}
+            {user && user.role.includes('addPayment') && <th>Повтор платежа</th>}
+            <th>Статус платежа</th>                        
           </tr>
         </thead>
         <tbody>
-          {payments && payments.map((payment,index) => (
+          {payments && payments.map((payment, index) => (
             <tr key={index}>
-              <td className="Account__id flex-space">{payment._id} 
-                <NavLink to={`/payments/${payment._id}`}>
-                  <img className="icon" src={icon}/>
-                </NavLink></td>
+              <td>
+                <div className="flex-space">
+                  {payment._id}
+                  <NavLink to={`/payments/${payment._id}`}>
+                    <img className="icon" src={icon} />
+                  </NavLink>
+                </div>
+              </td>
               <td>{payment.dateOfPayment}</td>
               <td>{payment.payer}</td>
               <td>{payment.purpose}</td>
@@ -82,29 +61,53 @@ const Account = ({ registry, payments, onClick }) => {
               <td>{payment.priority}</td>
               <td>{payment.sum}</td>
               <td>{`${payment.user && payment.user.surname} ${payment.user && payment.user.name}`}</td>
-              <td>
-                  <span onClick={()=>openModal(apiURL + "/uploads/" + payment.image)}>Посмотреть</span><br/>
-                  <a href={apiURL + "/uploads/"+payment.image} download>Скачать</a>
+              <td>{payment.image? <>
+                <span onClick={() => openModal(apiURL + "/uploads/" + payment.image)}>Посмотреть</span><br />
+                <a onClick={()=> download(apiURL + "/uploads/" + payment.image, "file.jpg")}>Скачать</a>
+                </> : <span>Файл отсутствует</span>
+              }                                
               </td>
-              <td onClick={(e) => statusOnClickHandler(e)}>{!payment.approved && <span style={{color: 'red'}}>Не подтвержден</span>}
-                  {payment.approved && !payment.paided && <><span style={{color: 'orange'}}>Подтвержден</span>
-                    {/* <br/><span style={{color: 'red'}}>Не оплачен</span> */}
-                    </>}
-                  {payment.approved && payment.paided && <span style={{color: 'green'}}>Оплачен</span>}
-              </td>
-              
-              {registry && user && user.role === 'director' && <td>
-              {!payment.approved && <button onClick={() => approve(payment._id)}>Подтвердить</button>}
-              </td>}
-              {registry && user && user.role === 'accountant' && payment.approved && <td>
-              {!payment.paided && <button onClick={() => pay(payment._id)}>Оплатить</button>}
-              </td>}
-              
+              {registry && user && (user._id===payment.user._id || user.role.includes('approvePayment'))?<td>
+                {payment.repeatability? (
+                  <> 
+                  <span >да</span>
+                  <button className="Account__btn" onClick={() => stopRepeatability(payment._id)}>Отменить</button>
+                  </>
+                  ): <span >нет</span>}
+                </td>:user && user.role.includes('viewAllPayments') && <td>
+                {!payment.repeatability? <span >нет</span> : <span >да</span>}</td>}
+              {!registry && user && user.role.includes('viewAllPayments') && <td onClick ={e => statusDateChange(e)}>
+                {!payment.approved && <span style={{ color: 'red' }}>Не подтвержден</span>}
+                {payment.approved && !payment.paided && <span style={{ color: 'orange' }}>Подтвержден</span>}
+                {payment.approved && payment.paided && <span style={{ color: 'green' }}>Оплачен</span>}</td>}                               
+              {registry && user && user.role.includes('approvePayment') && <td>
+                {!payment.approved? (
+                  <>
+                  <span style={{ color: 'red' }}>Не подтвержден</span>
+                  <button className="Account__btn" onClick={() => approve(payment._id)}>Подтвердить</button>
+                  </>
+                  ): (
+                  <>
+                  <span style={{ color: 'orange' }}>Подтвержден</span>
+                  <button className="Account__btn" onClick={() => cancelApprove(payment._id)}>Отменить</button>
+                  </>)}
+                </td>}
+              {registry && user && user.role.includes('payPayment') && !user.role.includes('approvePayment') && payment.approved && <td>
+                {!payment.paided? (
+                  <>
+                  <span style={{ color: 'orange' }}>Подтвержден</span>
+                  <button className="Account__btn" onClick={() => pay(payment._id)}>Оплатить</button>
+                  </>):(
+                  <>
+                  <span style={{ color: 'green' }}>Оплачен</span>
+                  <button className="Account__btn" onClick={() => cancelPay(payment._id)}>Отменить</button>
+                  </>)}
+                </td>}
             </tr>
           ))}
         </tbody>
       </table>
-      {showModal.show &&<Modal show={showModal.show} src={showModal.src} close={closeModal}/>}
+      {showModal.show && <Modal show={showModal.show} src={showModal.src} close={closeModal} />}
     </>
   );
 };

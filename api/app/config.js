@@ -1,11 +1,13 @@
 const { url } = require('inspector');
-const path =require('path');
+const path = require('path');
 const rootPath = __dirname;
+
+
 //docker
 let user = process.env.MONGO_USER
-let password= process.env.MONGO_PASS
+let password = process.env.MONGO_PASS
 let host = process.env.MONGO_HOST
-let dbMongo=process.env.MONGO_DB
+let dbMongo = process.env.MONGO_DB
 let port = process.env.MONGO_PORT
 let initDb = process.env.MONGO_INITDB;
 

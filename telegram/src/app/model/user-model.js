@@ -4,15 +4,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
-var mongoose_1 = __importDefault(require("mongoose"));
-var Schema = mongoose_1.default.Schema;
-var UserSchema = new Schema({
+const mongoose_1 = __importDefault(require("mongoose"));
+const Schema = mongoose_1.default.Schema;
+const UserSchema = new Schema({
     chatId: {
         type: String,
     },
     role: {
-        type: String,
-        default: 'user'
+        type: [String],
+        default: ['viewAllPayments']
     },
     name: String,
     token: String,

@@ -43,7 +43,6 @@ const Registry = () => {
                 <Account 
                     registry={registry} 
                     payments={todaysPayments}/>
-                <a download href={'http://localhost:8000/files/'+today+'.xlsx'}>Download</a>
             </div>
             
         </div>

@@ -4,11 +4,16 @@ export const kb = {
         getPayments: 'Показать реестр на сегодня',
         close: 'Закрыть меню',
         myPage: 'Моя учётка',
+        getToBePaid: 'Заявки к оплате'
     },
     loginPage: {
-        register: 'Зарегестрироваться (инструкция)',
+        login: 'Залогиниться (инструкция)',
         logout: 'Удалить юзера',
         info: 'Мои данные',
     },
-    goBack: 'Вернуться'
+    goBack: 'Вернуться',
+    meeting: {
+        accept: 'Принять',
+        reject: 'Отказать'
+    }
 }

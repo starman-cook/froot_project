@@ -16,7 +16,7 @@ const app = (
 
 axiosApi.interceptors.request.use(req => {
   try {
-    req.headers['Authorization'] = store.getState().users.user ?  store.getState().users.user.token : ''
+    req.headers['Authorization'] = store.getState().users.user ? store.getState().users.user.token[0] : ''
   } catch (err) {
     console.log(err);
   }

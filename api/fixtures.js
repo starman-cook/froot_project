@@ -22,8 +22,8 @@ db.once('open', async () => {
         telegramName: "@IvanIvanov",
         phone: "+7 777 77 77 77",
         password: "12345a",
-        role: "user",
-        token: nanoid()
+        role: ['viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'initCancelApprovedPayment', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom'],
+        token: [nanoid(), nanoid()]
     }, {
         workEmail: "accountant@accountant.com",
         surname: "Петрова",
@@ -33,8 +33,8 @@ db.once('open', async () => {
         telegramName: "@OlgaPetrova",
         phone: "+7 555 555 55 55",
         password: "12345a",
-        role: "accountant",
-        token: nanoid()
+        role: ['viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'payPayment', 'viewToBePaid', 'viewTodayPayments', 'initCancelApprovedPayment', 'initCancelPayedPayment', 'cancelPayedPayment', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom'],
+        token: [nanoid(), nanoid()]
     }, {
         workEmail: "director@director.com",
         surname: "Директор",
@@ -44,8 +44,8 @@ db.once('open', async () => {
         telegramName: "@director",
         phone: "+7 555 555 55 55",
         password: "12345a",
-        role: "director",
-        token: nanoid()
+        role: ['viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'approvePayment', 'postponePayment', 'viewTodayPayments', 'initCancelApprovedPayment', 'cancelApprovedPayment', 'initCancelPayedPayment', 'deletePayment', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom'],
+        token: [nanoid(), nanoid()]
     }, {
         workEmail: "admin@admin.com",
         surname: "Admin",
@@ -55,9 +55,9 @@ db.once('open', async () => {
         telegramName: "@admin",
         phone: "+7 555 555 55 55",
         password: "12345a",
-        role: "admin",
-        token: nanoid()
-    })
+        role: ['viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'approvePayment', 'payPayment', 'postponePayment', 'viewToBePaid', 'viewTodayPayments', 'initCancelApprovedPayment', 'cancelApprovedPayment', 'initCancelPayedPayment', 'cancelPayedPayment', 'deletePayment', 'authorizeUser', 'editUser', 'deleteUser', 'viewUsers', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom'],
+        token: [nanoid(), nanoid()]
+    });
     await Payment.create({
         user: user,
         paided: false,

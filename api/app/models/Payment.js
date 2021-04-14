@@ -33,6 +33,12 @@ const PaymentSchema = new Schema({
         type: String,
         required: true
     },
+    dateOfNotification: {
+        type: String
+    },
+    noticePeriod: {
+        type: Number,
+    },
     contractor: {
         type: String,
         required: true
@@ -43,7 +49,6 @@ const PaymentSchema = new Schema({
     },
     image: {
         type: String,
-        required: true
     },
     comment: {
         type: String,
@@ -62,9 +67,6 @@ const PaymentSchema = new Schema({
         type: Boolean,
         required: true,
         default: false
-    },
-    noticePeriod: {
-        type: String,
     },
     periodicity: {
         type: String,

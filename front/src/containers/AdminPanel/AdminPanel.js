@@ -17,19 +17,20 @@ const AdminPanel = () => {
     return (
         <Fragment>
             <h1>Сотрудники</h1>
-            {users && users.map((user,index) => {
+            {users && users.map((user, index) => {
                 return (
-                    <div style={{borderBottom: '1px solid black'}} key={index}>
-                    <p><b>Имя:</b> {user.name}</p>
-                    <p><b>Фамилия:</b> {user.surname}</p>
-                    <p><b>Отчество:</b> {user.patronymic}</p>
-                    <p><b>Позиция:</b> {user.position}</p>
-                    <p><b>Почта:</b> {user.workEmail}</p>
-                    <p><b>Телефон:</b> {user.phone}</p>
-                    <p><b>Имя в телеграме:</b> {user.telegramName}</p>
-                    <p><b>Роль: </b>{user.role}</p>
-                    <NavLink className='AdminPanel__navlink' to={'/users/'+user._id+'/edit'}>Редактировать</NavLink>
-                    <button className='AdminPanel__navlink' onClick={()=>deleteUserById(user._id)}>Удалить</button>
+                    <div style={{ borderBottom: '1px solid black' }} key={index}>
+                        <p><b>Имя:</b> {user.name}</p>
+                        <p><b>Фамилия:</b> {user.surname}</p>
+                        <p><b>Отчество:</b> {user.patronymic}</p>
+                        <p><b>Позиция:</b> {user.position}</p>
+                        <p><b>Почта:</b> {user.workEmail}</p>
+                        <p><b>Телефон:</b> {user.phone}</p>
+                        <p><b>Имя в телеграме:</b> {user.telegramName}</p>
+                        {/* <p><b>Роль: </b>{user.role}</p> */}
+                        <NavLink className='AdminPanel__navlink' to={'/users/' + user._id + '/edit'}>Редактировать</NavLink>
+                        <NavLink className='AdminPanel__navlink' to={'/users/' + user._id + '/role'}>Редактировать права</NavLink>
+                        <button className='AdminPanel__navlink' onClick={() => deleteUserById(user._id)}>Удалить</button>
                     </div>
                 )
             })}

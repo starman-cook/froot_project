@@ -1,0 +1,24 @@
+.Registry__title {
+    color: #b1b0b0;
+    font-size: 30px;
+    text-align: center;
+    text-shadow: 1px 1px 2px black;
+    margin: 0;
+    margin-bottom: 10px;
+}
+.Registry__total {
+    color: #363636;
+    text-align: center;
+    width: 50%;
+    margin: 0 auto 10px;
+}
+.Registry__total-company {
+    color: #363636;
+    font-size: 20px;
+    font-weight: 500;
+    border: 2px solid grey;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+    width: 50%;
+}

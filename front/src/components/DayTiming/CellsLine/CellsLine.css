@@ -1,0 +1,111 @@
+.DayTiming__headCell--cellsLine {
+    display: flex;
+    position: relative;
+}
+
+.DayTiming__headCell {
+    width: 50px;
+    padding: 5px;
+    height: 25px;
+    font-weight: bold;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    border-radius: 3px;
+}
+.DayTiming__hiddenText {
+    display: none;
+}
+.DayTiming__modalInfo {
+    /*min-width: 200px;*/
+    /*max-width: 320px;*/
+    width: 400px;
+    min-height: 100px;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #4e4e4e;
+    box-shadow: 0 0 4px 2px black;
+    z-index: 7;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+.DayTiming__cellBlock {
+    position: relative;
+}
+.DayTiming__cell {
+    background: none;
+    width: 80px;
+    padding: 5px;
+    border: 1px solid #4e4e4e;
+    user-select: none;
+    cursor: pointer;
+    border-radius: 3px;
+    height: 25px;
+    position: relative;
+}
+.DayTiming__cell--title {
+    padding: 5px;
+    height: 27px;
+    color: #4e4e4e;
+    font-weight: bold;
+}
+
+/*MODAL*/
+
+.DayTiming__modalInfo--participants {
+    color: #4e4e4e;
+    font-size: 12px;
+}
+.DayTiming__modalInfo-bottom {
+    /*min-width: 200px;*/
+    /*max-width: 320px;*/
+    width: 400px;
+    min-height: 100px;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #4e4e4e;
+    box-shadow: 0 0 4px 2px black;
+    z-index: 7;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: none;
+    box-sizing: border-box;
+    padding: 5px;
+}
+.DayTiming__modalInfo,.DayTiming__modalInfo-bottom {
+    display: none;
+}
+.DayTiming__cellBlock:hover ~ .DayTiming__modalInfo,
+.DayTiming__cellBlock:hover ~ .DayTiming__modalInfo-bottom{
+    display: block;
+}
+.DayTiming__modalInfo:hover{
+    display: block;
+}
+.DayTiming__modalInfo-bottom:hover{
+    display: block;
+}
+
+@media (max-width: 700px) {
+    .DayTiming__modalInfo-bottom {
+        width: 200px;
+    }
+    .DayTiming__modalInfo {
+        width: 200px;
+    }
+}
+
+@media (max-width: 800px) {
+    .DayTiming{
+        max-width: 520px;
+        flex-direction: column;
+    }
+}

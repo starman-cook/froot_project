@@ -2,7 +2,7 @@
 
 export  interface  UserModelInterface{
     chatId: string
-    role: string
+    role: Array<string>
     name: string
     token: string
     apiUserId: string

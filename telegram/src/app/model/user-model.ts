@@ -6,8 +6,8 @@ const UserSchema = new Schema({
         type: String,
     },
     role: {
-        type: String,
-        default: 'user'
+        type: [String],
+        default: ['viewAllPayments']
     },
     name: String,
     token: String,

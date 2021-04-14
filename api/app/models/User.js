@@ -14,13 +14,13 @@ const UserSchema = new Schema({
         validate: [{
             validator: async value => {
                 const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-                if(!regex.test(value)) return false
+                if (!regex.test(value)) return false
             },
             message: 'Вы ввели неправильный email'
-        },{
+        }, {
             validator: async value => {
-                const user = await User.findOne({workEmail: value})
-                if(user) return false
+                const user = await User.findOne({ workEmail: value })
+                if (user) return false
             },
             message: 'Такой сотрудник уже зарегистрирован'
         }]
@@ -39,7 +39,8 @@ const UserSchema = new Schema({
     },
     position: {
         type: String,
-        required: true
+        required: true,
+        default: 'user',
     },
     telegramName: {
         type: String,
@@ -51,7 +52,7 @@ const UserSchema = new Schema({
         validate: {
             validator: async value => {
                 const regex = /(?:\+|\d)[\d\-\(\) ]{9,}\d/g
-                if(!regex.test(value)) return false
+                if (!regex.test(value)) return false
             },
             message: 'Вы ввели неправильный номер телефона'
         }
@@ -63,21 +64,26 @@ const UserSchema = new Schema({
         validate: {
             validator: async value => {
                 const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
-                if(!regex.test(value)) return false
+                if (!regex.test(value)) return false
             },
             message: 'Пароль должен состоять из букв и цифр'
         }
     },
     role: {
-        type: String,
+        type: [String],
         required: true,
-        default: 'user',
-        enum: ['user', 'content', 'accountant', 'director', 'admin']
+        default: ['viewAllPayments'],
+        enum: ['viewAllPayments', 'addPayment', 'editPayment', 'approvePayment', 'payPayment', 'postponePayment', 'viewToBePaid', 'viewTodayPayments', 'initCancelApprovedPayment', 'cancelApprovedPayment', 'initCancelPayedPayment', 'cancelPayedPayment', 'deletePayment', 'stopRepeatabilityPayment', 'authorizeUser', 'editUser', 'deleteUser', 'viewUsers', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom']
     },
     token: {
-        type: String,
-        required: true
+        type: [String],
+        required: true,
+        default: ["", ""]
     },
+    // tokenTelegram: {
+    //     type: String,
+    //     required: true
+    // },
     chatId: String
 })
 UserSchema.pre('save', async function (next) {
@@ -96,9 +102,19 @@ UserSchema.set('toJSON', {
 UserSchema.methods.checkPassword = function (password) {
     return bcrypt.compare(password, this.password);
 }
-UserSchema.methods.generationToken = function () {
-    return this.token = nanoid();
+UserSchema.methods.generationToken = function (tokenType) {
+    // console.log("a",this.token)
+    // console.log(tokenType)
+    const copy = [...this.token]
+    if (tokenType === 'telegram') {
+        copy[1] = nanoid()
+    }
+    copy[0] = nanoid()
+    return this.token = copy;
 }
+// UserSchema.methods.generationTokenTelegram = function () {
+//     return this.tokenTelegram = nanoid();
+// }
 
 const User = mongoose.model('User', UserSchema);
 module.exports = User;

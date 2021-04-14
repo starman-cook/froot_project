@@ -13,31 +13,46 @@ import AdminPanel from "./containers/AdminPanel/AdminPanel";
 import Employee from "./containers/Employee/Employee";
 import EditPayment from "./containers/EditPayment/EditPayment";
 import PaymentById from "./containers/PaymentById/PaymentById";
+import MeetingRoom from './containers/MeetingRoom/MeetingRoom';
+import AddRole from "./containers/AddRole/AddRole";
+import RegistryForAccountant from "./containers/RegistryForAccountant/RegistryForAccountant";
+import RegistryForApprove from "./containers/RegistryForApprove/RegistryForApprove";
+import Calendar from "./containers/Calendar/Calendar";
 
 const App = () => {
-  const user = useSelector(state=>state.users.user);
+  const user = useSelector(state => state.users.user);
   return (
     <>
-      <Header user={user}/>
+      <Header user={user} />
       <main className="App__main">
         <Switch>
           <Route path="/" exact component={Payments} />
           <Route path="/registry" exact component={Registry} />
+          <Route path="/approve-registry" exact component={RegistryForApprove} />
+          <Route path="/pay-registry" exact component={RegistryForAccountant} />
           <ProtectedRoute
-              isAllowed={user}
-              redirectTo={"/login"}
-              path="/new-payment"
-              exact
-              component={AddPayment}
-            />
+            isAllowed={user}
+            redirectTo={"/login"}
+            path="/new-payment"
+            exact
+            component={AddPayment}
+          />
+          <ProtectedRoute
+            isAllowed={user}
+            redirectTo={"/login"}
+            path="/meetings"
+            exact
+            component={Calendar}
+          />
           <Route path="/payments/:id" exact component={PaymentById} />
           <Route path="/payments/:id/edit" exact component={EditPayment} />
           <Route path="/admin-panel" exact component={AdminPanel} />
           <Route path="/users/:id/edit" exact component={Employee} />
+          <Route path="/users/:id/role" exact component={AddRole} />
           <Route path="/news" exact component={News} />
           <Route path="/register" exact component={Register} />
           <Route path="/login" exact component={Login} />
-          <Route component={()=>(<div>404 PAGE NOT FOUND</div>)}/>
+          <Route component={() => (<div>404 PAGE NOT FOUND</div>)} />
         </Switch>
       </main>
     </>

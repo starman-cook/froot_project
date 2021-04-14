@@ -1,0 +1,225 @@
+.CalendarOne {
+    max-width: 897px;
+    height: 470px;
+    background: #FFFFFF;
+    border-radius: 4px;
+    padding: 20px 28px;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+.CalendarOne__bg {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 4;
+    background: rgba(50,50,50, 0.5);
+}
+.CalendarOne__header {
+    display: flex;
+}
+.CalendarOne__month {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.12px;
+    text-decoration-line: underline;
+    text-transform: uppercase;
+    color: #333333;
+    padding-left: 11px;
+    cursor: pointer;
+    user-select: none;
+}
+.CalendarOne__table {
+    display: flex;
+    flex-wrap: wrap;
+}
+.CalendarOne__column {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 25px;
+    line-height: 22px;
+    text-align: center;
+    letter-spacing: 0.22px;
+    color: #4F4F4F;
+    padding: 10px 5px;
+    margin: 10px 0;
+    width: 110px;
+    user-select: none;
+}
+.CalendarOne__column--active {
+    cursor: pointer;
+}
+.CalendarOne__column--active:hover {
+    background: #4FC6E0;
+    border-radius: 10px;
+    color: white;
+}
+.CalendarOne__row {}
+.CalendarOne__weekdays-block {
+    display: flex;
+    align-items: center;
+}
+.CalendarOne__weekdays {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: center;
+    text-transform: capitalize;
+    color: #BDBDBD;
+    user-select: none;
+    width: 110px;
+    padding: 0 5px;
+}
+.CalendarOne__arrow {
+    padding: 3px;
+    width: 11px;
+    height: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+    background: url('../../assets/images/calendar_arrow_down.svg')center no-repeat;
+}
+.CalendarOne__month-block {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.CalendarOne__month-modal {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    z-index: 5;
+    width: 150px;
+    height: 200px;
+    overflow-y: scroll;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid  black;
+}
+.CalendarOne__month-modal::-webkit-scrollbar-track
+{
+    border: 5px solid white;
+    background-color: #b2bec3;
+}
+
+.CalendarOne__month-modal::-webkit-scrollbar
+{
+    width: 8px;
+    background-color: #dfe6e9;
+}
+
+.CalendarOne__month-modal::-webkit-scrollbar-thumb
+{
+    background-color: #4FC6E0;
+    border-radius: 20px;
+}
+.CalendarOne__today {
+    color: #4e4e4e;
+}
+.CalendarOne__btn {
+    padding: 10px;
+    border-radius: 5px;
+    color: #4e4e4e;
+    border: none;
+    outline: none;
+    user-select: none;
+    background: white;
+    box-shadow: 0 0 3px 1px black;
+    cursor: pointer;
+    transition: 0.1s;
+}
+.CalendarOne__btn:hover {
+    background: antiquewhite;
+}
+.CalendarOne__btn:active {
+    transform: scale(0.99);
+    box-shadow: 0 0 1px 1px black;
+}
+.ModalPeriod__year {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    text-align: center;
+    letter-spacing: 0.12px;
+    text-decoration-line: underline;
+    color: #4F4F4F;
+    cursor: pointer;
+}
+.ModalPeriod__year-block {
+    display: flex;
+    align-items: center;
+    padding: 0 52px 0 25px;
+    position: relative;
+}
+.ModalPeriod__year-arrow {
+    padding: 3px;
+    width: 11px;
+    height: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+    background: url('../../assets/images/calendar_arrow_down.svg')center no-repeat;
+}
+
+
+.ModalPeriod__year-modal {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    z-index: 5;
+    width: 100px;
+    height: auto;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid  black;
+}
+
+.ModalPeriod__room {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    text-align: center;
+    letter-spacing: 0.12px;
+    text-decoration-line: underline;
+    color: #4F4F4F;
+    cursor: pointer;
+}
+.ModalPeriod__room-block {
+    display: flex;
+    align-items: center;
+    padding: 0 52px 0 25px;
+    position: relative;
+}
+.ModalPeriod__room-arrow {
+    padding: 3px;
+    width: 11px;
+    height: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+    background: url('../../assets/images/calendar_arrow_down.svg')center no-repeat;
+}
+
+
+.ModalPeriod__room-modal {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    z-index: 5;
+    width: 100px;
+    height: auto;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid  black;
+}
+
+@media (max-width: 900px) {
+    .CalendarOne__weekdays-block {
+        display: none;
+    }
+}

@@ -1,16 +1,33 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.applyImage = exports.createTextForMessage = exports.getChatId = void 0;
+exports.getKeyBoard = exports.applyImage = exports.createTextForMessage = exports.getChatId = void 0;
+const keyboard_1 = require("./keyboard");
+// Эта функция просто возвращает чат id
 function getChatId(msg) {
     return msg.chat.id;
 }
 exports.getChatId = getChatId;
+// Эта функция просто собирает стандартный текст для caption од изображением, здесь все детали по заявке
 function createTextForMessage(data, head, subHead, withId) {
-    return "\n<strong>" + head + "</strong>\n\n<i>" + subHead + "</i>\n\n<b>\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F: </b>      <pre>" + data.priority + "</pre>\n<b>\u0421\u0442\u0430\u0442\u0443\u0441: </b>         <pre>" + (data.approved ? "Подтверждена" : data.paided ? "Оплачен" : "Еще не подтверждена") + "</pre>\n<b>\u041D\u0430\u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435: </b>     <pre>" + data.purpose + "</pre>\n<b>\u041F\u043B\u0430\u0442\u0435\u043B\u044C\u0449\u0438\u043A: </b>     <pre>" + data.payer + "</pre>\n<b>\u041A\u043E\u043D\u0442\u0440\u0430\u043A\u0442\u043E\u0440: </b>     <pre>" + data.contractor + "</pre>\n<b>\u0414\u0430\u0442\u0430 \u043F\u043B\u0430\u0442\u0435\u0436\u0430: </b>   <pre>" + data.dateOfPayment + "</pre>\n<b>\u0421\u0443\u043C\u043C\u0430: </b>          <pre>" + data.sum + " \u0442\u0433</pre>\n" + (withId ? "<b>id: </b>             <pre>" + data._id + "</pre>" : "") + "\n    ";
+    return `
+<strong>${head}</strong>
+
+<i>${subHead}</i>
+
+<b>Категория: </b>      <pre>${data.priority}</pre>
+<b>Статус: </b>         <pre>${data.approved ? "Подтверждена" : data.paided ? "Оплачен" : "Еще не подтверждена"}</pre>
+<b>Назначение: </b>     <pre>${data.purpose}</pre>
+<b>Плательщик: </b>     <pre>${data.payer}</pre>
+<b>Контрактор: </b>     <pre>${data.contractor}</pre>
+<b>Дата платежа: </b>   <pre>${data.dateOfPayment}</pre>
+<b>Сумма: </b>          <pre>${data.sum} тг</pre>
+${withId ? `<b>id: </b>             <pre>${data._id}</pre>` : ""}
+    `;
 }
 exports.createTextForMessage = createTextForMessage;
+// Эта функция определяет определяет есть ли изображение, и если нет, то ставит дефолтное
 function applyImage(imageReq, fs) {
-    var image;
+    let image;
     if (imageReq) {
         if (fs.existsSync('./public/images/' + imageReq)) {
             image = './public/images/' + imageReq;
@@ -25,3 +42,17 @@ function applyImage(imageReq, fs) {
     return image;
 }
 exports.applyImage = applyImage;
+// Эта функция определяет какую клавиатуру показать на экране
+function getKeyBoard(user) {
+    let keyB;
+    if (!user)
+        keyB = keyboard_1.mainKb.home;
+    if (user.role.includes('viewTodayPayments') && user.role.includes('viewToBePaid'))
+        keyB = keyboard_1.mainKb.homeMaster;
+    else if (user.role.includes('viewTodayPayments'))
+        keyB = keyboard_1.mainKb.homeDirector;
+    else if (user.role.includes('viewToBePaid'))
+        keyB = keyboard_1.mainKb.homeAccountant;
+    return keyB;
+}
+exports.getKeyBoard = getKeyBoard;

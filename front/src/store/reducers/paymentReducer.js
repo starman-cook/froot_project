@@ -1,9 +1,10 @@
-const { FETCH_PAYMENTS_SUCCESS, FETCH_TODAYS_PAYMENTS_SUCCESS, FETCH_STATUS_SUCCESS, FETCH_PAYMENT_BY_ID_SUCCESS } = require("../actions/paymentAction");
+const { FETCH_PAYMENTS_SUCCESS, FETCH_TODAYS_PAYMENTS_SUCCESS, FETCH_STATUS_SUCCESS, FETCH_PAYMENT_BY_ID_SUCCESS, FETCH_TODAYS_FILES_SUCCESS } = require("../actions/paymentAction");
 
 const initialState = {
   payments: [],
   paymentById: {},
-  todaysPayments: []
+  todaysPayments: [],
+  todayFiles: []
 };
 
 const paymentReducer = (state = initialState, action) => {
@@ -14,6 +15,8 @@ const paymentReducer = (state = initialState, action) => {
       return { ...state, paymentById: action.payment };
     case FETCH_TODAYS_PAYMENTS_SUCCESS:
       return {...state, todaysPayments: action.payments};
+    case FETCH_TODAYS_FILES_SUCCESS:
+      return {...state, todayFiles: action.files};
     case FETCH_STATUS_SUCCESS:
       return {...state,todaysPayments:
         [... state.todaysPayments.map(element => {

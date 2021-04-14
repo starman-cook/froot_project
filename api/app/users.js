@@ -5,7 +5,9 @@ const router = express.Router();
 const User = require('./models/User');
 
 const createRouter = () => {
-    router.get('/', [auth, permit('admin')], async (req, res) => {
+    router.get('/',
+     [auth, permit('viewUsers')],
+      async (req, res) => {
         try {
             const users = await User.find()
             res.send(users);
@@ -33,32 +35,34 @@ const createRouter = () => {
             res.status(400).send(e);
         }
     });
-    router.get('/:id', [auth],async (req,res) => {
+    router.get('/:id', [auth, permit('viewUsers')], async (req, res) => {
         try {
-            const user = await User.findOne({_id: req.params.id});
+            const user = await User.findOne({ _id: req.params.id });
             res.send(user);
-        } catch(e) {
+        } catch (e) {
             res.status(400).send(e);
         }
-       
+
     })
-    router.put('/:id/edit', [auth, permit('admin')], async (req, res) => {
+    router.put('/:id/edit', [auth, permit('viewUsers', 'editUser')], async (req, res) => {
+        // const user = await User.findById(req.params.id);
+        // await User.updateOne(user, { $set: req.body });
         const user = await User.findByIdAndUpdate(req.params.id, { $set: req.body }, { useFindAndModify: false }, function (err, result) {
             if (err) {
                 console.log(err);
             }
         });
-        await user.save();
+        await user.save({ validateBeforeSave: false });
         res.send(user);
     });
-    router.delete('/:id/delete', [auth, permit('admin')], async (req, res) => {
+    router.delete('/:id/delete', [auth, permit('deleteUser')], async (req, res) => {
         const user = await User.findById(req.params.id);
         try {
             user.deleteOne();
         } catch (error) {
             res.send(error);
         }
-        res.send({ message: 'user deleted!', _id: user._id  });
+        res.send({ message: 'user deleted!', _id: user._id });
     });
     router.post('/sessions', async (req, res) => {
         const user = await User.findOne({ workEmail: req.body.workEmail });
@@ -69,7 +73,7 @@ const createRouter = () => {
         if (!isMatch) {
             return res.status(400).send({ error: 'Неправильный email или пароль!' });
         }
-        user.generationToken();
+        await user.generationToken('');
         await user.save({ validateBeforeSave: false });
 
         res.send({ message: 'Email and password correct!', user });
@@ -83,10 +87,12 @@ const createRouter = () => {
         if (!isMatch) {
             return res.status(400).send({ error: 'Неправильный пароль!' });
         }
-        user.chatId = req.body.chatId
+        // user.chatId = req.body.chatId
+        await user.generationToken('telegram')
+        console.log("NEW GENERATED TOKEN: *****************************, " , user.token)
         await user.save({ validateBeforeSave: false });
         res.send({ user: user })
-        //res.send({message: 'Email and password correct!'});
+        // res.send({message: 'Email and password correct!'});
     })
     router.delete('/sessions', auth, async (req, res) => {
         const user = req.user

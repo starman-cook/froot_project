@@ -5,6 +5,8 @@ import { createBrowserHistory } from "history";
 import { loadFromLocalStorage, saveToLocalStorage } from "./localStorage";
 import paymentReducer from "./reducers/paymentReducer";
 import usersReducer from "./reducers/usersReducer";
+import meetingReducer from "./reducers/meetingReducer";
+import calendarReducer from "./reducers/calendarReducer";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const history = createBrowserHistory();
@@ -12,6 +14,8 @@ export const history = createBrowserHistory();
 const rootReducer = combineReducers({
   payments: paymentReducer,
   users: usersReducer,
+  meetings:meetingReducer,
+  calendarEvents: calendarReducer,
   router: connectRouter(history),
 });
 

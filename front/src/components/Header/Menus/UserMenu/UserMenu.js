@@ -1,5 +1,5 @@
 import React from 'react'
-import {logoutUser} from '../../../store/actions/usersActions'
+import {logoutUser} from '../../../../store/actions/usersActions'
 import { useDispatch } from 'react-redux'
 import './UserMenu.css'
 

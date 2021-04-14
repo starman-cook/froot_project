@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Account from "../../components/Account/Account";
+import RedirectToAuth from "../../components/RedirectToAuth/RedirectToAuth";
 import {
   fetchPayments,
   fetchSortedData,
@@ -9,6 +10,7 @@ import './Payments.css';
 
 const Payments = () => {
   const payments = useSelector((state) => state.payments.payments);
+  const user = useSelector(state => state.users.user);
   const dispatch = useDispatch();
   const [state, setState] = useState({
     payer: "",
@@ -16,6 +18,8 @@ const Payments = () => {
       fromDate: "",
       toDate: "",
     },
+    approved: "",
+    paided: ""
   });
   useEffect(() => {
     dispatch(fetchPayments());
@@ -48,6 +52,25 @@ const Payments = () => {
       return { ...prevState, dateOfPayment: { ...stateCopy } };
     });
   };
+  const statusChangeHandler = e => {
+    const value = e.target.innerText
+    if(value === "Не подтвержден") {
+      setState((prevState) => {
+        return { ...prevState, approved: false };
+      });
+    }else if (value === "Подтвержден") {
+      setState((prevState) => {
+        return { ...prevState, approved: true };
+      });
+    }else if (value === "Оплачен") {
+      setState((prevState) => {
+        return { ...prevState, paided: true };
+      });
+    }
+    if (e.target !== e.currentTarget) {
+      return;
+    }
+  }
   const postData = async () => {
     let stateCopy = { ...state };
     if (!stateCopy.dateOfPayment.fromDate && !stateCopy.dateOfPayment.toDate) {
@@ -77,51 +100,60 @@ const Payments = () => {
     }
     dispatch(fetchSortedData(stateCopy));
   };
-  // const statusOnClickHandler = async status => {
-  //   await dispatch(fetchSortedData(status));
-  // }
-  // console.log('statusOnClickHandler',statusOnClickHandler)
-
+  
   return (
-    <div className="Payments">
-      <h2 className="Payments__title">Все платежи</h2>
-      <div className="Payments__total">
-                <h3>Общая сумма платежей по компаниям:</h3>
-                <div className="flex-space">
-                    <span className="Payments__total-company">"Froot_Middle_Asia": <strong>{totalAsia}</strong> KZT</span>
-                    <span className="Payments__total-company">"Froot_Бизнес": <strong>{totalBusiness}</strong> KZT</span>
-                </div>
+    <Fragment>
+      {user ? <div className="Payments">
+        <h2 className="Payments__title">Все платежи</h2>
+        <div className="Payments__total">
+                  <h3>Общая сумма платежей по компаниям:</h3>
+                  <div className="flex-space">
+                      <span className="Payments__total-company">"Froot_Middle_Asia": <strong>{totalAsia}</strong> KZT</span>
+                      <span className="Payments__total-company">"Froot_Бизнес": <strong>{totalBusiness}</strong> KZT</span>
+                  </div>
+              </div>
+        <div className="Payments__filter">
+          <select
+              name="payer"
+              value={state.payer}
+              onChange={e => inputChangeHandler(e)}
+          >
+            <option value="">Все компании</option>
+            <option value="Froot_Middle_Asia">Froot_Middle_Asia</option>
+            <option value="Froot_Бизнес">Froot_Бизнес</option>
+          </select>
+
+          <p>с</p>
+
+          <input
+            type="date"
+            onChange={(e) => inputDateChangeHandler(e)}
+            name="fromDate"
+          />
+          <p>до</p>
+
+          <input
+            type="date"
+            onChange={(e) => inputDateChangeHandler(e)}
+            name="toDate"
+          />
+          <div id="sweeties" className="dropdown">
+            <span className="dropdown__title">Статусы платежей</span>
+            <div className="dropdown__content">
+              <div className="dropdown__content-item" onClick={e=>statusChangeHandler(e)}>Не подтвержден</div>
+              <div className="dropdown__content-item" onClick={e=>statusChangeHandler(e)}>Подтвержден</div>
+              <div className="dropdown__content-item" onClick={e=>statusChangeHandler(e)}>Оплачен</div>
             </div>
-      <div style={{display: 'flex', alignItems: 'center', maxWidth: "60%", margin: "0 auto" }}>
-         <select
-            name="payer"
-            value={state.payer}
-            onChange={e => inputChangeHandler(e)}
-        >
-          <option disabled value="Выберите компанию-плательщика">Выберите компанию-плательщика</option>
-          <option value="Froot_Middle_Asia">Froot_Middle_Asia</option>
-          <option value="Froot_Бизнес">Froot_Бизнес</option>
-        </select>
 
-        <p>FROM</p>
+          </div>
 
-        <input
-          type="date"
-          onChange={(e) => inputDateChangeHandler(e)}
-          name="fromDate"
-        />
-        <p>TO</p>
-
-        <input
-          type="date"
-          onChange={(e) => inputDateChangeHandler(e)}
-          name="toDate"
-        />
-        <button className="Payments__btn" onClick={() => postData()}>Apply filter</button>
-      </div>
-      <Account payments={payments}
-        />
-    </div>
+          <button className="Payments__btn" onClick={() => postData()}>Применить</button>
+        </div>
+        <Account payments={payments}
+          statusDateChange = {statusChangeHandler}
+          />
+      </div> : <RedirectToAuth/>}
+    </Fragment>
   );
 };
 

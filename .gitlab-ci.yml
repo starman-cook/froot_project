@@ -1,0 +1,39 @@
+stages:
+    # - build
+    - test
+    - deploy
+
+# Docker build:
+#     stage: build
+#     script:
+        # - echo 'docker build is successful'
+
+Unit test:
+    stage: test
+#    before_script:
+#        - cd ./api
+    script:
+#        - npm run test
+        - echo 'this is unit test!'
+#    tags:
+#        - server
+
+Linter test:
+    stage: test
+    # before_script:
+    #     - echo 'before test 2'
+    script:
+        - echo 'this is linter test!'
+#    tags:
+#        - server
+
+Deploy to dev:
+    stage: deploy
+    script:
+        - cd ./docker
+        - docker-compose up --build -d
+        - echo 'deploy success'
+    only:
+        - test-deploy
+#    tags:
+#        - server
