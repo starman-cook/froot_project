@@ -37,13 +37,13 @@ const run = async () => {
     })
     console.log('Mongoose connected!'); //добавлено для демо
     
-    const db = mongoose.connection;
-    db.once('open', async () => {
-        try {
-            await db.dropCollection('users');
-        } catch (e) {
-            console.log('Collection were not present, skipping drop...')
-        }
+    // const db = mongoose.connection;
+    // db.once('open', async () => {
+    //     try {
+    //         await db.dropCollection('users');
+    //     } catch (e) {
+    //         console.log('Collection were not present, skipping drop...')
+    //     }
         await User.create({
             workEmail: "admin@admin.com",
             surname: "Admin",
@@ -56,7 +56,7 @@ const run = async () => {
             role: ['viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'approvePayment', 'payPayment', 'postponePayment', 'viewToBePaid', 'viewTodayPayments', 'initCancelApprovedPayment', 'cancelApprovedPayment', 'initCancelPayedPayment', 'cancelPayedPayment', 'deletePayment', 'authorizeUser', 'editUser', 'deleteUser', 'viewUsers', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom'],
             token: ['adminToken', 'adminToken']
         });
-    })
+    // })
     console.log('fixtures connected');    
     // module.exports =app;
 
