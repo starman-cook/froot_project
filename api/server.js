@@ -47,20 +47,20 @@ const run = async () => {
     //     } catch (e) {
     //         console.log('Collection were not present, skipping drop...')
     //     }
-    //     await User.create({
-    //         workEmail: "admin@admin.com",
-    //         surname: "Admin",
-    //         name: "Admin",
-    //         patronymic: "Admin",
-    //         position: "admin",
-    //         telegramName: "@admin",
-    //         phone: "+7 555 555 55 55",
-    //         password: "12345a",
-    //         role: ['viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'approvePayment', 'payPayment', 'postponePayment', 'viewToBePaid', 'viewTodayPayments', 'initCancelApprovedPayment', 'cancelApprovedPayment', 'initCancelPayedPayment', 'cancelPayedPayment', 'deletePayment', 'authorizeUser', 'editUser', 'deleteUser', 'viewUsers', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom'],
-    //         token: ['adminToken', 'adminToken']
-    //     });
+        await User.create({
+            workEmail: "admin@admin.com",
+            surname: "Admin",
+            name: "Admin",
+            patronymic: "Admin",
+            position: "admin",
+            telegramName: "@admin",
+            phone: "+7 555 555 55 55",
+            password: "12345a",
+            role: ['deleteMeetingRoom', 'addNewMeetingRoom','viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'approvePayment', 'payPayment', 'postponePayment', 'viewToBePaid', 'viewTodayPayments', 'initCancelApprovedPayment', 'cancelApprovedPayment', 'initCancelPayedPayment', 'cancelPayedPayment', 'deletePayment', 'authorizeUser', 'editUser', 'deleteUser', 'viewUsers', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom', 'addContentlink', 'viewOwnContentlinks', 'viewAllContentlinks'],
+            token: [nanoid(), nanoid()]
+        });
     // })
-    // console.log('fixtures connected');    
+    console.log('fixtures connected');    
     // module.exports =app;
 
 };
