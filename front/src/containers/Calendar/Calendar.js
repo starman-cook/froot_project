@@ -2,17 +2,34 @@ import React, {useState, useEffect} from 'react';
 import moment from 'moment';
 import './Calendar.css';
 import DayTiming from "../../components/DayTiming/DayTiming";
-import axios from "axios";
+import {fetchAllUsers} from "../../store/actions/usersActions";
+import {useDispatch, useSelector} from "react-redux";
+import {addNewRoom, deleteRoom, getAllRooms, getBusyMonth} from "../../store/actions/calendarAction";
 
 const Calendar = () => {
 
     // передавать номер переговорки через query и добавлять его в запрос на получение данных именно этой переговорки
     // ВАЖНО при получении данных на месяц (не детальных, детальные по каждому дню при отрытии дня получаем),
     // нужно коэфициент загруженности показывать, чтобы пометить дату соответсвуюшим оттенком цвета
+
+    const dispatch = useDispatch()
+
     const [room, setRoom] = useState("1");
     const [year, setYear] = useState(moment().year());
     const [month, setMonth] = useState(moment().month());
     const [day, setDay] = useState(moment().date());
+
+    const user = useSelector(state => state.users.user)
+    let canAddRoom
+    if (user) {
+        canAddRoom = user.role.includes('addNewMeetingRoom')
+    }
+    let canDeleteRoom
+    if (user) {
+        canDeleteRoom = user.role.includes('deleteMeetingRoom')
+    }
+
+    const monthState = useSelector(state => state.calendarEvents.busyMonth)
 
     const getDateForBusy = () => {
         let monthCopy = month + 1;
@@ -30,17 +47,6 @@ const Calendar = () => {
         }
         return `${day}${month}${year}`
     }
-
-
-    // Получаем данные с запроса, потом вынести эти функции в actions
-    const [monthState, setMonthState] = useState({});
-
-    const getBusyMonth = async (room, date) => {
-        const response = await axios.get(`http://localhost:8000/calendarEvents/${room}/${date}/monthly`)
-        await setMonthState(response.data)
-    }
-
-    //
 
 
     const [isModalMonth, setIsModalMonth] = useState(false);
@@ -148,13 +154,26 @@ const Calendar = () => {
         )
     });
 
-    const rooms = ["1", "2", "room", "coming soon"];
+    // const rooms = ["1", "2", "room", "coming soon"];
+    const rooms = useSelector(state => state.calendarEvents.rooms);
+    const deleteRoomHandler = async (id) => {
+        await dispatch(deleteRoom(id))
+        await dispatch(getAllRooms())
+        closeBg()
+    }
 
     let allRooms = rooms.map((el, i) => {
         return (
-            <h3 key={i} onClick={() => {
-                pickTheRoom(i)
-            }} className="ModalPeriod__room">{el}</h3>
+            <div key={i} className="ModalPeriod__room--line">
+                <h3 key={i} onClick={() => {
+                    pickTheRoom(i)
+                }} className="ModalPeriod__room">{el.room}</h3>
+                {canDeleteRoom ? <> <div onClick={() => {
+                    deleteRoomHandler(el._id)
+                }} className='ModalPeriod__roomName--delete'/>
+                <div  /> </> : null}
+            </div>
+
         )
     });
 
@@ -164,7 +183,7 @@ const Calendar = () => {
     }
 
     const pickTheRoom = (i) => {
-        setRoom(rooms[i]);
+        setRoom(rooms[i].room);
         closeBg()
     }
 
@@ -174,9 +193,27 @@ const Calendar = () => {
     }
 
     useEffect(() => {
-        getBusyMonth(room, getDateForBusy())
-    }, [isModalRoom, isModalYear, isModalMonth, month, year, room])
+        dispatch(getAllRooms())
+        dispatch(fetchAllUsers())
+    }, [])
 
+    useEffect(() => {
+        dispatch(getBusyMonth(room, getDateForBusy()))
+    }, [isBg, isModalRoom, isModalYear, isModalMonth, month, year, room])
+
+    const [roomName, setRoomName] = useState('')
+
+    const addNewRoomHandler = async () => {
+        if (roomName.trim() !== '' && roomName) {
+            await dispatch(addNewRoom({room: roomName}))
+            setRoomName('')
+            await dispatch(getAllRooms())
+        }
+    }
+    const roomNameInput = (event) => {
+        setRoomName(event.target.value)
+        console.log(roomName)
+    }
     const oneCalendar = (
         <>
             {isBg ? <div onClick={closeBg} className="CalendarOne__bg"/> : null}
@@ -194,21 +231,25 @@ const Calendar = () => {
             <div className="CalendarOne">
                 <h2 className="CalendarOne__today">Сегодня: {months[moment().month()]} {moment().date()}, {moment().year()}</h2>
                 <button onClick={openCurrentMonth} className="CalendarOne__btn">Открыть текущий месяц</button>
+                { canAddRoom ? <div className="CalendarOne__addRoomBlock">
+                    <input placeholder="Имя новой комнаты" value={roomName} onChange={(event) => {roomNameInput(event)}} type="text" name="roomName" className="CalendarOne__roomNameInput" />
+                    <button onClick={addNewRoomHandler} className="CalendarOne__btn" >Создать комнату комнату</button>
+                </div> : null}
                 <div className="CalendarOne__header">
 
                     <div className="ModalPeriod__room-block">
-                        <h3 onClick={toggleModalRoom} className="ModalPeriod__room">{room}</h3>
+                        <h3 onClick={toggleModalRoom} className="ModalPeriod__room">Комната: {room}</h3>
                         <div className="ModalPeriod__room-arrow" onClick={toggleModalRoom}/>
                         {isModalRoom ? <div className="ModalPeriod__room-modal">{allRooms}</div> : null}
                     </div>
 
                     <div className="ModalPeriod__year-block">
-                        <h3 onClick={toggleModalYear} className="ModalPeriod__year">{year}</h3>
+                        <h3 onClick={toggleModalYear} className="ModalPeriod__year">Год: {year}</h3>
                         <div className="ModalPeriod__year-arrow" onClick={toggleModalYear}/>
                         {isModalYear ? <div className="ModalPeriod__year-modal">{allYears}</div> : null}
                     </div>
                     <div className="CalendarOne__month-block">
-                        <p onClick={toggleModalMonth} className="CalendarOne__month">{months[month]}</p>
+                        <p onClick={toggleModalMonth} className="CalendarOne__month">Месяц: {months[month]}</p>
                         <div className="CalendarOne__arrow" onClick={toggleModalMonth}/>
                         {isModalMonth ? <div className={"CalendarOne__month-modal"}>{allMonths}</div> : null}
                     </div>
@@ -220,7 +261,7 @@ const Calendar = () => {
                     {tableBody.map((el, i) => {
                         const fullDate = getFullDateString(el, month, year)
                         let business = 0
-                        if (monthState.busy) {
+                        if (monthState) {
                             monthState.busy.map(a => {
                                 if (a.date === fullDate) {
                                     return business = a.busy
@@ -228,10 +269,16 @@ const Calendar = () => {
                             })
                         }
                         if (el) {
-                            return (<div style={business > 0 && business < 21 ? {
-                                background: `rgb(${150 - business * 5} , ${255 - business * 5}, ${0})`,
+                            return (<div style={business < 11 && business > 0 ? {
+                                background: `rgb(0, 255, 0)`,
                                 borderRadius: "10px"
-                            } : business >= 21 ? {background: `rgb(232, 100, 100)`, borderRadius: "10px"} : null}
+                            } : business >= 11 && business < 21 ? {
+                                background: `rgb(255, 255, 0)`,
+                                borderRadius: "10px"
+                            } : business === 21 ? {
+                                background: `rgb(255, 0, 0)`,
+                                borderRadius: "10px"
+                            } : null}
                                          key={i}
                                          onClick={(event) => {
                                              pickTheDay(event)

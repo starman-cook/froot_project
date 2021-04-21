@@ -53,18 +53,20 @@ const Payments = () => {
     });
   };
   const statusChangeHandler = e => {
+    let dropText = document.getElementById('dropdown');
     const value = e.target.innerText
+    dropText.innerText = value;
     if(value === "Не подтвержден") {
       setState((prevState) => {
-        return { ...prevState, approved: false };
+        return { ...prevState, approved: false, paided: false };
       });
     }else if (value === "Подтвержден") {
       setState((prevState) => {
-        return { ...prevState, approved: true };
+        return { ...prevState, approved: true, paided: false };
       });
     }else if (value === "Оплачен") {
       setState((prevState) => {
-        return { ...prevState, paided: true };
+        return { ...prevState, approved: true, paided: true };
       });
     }
     if (e.target !== e.currentTarget) {
@@ -137,8 +139,8 @@ const Payments = () => {
             onChange={(e) => inputDateChangeHandler(e)}
             name="toDate"
           />
-          <div id="sweeties" className="dropdown">
-            <span className="dropdown__title">Статусы платежей</span>
+          <div className="dropdown">
+            <span id="dropdown" className="dropdown__title">Статусы платежей</span>
             <div className="dropdown__content">
               <div className="dropdown__content-item" onClick={e=>statusChangeHandler(e)}>Не подтвержден</div>
               <div className="dropdown__content-item" onClick={e=>statusChangeHandler(e)}>Подтвержден</div>

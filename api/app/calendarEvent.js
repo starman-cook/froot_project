@@ -6,6 +6,8 @@ const multer = require('multer')
 const { nanoid } = require('nanoid');
 const path = require('path')
 const config = require('./config')
+const auth = require('./middleware/auth.js');
+const axios = require('axios')
 
 
 const storage = multer.diskStorage({
@@ -21,12 +23,23 @@ const upload = multer({storage});
 
 
 router.post('/', upload.single('file'), async (req, res) => {
+    console.log(req.body)
     try {
-        req.body.user = await User.findById(req.body.user)
-        const event = await new CalendarEvent(req.body);
+
+        // if (req.body.participants) {
+        //     req.body.participants = JSON.parse(req.body.participants)
+        // }
+        // console.log(req.body)
+        // req.body.user = req.body.user
+        // console.log(req.body.user)
+        // req.body.participants = JSON.parse(req.body.participants)
+        const event = await new CalendarEvent(req.body)
+        event.participants = JSON.parse(req.body.participants)
+
         if (req.file) {
             event.file = req.file.filename;
         };
+
         // const arrDate = req.body.date.split("-")
         // const monthDate = `${arrDate[1]}-${arrDate[2]}`
         // const month = await Month.findOne({date: monthDate})
@@ -37,8 +50,17 @@ router.post('/', upload.single('file'), async (req, res) => {
         //
         // }
         // month.save()
-
         await event.save()
+        const user = await User.findById(req.body.user)
+        try{
+            event.user = user
+            axios.post(config.baseUrlForTelegram + ':8001/telegram/calendarEvents', event);
+
+        } catch (err) {
+            console.log(err)
+        }
+        console.log(event)
+
         res.send(event)
     } catch (err) {
         res.status(500).send({error: err})
@@ -84,15 +106,18 @@ router.get('/:room/:date/daily', async (req, res) => {
             room: req.params.room,
             date: req.params.date
         }
-        const events = await CalendarEvent.find(filter)
-        for (let i = 0; i < events.length; i++) {
-            const creator = await User.findById(events[i].user)
-            events[i].user = creator
-            for (let j = 0; j < events[i].participants.length; j++) {
-                const participant = await User.findById(events[i].participants[j])
-                events[i].participants[j] = participant
-            }
-        }
+        const events = await CalendarEvent.find(filter).populate('user')
+        // for (let i = 0; i < events.length; i++) {
+        //     const creator = await User.findById(events[i].user)
+        //     events[i].user = creator
+        //     let allParticipants = []
+        //     for (let j = 0; j < events[i].participants.length; j++) {
+        //         const participant = await User.findOne({_id: events[i].participants[j].userId})
+        //         participant.accepted = events[i].participants[j].accepted
+        //         allParticipants.push(participant)
+        //     }
+        //     events[i].participants = allParticipants
+        // }
         res.send(events)
     } catch (err) {
         res.status(500).send({error: err})
@@ -100,6 +125,7 @@ router.get('/:room/:date/daily', async (req, res) => {
 })
 
 router.delete('/:id', async (req, res) => {
+    // add send new info to all the participants that the meeting has been canceled
     try {
         await CalendarEvent.findByIdAndRemove(req.params.id)
         res.send({message: "Success"})
@@ -108,5 +134,38 @@ router.delete('/:id', async (req, res) => {
     }
 })
 
+router.get('/:id/accept', auth, async (req, res) => {
+    try {
+        const meeting = await CalendarEvent.findById(req.params.id);
+        for (let i = 0; i < meeting.participants.length; i++) {
+            if (req.user._id.toString() === meeting.participants[i].userId) {
+                meeting.participants[i].accepted = true;
+            };
+        };
+        await meeting.markModified('participants');
+        await meeting.save();
+
+        console.log("*************************************************** ",meeting);
+        res.send(meeting);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+router.get('/:id/reject', auth, async (req, res) => {
+    try {
+        const meeting = await CalendarEvent.findById(req.params.id);
+        for (let i = 0; i < meeting.participants.length; i++) {
+            if (req.user._id.toString() === meeting.participants[i].userId) {
+                meeting.participants[i].accepted = false;
+            };
+        };
+        await meeting.save();
+        console.log(meeting);
+        res.send(meeting);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
 
 module.exports = router

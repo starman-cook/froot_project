@@ -11,7 +11,7 @@ const FormElement = ({
   onChange,
   placeholder,
   error,
-  minDate,
+  mindate,
   min
 }) => {
   return (
@@ -27,7 +27,7 @@ const FormElement = ({
           onChange={onChange}
           value={value}
           placeholder={placeholder}
-          minDate={minDate}
+          mindate={mindate}
           min={min}
       />
       <span className="FormElement__error_message" >{error}</span>

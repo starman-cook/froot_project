@@ -82,21 +82,22 @@ app.post('/telegram/:id/notification', async (req, res) => {
 })
 
 // Оповещение приглашенных пользователей о встрече
-app.post('/telegram/meetings', async (req, res) => {
+app.post('/telegram/calendarEvents', async (req, res) => {
+    console.log(req.body)
     try {
-        let users = [];
-        console.log(req.body.participants); /////
+        // let users = [];
+        console.log(req.body);
         for (let i = 0; i < req.body.participants.length; i++) {
             const user = await User.findOne({ apiUserId: req.body.participants[i].userId });
             if (!user) continue;
-            users.push(user);
-            const fileMessage = req.body.file && "доступны в деталях встречи на сайте во вкладке График встреч" || "нет";
+            // users.push(user);
+            const fileMessage = req.body.file !== "null" && "доступны в деталях встречи на сайте во вкладке График встреч" || "нет";
             const meetingMessage = `
                 <b>${user.name}, вы приглашены на встречу: ${req.body.title}</b>
                 \nДата: ${req.body.date}
                 \nВремя: с ${req.body.from} - до ${req.body.to}
                 \nМесто: ${req.body.room}
-                \nСоздатель: ${req.body.creator}
+                \nСоздатель: ${req.body.user.name} ${req.body.user.surname}
                 \nОписание: ${req.body.description}
                 \nМатериалы: ${fileMessage} 
                 \nid: ${req.body._id}
@@ -113,7 +114,7 @@ app.post('/telegram/meetings', async (req, res) => {
                 }
             });
         }
-        res.send(users);
+        res.send({message: "Success"});
     } catch (error) {
         console.log(error); ////////
         res.status(500).send({ message: 'Telegram Error' })
@@ -144,6 +145,11 @@ bot.on('callback_query', async query => {
         const idLine = captionArray[captionArray.length - 1].replace(/\s+/g, ' ').trim();
         id = idLine.split(" ")[1]
     }
+    if (query.data === kb.meeting.accept || query.data === kb.meeting.reject) {
+        const captionArray = query.message!.text.split("\n")
+        const idLine = captionArray[captionArray.length - 1].replace(/\s+/g, ' ').trim();
+        id = idLine.split(" ")[1]
+    }
     try {
         const user = await User.findOne({ chatId: query.message!.chat.id })
         switch (query.data) {
@@ -170,8 +176,9 @@ bot.on('callback_query', async query => {
                 break
             case kb.meeting.accept:
                 try {
-                    await axios.get(`${config.localApiUrl}/meetings/${id}/accept`, { headers: { Authorization: user.token } });
+                    await axios.get(`${config.localApiUrl}/calendarEvents/${id}/accept`, { headers: { Authorization: user.token } });
                     await bot.sendMessage(query.message!.chat.id, `Встреча ${id} принята`)
+                    await bot.deleteMessage(query.message!.chat.id, query.message.message_id.toString())
                 } catch (err) {
                     await bot.sendMessage(query.message!.chat.id, `Что-то пошло не так с принятием встречи ${id}, либо у вас нет прав на данное действие`)
                     throw new Error(err)
@@ -179,8 +186,9 @@ bot.on('callback_query', async query => {
                 break
             case kb.meeting.reject:
                 try {
-                    await axios.get(`${config.localApiUrl}/meetings/${id}/reject`, { headers: { Authorization: user.token } });
+                    await axios.get(`${config.localApiUrl}/calendarEvents/${id}/reject`, { headers: { Authorization: user.token } });
                     await bot.sendMessage(query.message!.chat.id, `Встреча ${id} отклонена`)
+                    await bot.deleteMessage(query.message!.chat.id, query.message.message_id.toString())
                 } catch (err) {
                     await bot.sendMessage(query.message!.chat.id, `Что-то пошло не так с отклонением встречи ${id}, либо у вас нет прав на данное действие`)
                     throw new Error(err)

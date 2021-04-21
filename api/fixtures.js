@@ -3,6 +3,7 @@ const { nanoid } = require("nanoid");
 const config = require("./app/config");
 const Payment = require("./app/models/Payment");
 const User = require("./app/models/User");
+const Room = require("./app/models/Room")
 
 mongoose.connect(config.db.url + '/' + config.db.name, { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection
@@ -10,6 +11,8 @@ db.once('open', async () => {
     try {
         await db.dropCollection('payments')
         await db.dropCollection('users')
+        await db.dropCollection('calendarEvents')
+        await db.dropCollection('rooms')
     } catch (e) {
         console.log('Collection were not present, skipping drop...')
     }
@@ -22,7 +25,7 @@ db.once('open', async () => {
         telegramName: "@IvanIvanov",
         phone: "+7 777 77 77 77",
         password: "12345a",
-        role: ['viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'initCancelApprovedPayment', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom'],
+        role: ['viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'initCancelApprovedPayment', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom', 'addContentlink', 'viewOwnContentlinks'],
         token: [nanoid(), nanoid()]
     }, {
         workEmail: "accountant@accountant.com",
@@ -44,7 +47,7 @@ db.once('open', async () => {
         telegramName: "@director",
         phone: "+7 555 555 55 55",
         password: "12345a",
-        role: ['viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'approvePayment', 'postponePayment', 'viewTodayPayments', 'initCancelApprovedPayment', 'cancelApprovedPayment', 'initCancelPayedPayment', 'deletePayment', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom'],
+        role: ['viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'approvePayment', 'postponePayment', 'viewTodayPayments', 'initCancelApprovedPayment', 'cancelApprovedPayment', 'initCancelPayedPayment', 'deletePayment', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom', 'addContentlink', 'viewOwnContentlinks', 'viewAllContentlinks'],
         token: [nanoid(), nanoid()]
     }, {
         workEmail: "admin@admin.com",
@@ -55,7 +58,7 @@ db.once('open', async () => {
         telegramName: "@admin",
         phone: "+7 555 555 55 55",
         password: "12345a",
-        role: ['viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'approvePayment', 'payPayment', 'postponePayment', 'viewToBePaid', 'viewTodayPayments', 'initCancelApprovedPayment', 'cancelApprovedPayment', 'initCancelPayedPayment', 'cancelPayedPayment', 'deletePayment', 'authorizeUser', 'editUser', 'deleteUser', 'viewUsers', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom'],
+        role: ['deleteMeetingRoom', 'addNewMeetingRoom','viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'approvePayment', 'payPayment', 'postponePayment', 'viewToBePaid', 'viewTodayPayments', 'initCancelApprovedPayment', 'cancelApprovedPayment', 'initCancelPayedPayment', 'cancelPayedPayment', 'deletePayment', 'authorizeUser', 'editUser', 'deleteUser', 'viewUsers', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom', 'addContentlink', 'viewOwnContentlinks', 'viewAllContentlinks'],
         token: [nanoid(), nanoid()]
     });
     await Payment.create({
@@ -84,6 +87,11 @@ db.once('open', async () => {
         contractor: "BAT",
         priority: "важный",
         image: "invoice.jpg",
+    })
+    await Room.create({
+        room: "1"
+    }, {
+        room: "new room"
     })
 
     await db.close()

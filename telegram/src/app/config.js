@@ -22,13 +22,10 @@ exports.config = {
     // imagePathFromApi: 'http://localhost:' + apiPort,
     imagePathFromApi: `http://${baseUrlForBackend}:` + apiPort,
     localApiUrl: `http://${baseUrlForBackend}:` + apiPort,
-    // publicApiUrl: "http://116.203.78.155:" + apiPort,
     telegramToken: "1688455909:AAG6JNSW5JfBA8Z5JrkS22EbnbJPuZk1SpI",
-    // telegramToken: "1708676370:AAHi2X2XjZRLwEnLhORzmceABD6hrFBWKq0", //Askar
-    // telegramToken: "1760232044:AAEyBzrDYs8-751E4QBNQnYyspaytSNqtY4", //Yelena
     // telegramToken: "1786540893:AAGlvXIiohO_NYDER4v5hft8r4aBvZwt0hc", //@TestingFrootBot
     // telegramToken: "1786540893:AAEVWiaoe1LUbx5hKZ6essSU8Wc75W1RgTg", //Default
     // directorToken: "ZA9XhgRIZ_dXGoRHActC1",
-    serverAdress: 'http://162.55.54.115/:3000',
+    serverAdress: 'http://162.55.54.115:3000',
     telegramPort: 8001
 };

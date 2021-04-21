@@ -31,6 +31,7 @@ Deploy to dev:
     stage: deploy
     script:
         - cd ./docker
+        - docker-compose down
         - docker-compose up --build -d
         - echo 'deploy success'
     only:

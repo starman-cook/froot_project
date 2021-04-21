@@ -27,7 +27,7 @@
     align-items: center;
     text-align: center;
     letter-spacing: 0.12px;
-    text-decoration-line: underline;
+    text-decoration-line: none;
     text-transform: uppercase;
     color: #333333;
     padding-left: 11px;
@@ -147,7 +147,7 @@
     line-height: 24px;
     text-align: center;
     letter-spacing: 0.12px;
-    text-decoration-line: underline;
+    text-decoration-line: none;
     color: #4F4F4F;
     cursor: pointer;
 }
@@ -186,7 +186,7 @@
     line-height: 24px;
     text-align: center;
     letter-spacing: 0.12px;
-    text-decoration-line: underline;
+    text-decoration-line: none;
     color: #4F4F4F;
     cursor: pointer;
 }
@@ -211,11 +211,30 @@
     top: 50px;
     left: 0;
     z-index: 5;
-    width: 100px;
+    min-width: 100px;
     height: auto;
+    padding: 5px;
     background: white;
     border-radius: 4px;
     border: 1px solid  black;
+}
+
+.CalendarOne__addRoomBlock {
+    padding: 10px 0;
+}
+.CalendarOne__roomNameInput {
+    margin: 0;
+}
+.ModalPeriod__roomName--delete {
+    width: 20px;
+    height: 20px;
+    margin-left: auto;
+    background: url('../../assets/images/ic-close-blue.svg')center no-repeat;
+    cursor: pointer;
+}
+.ModalPeriod__room--line {
+    display: flex;
+    align-items: center;
 }
 
 @media (max-width: 900px) {

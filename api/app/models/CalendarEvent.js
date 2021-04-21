@@ -5,7 +5,8 @@ const CalendarEventSchema = new Schema ({
     monthYear: String,
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     scale: [{
         type: String
@@ -13,9 +14,7 @@ const CalendarEventSchema = new Schema ({
     color: String,
     title: String,
     description: String,
-    participants: [{
-        type: String
-    }],
+    participants: [],
     room: String,
     file: String,
     date: String,

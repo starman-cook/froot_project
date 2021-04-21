@@ -85,22 +85,23 @@ app.post('/telegram/:id/notification', (req, res) => __awaiter(void 0, void 0, v
     yield statusChangingBody(req, res, "Срок оплаты платежа через 2 дня");
 }));
 // Оповещение приглашенных пользователей о встрече
-app.post('/telegram/meetings', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post('/telegram/calendarEvents', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body);
     try {
-        let users = [];
-        console.log(req.body.participants); /////
+        // let users = [];
+        console.log(req.body);
         for (let i = 0; i < req.body.participants.length; i++) {
             const user = yield user_model_1.User.findOne({ apiUserId: req.body.participants[i].userId });
             if (!user)
                 continue;
-            users.push(user);
-            const fileMessage = req.body.file && "доступны в деталях встречи на сайте во вкладке График встреч" || "нет";
+            // users.push(user);
+            const fileMessage = req.body.file !== "null" && "доступны в деталях встречи на сайте во вкладке График встреч" || "нет";
             const meetingMessage = `
                 <b>${user.name}, вы приглашены на встречу: ${req.body.title}</b>
                 \nДата: ${req.body.date}
                 \nВремя: с ${req.body.from} - до ${req.body.to}
                 \nМесто: ${req.body.room}
-                \nСоздатель: ${req.body.creator}
+                \nСоздатель: ${req.body.user.name} ${req.body.user.surname}
                 \nОписание: ${req.body.description}
                 \nМатериалы: ${fileMessage} 
                 \nid: ${req.body._id}
@@ -117,7 +118,7 @@ app.post('/telegram/meetings', (req, res) => __awaiter(void 0, void 0, void 0, f
                 }
             });
         }
-        res.send(users);
+        res.send({ message: "Success" });
     }
     catch (error) {
         console.log(error); ////////
@@ -142,6 +143,11 @@ bot.on('callback_query', (query) => __awaiter(void 0, void 0, void 0, function* 
     let id = "";
     if (query.data === 'approve' || query.data === 'tomorrow') {
         const captionArray = query.message.caption.split("\n");
+        const idLine = captionArray[captionArray.length - 1].replace(/\s+/g, ' ').trim();
+        id = idLine.split(" ")[1];
+    }
+    if (query.data === kb_1.kb.meeting.accept || query.data === kb_1.kb.meeting.reject) {
+        const captionArray = query.message.text.split("\n");
         const idLine = captionArray[captionArray.length - 1].replace(/\s+/g, ' ').trim();
         id = idLine.split(" ")[1];
     }
@@ -173,8 +179,9 @@ bot.on('callback_query', (query) => __awaiter(void 0, void 0, void 0, function* 
                 break;
             case kb_1.kb.meeting.accept:
                 try {
-                    yield axios_1.default.get(`${config_1.config.localApiUrl}/meetings/${id}/accept`, { headers: { Authorization: user.token } });
+                    yield axios_1.default.get(`${config_1.config.localApiUrl}/calendarEvents/${id}/accept`, { headers: { Authorization: user.token } });
                     yield bot.sendMessage(query.message.chat.id, `Встреча ${id} принята`);
+                    yield bot.deleteMessage(query.message.chat.id, query.message.message_id.toString());
                 }
                 catch (err) {
                     yield bot.sendMessage(query.message.chat.id, `Что-то пошло не так с принятием встречи ${id}, либо у вас нет прав на данное действие`);
@@ -183,8 +190,9 @@ bot.on('callback_query', (query) => __awaiter(void 0, void 0, void 0, function* 
                 break;
             case kb_1.kb.meeting.reject:
                 try {
-                    yield axios_1.default.get(`${config_1.config.localApiUrl}/meetings/${id}/reject`, { headers: { Authorization: user.token } });
+                    yield axios_1.default.get(`${config_1.config.localApiUrl}/calendarEvents/${id}/reject`, { headers: { Authorization: user.token } });
                     yield bot.sendMessage(query.message.chat.id, `Встреча ${id} отклонена`);
+                    yield bot.deleteMessage(query.message.chat.id, query.message.message_id.toString());
                 }
                 catch (err) {
                     yield bot.sendMessage(query.message.chat.id, `Что-то пошло не так с отклонением встречи ${id}, либо у вас нет прав на данное действие`);

@@ -60,7 +60,7 @@ const PaymentForm = ({ onSubmit, paymentId }) => {
                     name="dateOfPayment"
                     value={state.dateOfPayment}
                     required
-                    minDate={today}
+                    mindate={today}
                 />
                 <div>
                     <span className="FormElement__label">Компания-плательщик *</span>

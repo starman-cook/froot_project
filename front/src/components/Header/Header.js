@@ -24,8 +24,11 @@ const Header = ({ user }) => {
           Платежи на сегодня</NavLink>}
         {user && user.role.includes('addPayment') && <NavLink to="/new-payment" className="Header__link">
           Добавить платеж</NavLink>}
-        {user && user.role.includes('addPayment') && <NavLink to="/meetings" className="Header__link">
+        {user && user.role.includes('bookMeetingRoom') && <NavLink to="/meetings" className="Header__link">
           График встреч
+        </NavLink>}
+        {user && user.role.includes('addContentlink') && <NavLink to="/content-manager" className="Header__link">
+          Счетчик ссылок
         </NavLink>}
         <NavLink to="/news" className="Header__link">
           Новости

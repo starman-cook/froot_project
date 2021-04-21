@@ -1,6 +1,7 @@
 const Payment = require('./models/Payment');
 const ExcelJS = require('exceljs');
-const moment = require('moment')
+const moment = require('moment');
+const puppeteer = require('puppeteer');
 
 module.exports = {
     buildExcelFile: async (payments) => {
@@ -61,6 +62,20 @@ module.exports = {
                 payment.save();
             };
         });
+    },
+
+    screenshot: async (url, name) => {
+        const browser = await puppeteer.launch();
+        const device_width = 1920;
+        const device_height = 1080;
+        const page = await browser.newPage();
+        await page.setViewport({ width: device_width, height: device_height })
+        await page.goto(url, { waitUntil: 'domcontentloaded' });
+        await page.screenshot({
+            fullPage: true,
+            path: `./public/uploads/${name}`
+        });
+        await browser.close();
     }
 }
 

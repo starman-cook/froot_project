@@ -38,7 +38,7 @@ const Account = ({ registry, payments, approve, cancelApprove, pay, cancelPay, s
             <th>Сумма платежа</th>
             <th>Инициатор</th>
             <th>Файл</th>
-            {user && user.role.includes('addPayment') && <th>Повтор платежа</th>}
+            <th>Повтор платежа</th>
             <th>Статус платежа</th>                        
           </tr>
         </thead>

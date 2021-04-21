@@ -19,7 +19,7 @@ module.exports = {
         // name: 'test',
         name:`${dbMongo}?authSource=${initDb}`,  //docker
         // url: 'mongodb://localhost',
-        // url: 'mongodb+srv://QWE123:QWE123@cluster0.rrd3k.mongodb.net', // Pasha's mongo address
+        // url: 'mongodb+srv://QWE123:QWE123@cluster0.rrd3k.mongodb.net', // Pasha's mongo address !!
         url:`mongodb://${user}:${password}@${host}:${port}`,  //docker
         // url: 'mongodb://104.248.198.29',
     },
