@@ -34,7 +34,7 @@ services:
   image: esdp-frontend-1
   # restart: on-failure
   ports: 
-    - 3000:3000
+    - 3000:5000
   depends_on: 
     - backend
 
