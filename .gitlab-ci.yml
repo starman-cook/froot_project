@@ -32,6 +32,7 @@ Deploy to dev:
     script:
         - cd ./docker
         # - docker stop docker_frontend_1 docker_bot_1 docker_backend_1 docker_mongo_1
+        # - docker rm docker_frontend_1 docker_bot_1 docker_backend_1 docker_mongo_1
         - docker-compose up --build -d
         - echo 'deploy success'
     only:
