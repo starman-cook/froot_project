@@ -46,7 +46,6 @@ const PaymentForm = ({ onSubmit, paymentId }) => {
     };
 
     let today = new Date().toISOString().split('T')[0];
-    
 
     return (
         <div className="PaymentForm">
@@ -60,7 +59,7 @@ const PaymentForm = ({ onSubmit, paymentId }) => {
                     name="dateOfPayment"
                     value={state.dateOfPayment}
                     required
-                    mindate={today}
+                    min={today}
                 />
                 <div>
                     <span className="FormElement__label">Компания-плательщик *</span>
