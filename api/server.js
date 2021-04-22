@@ -47,6 +47,8 @@ const run = async () => {
     //     } catch (e) {
     //         console.log('Collection were not present, skipping drop...')
     //     }
+    const admin=await User.findOne({workEmail: "admin@admin.com"});
+    if(!admin){
         await User.create({
             workEmail: "admin@admin.com",
             surname: "Admin",
@@ -57,10 +59,12 @@ const run = async () => {
             phone: "+7 555 555 55 55",
             password: "12345a",
             role: ['deleteMeetingRoom', 'addNewMeetingRoom','viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'approvePayment', 'payPayment', 'postponePayment', 'viewToBePaid', 'viewTodayPayments', 'initCancelApprovedPayment', 'cancelApprovedPayment', 'initCancelPayedPayment', 'cancelPayedPayment', 'deletePayment', 'authorizeUser', 'editUser', 'deleteUser', 'viewUsers', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom', 'addContentlink', 'viewOwnContentlinks', 'viewAllContentlinks'],
-            token: [nanoid(), nanoid()]
+            token: ['adminToken','adminToken']
         });
+        console.log('fixtures connected');    
+    }
+        
     // })
-    console.log('fixtures connected');    
     // module.exports =app;
 
 };
