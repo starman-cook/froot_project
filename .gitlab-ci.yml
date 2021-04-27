@@ -30,11 +30,10 @@ Linter test:
 Deploy to dev:
     stage: deploy
     script:
-        - cd ./docker
-        # - service docker restart
         - docker stop docker_frontend_1 docker_bot_1 docker_backend_1 docker_mongo_1
         - docker rm docker_frontend_1 docker_bot_1 docker_backend_1 docker_mongo_1
         - docker rmi esdp-telegram-1 esdp-frontend-1 esdp-backend-1
+        - cd ./docker
         - docker-compose up --build -d
         - echo 'deploy success'
     only:
