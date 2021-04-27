@@ -269,7 +269,6 @@ const createRouter = () => {
             res.status(500).send(e);
         }
     })
-
     return router;
 }
 module.exports = createRouter;

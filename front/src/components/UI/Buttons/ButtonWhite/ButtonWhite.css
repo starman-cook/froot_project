@@ -1,0 +1,17 @@
+.ButtonWhite {
+    
+    outline: 0;
+    margin-left: 10px;
+    color: #ff067c;
+    background-color: #fff;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 200px;
+    height: 40px;
+    border: 1px solid #ff067c;
+}
+.ButtonWhite:hover {
+    box-shadow: 0 0 10px 1px #9d9ea0;
+}

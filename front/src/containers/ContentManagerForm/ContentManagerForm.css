@@ -5,6 +5,11 @@
 }
 .screen-flex{
     display: flex;
+    border-bottom: 1px solid red;
+    padding-bottom: 20px;
+}
+.screen-outside{
+    padding-top: 20px;
 }
 .screen-input{
     width: 500px;
@@ -15,4 +20,8 @@
 }
 .counter-form-inside{
     display: inline-flex;
+}
+.screen-number{
+    margin-right: 20px;
+    font-size: 30px;
 }

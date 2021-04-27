@@ -1,0 +1,51 @@
+const express = require('express');
+const auth = require('./middleware/auth.js');
+const router = express.Router();
+const upload = require('./middleware/upload.js');
+const permit = require('./middleware/permit.js');
+const axios = require('axios');
+const config = require('./config');
+
+const moment = require('moment');
+const News = require('./models/News');
+
+const createRouter = () => {
+
+    router.post('/', [auth, upload.single('file')], async (req, res) => {
+        try {
+            const newsItem = new News(req.body);
+
+            if (req.file) {
+                newsItem.file = req.file.filename;
+            }
+            const today = moment().format('DD-MM-YYYY')
+            newsItem.createDate = today
+            newsItem.user = req.user._id;
+            await newsItem.save();
+            res.send(newsItem);
+        } catch (err) {
+            res.status(400).send({ message: err });
+        }
+    });
+    router.get('/', auth, async (req, res) => {
+        try {
+            const news = await News.find().populate("user");
+            res.send(news);
+        } catch (e) {
+            res.status(500).send(e);
+        }
+    })
+    router.get('/:id/:status', auth, async (req, res) => {
+        try {
+            const newsItem = await News.findById(req.params.id)
+            newsItem.status = req.params.status
+            await newsItem.save();
+            res.send(newsItem);
+        } catch (error) {
+            res.status(404).send({ message: "Not found" });
+        }
+    })
+    return router;
+}
+
+module.exports = createRouter;

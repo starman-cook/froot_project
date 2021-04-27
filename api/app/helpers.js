@@ -76,7 +76,107 @@ module.exports = {
             path: `./public/uploads/${name}`
         });
         await browser.close();
-    }
+    },
+
+    buildContentlinksReportExcelFile: async (contentlinks) => {
+        const workbook = new ExcelJS.Workbook();
+        //для эффективного использования ресурсов и минимальной нагрузки при создании эксель-файла - ниже код который создает из массива 'contentlinks' объект - в качестве ключей используются айди юзеров, а значения - массив с индексами, которые получены по юзерам из 'contentlinks' - при вызове функции система только ОДИН раз проходит по массиву 'contentlinks, СТРУКТУРИРУЕТ его содержимое в объект из ключей которого собирает файл без необходимости повторного перебора массива для каждой вкладки 
+
+        // let usersObj = contentlinks.reduce((acc, cur) => ({ ...acc, [cur.user]: [] }), {});
+        // contentlinks.map((item, idx) => usersObj[item.user].push(idx));
+
+        // создать объект с уникальными ключами из айди юзеров и значениями из пустого массива и данными юзера
+        let usersObj = contentlinks.reduce((acc, cur) => ({ ...acc, [cur.user._id]: { "contentlinksIdx": [], "userData": cur.user, "userContentlinks": [] } }), {});
+        // запушить индексы по соотвествующим юзерам в пустые массивы созданного на предыдущем шаге объекта 
+        // contentlinks.map((item, idx) => usersObj[item.user._id].contentlinksIdx.push(idx));
+
+        contentlinks.map((item, idx) => {
+            const user = usersObj[item.user._id];
+            user.contentlinksIdx.push(idx);
+            user.userContentlinks.push(item);
+        });
+
+
+        //для каждого юзера создать вкладку в эксель файле с именем этого юзера
+        //во вкладке юзера создать таблицу со столбцами: #(id ссылки), ссылка, повтор(да / нет), начата(дата - время), завершена(дата - время), минут
+
+        const sheetHeaders = [
+            { header: 'Id', width: 30 },
+            { header: 'ФИО менеджера', width: 30 },
+            { header: 'Ссылка', width: 60 },
+            { header: 'Повтор', width: 10 },
+            { header: 'Начата', width: 25 },
+            { header: 'Завершена', width: 25 },
+            { header: 'Минут', width: 10 },
+        ];
+
+        for (let user in usersObj) {
+            const sheet = workbook.addWorksheet(`${usersObj[user].userData.workEmail}`);
+            sheet.columns = sheetHeaders;
+            usersObj[user].contentlinksIdx.map(idx => {
+                const contentlink = contentlinks[idx];
+
+                const surname = usersObj[user].userData.surname;
+                const name = usersObj[user].userData.name;
+
+                const contentlinkRepeat = contentlink.repeats.length ? 'да' : 'нет';
+
+                const startdate = moment(contentlink.startdate);
+                const stopdate = contentlink.stopdate ? moment(contentlink.stopdate) : null; /// ???
+
+                const contentlinkDurationInMinutes = stopdate.diff(startdate, 'minutes');
+                const newRow = [contentlink._id, `${surname} ${name}`, contentlink.url, contentlinkRepeat, contentlink.startdate, contentlink.stopdate, contentlinkDurationInMinutes];
+                let row = sheet.addRow(newRow);
+
+                //подкрасить ссылку в зависимости от кол - ва минут
+                let color = 'FFFFFFFF';
+                switch (true) {
+                    case (contentlinkDurationInMinutes < 1):
+                        color = 'FFFF00FF';
+                        break;
+                    case (contentlinkDurationInMinutes >= 1 && contentlinkDurationInMinutes < 3):
+                        color = 'FF00FFFF';
+                        break;
+                    case (contentlinkDurationInMinutes >= 3 && contentlinkDurationInMinutes < 5):
+                        color = 'FF00BFFF';
+                        break;
+                    case (contentlinkDurationInMinutes >= 5 && contentlinkDurationInMinutes < 7):
+                        color = 'FF00FF00';
+                        break;
+                    case (contentlinkDurationInMinutes >= 7 && contentlinkDurationInMinutes < 10):
+                        color = 'FFFFFF00';
+                        break;
+                    case (contentlinkDurationInMinutes >= 10 && contentlinkDurationInMinutes < 15):
+                        color = 'FFFFA500';
+                        break;
+                    case (contentlinkDurationInMinutes >= 15):
+                        color = 'FFFF0000';
+                        break;
+                    default:
+                        return;
+                }
+                row.fill = {
+                    type: 'pattern',
+                    pattern: 'solid',
+                    fgColor: {
+                        argb: color
+                    }
+                }
+                // row.eachCell(function(cell) {
+                //     cell.fill = {
+                //         type: 'pattern',
+                //         pattern:'solid',
+                //         fgColor:{ argb:'deeded'}
+                //     };
+                // }
+            });
+        };
+
+        const filename = 'ContentReport_' + moment().format('DD-MM-YYYY-HH-mm-ss') + '.xlsx';
+        await workbook.xlsx.writeFile('./public/files/' + filename);
+
+        return usersObj;
+    },
 }
 
 // export const buildExcelFile = async (payments) => {

@@ -86,15 +86,12 @@ app.post('/telegram/:id/notification', (req, res) => __awaiter(void 0, void 0, v
 }));
 // Оповещение приглашенных пользователей о встрече
 app.post('/telegram/calendarEvents', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
     try {
-        // let users = [];
         console.log(req.body);
         for (let i = 0; i < req.body.participants.length; i++) {
             const user = yield user_model_1.User.findOne({ apiUserId: req.body.participants[i].userId });
             if (!user)
                 continue;
-            // users.push(user);
             const fileMessage = req.body.file !== "null" && "доступны в деталях встречи на сайте во вкладке График встреч" || "нет";
             const meetingMessage = `
                 <b>${user.name}, вы приглашены на встречу: ${req.body.title}</b>
@@ -116,6 +113,35 @@ app.post('/telegram/calendarEvents', (req, res) => __awaiter(void 0, void 0, voi
                         ]
                     ]
                 }
+            });
+        }
+        res.send({ message: "Success" });
+    }
+    catch (error) {
+        console.log(error); ////////
+        res.status(500).send({ message: 'Telegram Error' });
+    }
+}));
+// Оповещение участников об отмененной встрече
+app.post('/telegram/delete/calendarEvents', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        for (let i = 0; i < req.body.participants.length; i++) {
+            const user = yield user_model_1.User.findOne({ apiUserId: req.body.participants[i].userId });
+            if (!user)
+                continue;
+            const fileMessage = req.body.file !== "null" && "доступны в деталях встречи на сайте во вкладке График встреч" || "нет";
+            const meetingMessage = `
+                <b>ВСТРЕЧА ОТМЕНЕНА</b>
+                 \nДата: ${req.body.date}
+                \nВремя: с ${req.body.from} - до ${req.body.to}
+                \nМесто: ${req.body.room}
+                \nОписание: ${req.body.description}
+                \nМатериалы: ${fileMessage} 
+                \nid: ${req.body._id}
+              
+            `;
+            yield bot.sendMessage(user.chatId, meetingMessage, {
+                parse_mode: 'HTML',
             });
         }
         res.send({ message: "Success" });

@@ -83,14 +83,11 @@ app.post('/telegram/:id/notification', async (req, res) => {
 
 // Оповещение приглашенных пользователей о встрече
 app.post('/telegram/calendarEvents', async (req, res) => {
-    console.log(req.body)
     try {
-        // let users = [];
         console.log(req.body);
         for (let i = 0; i < req.body.participants.length; i++) {
             const user = await User.findOne({ apiUserId: req.body.participants[i].userId });
             if (!user) continue;
-            // users.push(user);
             const fileMessage = req.body.file !== "null" && "доступны в деталях встречи на сайте во вкладке График встреч" || "нет";
             const meetingMessage = `
                 <b>${user.name}, вы приглашены на встречу: ${req.body.title}</b>
@@ -112,6 +109,34 @@ app.post('/telegram/calendarEvents', async (req, res) => {
                         ]
                     ]
                 }
+            });
+        }
+        res.send({message: "Success"});
+    } catch (error) {
+        console.log(error); ////////
+        res.status(500).send({ message: 'Telegram Error' })
+    }
+})
+
+// Оповещение участников об отмененной встрече
+app.post('/telegram/delete/calendarEvents', async (req, res) => {
+    try {
+        for (let i = 0; i < req.body.participants.length; i++) {
+            const user = await User.findOne({ apiUserId: req.body.participants[i].userId });
+            if (!user) continue;
+            const fileMessage = req.body.file !== "null" && "доступны в деталях встречи на сайте во вкладке График встреч" || "нет";
+            const meetingMessage = `
+                <b>ВСТРЕЧА ОТМЕНЕНА</b>
+                 \nДата: ${req.body.date}
+                \nВремя: с ${req.body.from} - до ${req.body.to}
+                \nМесто: ${req.body.room}
+                \nОписание: ${req.body.description}
+                \nМатериалы: ${fileMessage} 
+                \nid: ${req.body._id}
+              
+            `
+            await bot.sendMessage(user.chatId, meetingMessage, {
+                parse_mode: 'HTML',
             });
         }
         res.send({message: "Success"});

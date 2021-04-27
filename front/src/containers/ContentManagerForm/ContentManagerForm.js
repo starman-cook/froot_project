@@ -23,10 +23,9 @@ const ContentManagerForm=()=>{
         else{
             dispatch(changeButtonName('Стоп'));
         }  
-    },[amountLinks]);
+    },[amountLinks]); 
 
     const inputHandler = event => {
-        // const {name, value} = event.target;
         dispatch(setNewLinkForCount(event.target.value));
     };
     
@@ -47,32 +46,47 @@ const ContentManagerForm=()=>{
             <a href={link}>{link}</a>
         )
     }
-    
+
     let linksDiv=(
         <div>
             {
-                amountLinks.map(item=>{
+                amountLinks.map((item,i)=>{
                     let stopdate='В процессе';
                     if(item.stopdate){
                         stopdate=`${item.stopdate.slice(0,10)}, ${item.stopdate.slice(11,13)}:${item.stopdate.slice(14,16)}:${item.stopdate.slice(17,19)}`; 
                     }
+                    if(i===0){
+                        return(
+                            <div key={item._id} className='screen-outside'>
+                                {linkOfProductActive(item.url)}
+                                <div className='screen-flex'>
+                                    <h4 className='screen-number'>{amountLinks.length-i}</h4>
+                                    <div>
+                                        <h4>
+                                            First Screen
+                                        </h4>
+                                        {item.startscreen ?  <img src={`${apiURL}/uploads/${item.startscreen}`} alt='first screen' className='screen-shoot'/> : <img src='./no-image.jpeg' alt='first screen' className='screen-shoot'/> }
+                                    </div>
+                                    <div>
+                                        <h4>
+                                            Second Screen
+                                        </h4>
+                                        {item.stopscreen ? <img src={`${apiURL}/uploads/${item.stopscreen}`} alt='second screen' className='screen-shoot'/>: <img src='./no-image.jpeg' alt='second screen' className='screen-shoot'/>}
+                                        
+                                    </div>
+                                    <div>   
+                                        <p> Время начала: <b>{item.startdate.slice(0, 10)}, {item.startdate.slice(11, 13)}:{item.startdate.slice(14, 16)}:{item.startdate.slice(17,19)}</b></p>
+                                        <p> Время окончания: <b>{stopdate}</b></p>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    }
                     return(
-                        <div key={item._id}>
+                        <div key={item._id} className='screen-outside'>
                             {linkOfProductActive(item.url)}
                             <div className='screen-flex'>
-                                <div>
-                                    <h4>
-                                        First Screen
-                                    </h4>
-                                    {item.startscreen ?  <img src={`${apiURL}/uploads/${item.startscreen}`} alt='first screen' className='screen-shoot'/> : <img src='./no-image.jpeg' alt='first screen' className='screen-shoot'/> }
-                                </div>
-                                <div>
-                                    <h4>
-                                        Second Screen
-                                    </h4>
-                                    {item.stopscreen ? <img src={`${apiURL}/uploads/${item.stopscreen}`} alt='second screen' className='screen-shoot'/>: <img src='./no-image.jpeg' alt='second screen' className='screen-shoot'/>}
-                                    
-                                </div>
+                                <h4 className='screen-number'>{amountLinks.length-i}</h4>
                                 <div>   
                                     <p> Время начала: <b>{item.startdate.slice(0, 10)}, {item.startdate.slice(11, 13)}:{item.startdate.slice(14, 16)}:{item.startdate.slice(17,19)}</b></p>
                                     <p> Время окончания: <b>{stopdate}</b></p>
@@ -94,7 +108,6 @@ const ContentManagerForm=()=>{
                     {loading ? <CircularProgress/> :<div></div>}
                 </div>
             </form>
-            
             {linksDiv}
         </>
     )

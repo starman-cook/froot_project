@@ -35,26 +35,29 @@ const createRouter = () => {
         }
     });
     router.get('/', [auth, permit('viewOwnContentlinks')], async (req, res) => {
+        const filter = {
+            user: req.user,
+            startdate: {
+                $gte: moment().format('YYYY-MM-DD')
+            }
+        };
         try {
-            const contentlinks = await Contentlink.find({
-                user: req.user,
-                startdate: {
-                    $gte: moment().format('YYYY-MM-DD')
-                }
-            }).sort('-startdate');
+            const contentlinks = await Contentlink.find(filter).sort('-startdate');
             res.send(contentlinks);
         } catch (error) {
             res.status(500).send(error);
         }
     });
     router.get('/all', [auth, permit('viewAllContentlinks')], async (req, res) => {
+        const filter = {
+            startdate: {
+                $gte: moment().subtract(30, 'day').format('YYYY-MM-DD')
+            }
+        };
         try {
-            const contentlinks = await Contentlink.find({
-                startdate: {
-                    $gte: moment().subtract(30, 'day').format('YYYY-MM-DD')
-                }
-            });
-            res.send(contentlinks);
+            const contentlinks = await Contentlink.find(filter).populate('user', 'surname name workEmail');;
+            const contentlinksByUsers = await helpers.buildContentlinksReportExcelFile(contentlinks);
+            res.send(contentlinksByUsers);
         } catch (error) {
             res.status(500).send(error);
         }

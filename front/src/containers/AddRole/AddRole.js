@@ -79,6 +79,15 @@ const AddRole = () => {
         {name: "deleteBookedMeetingRoom", text: "Удалять резерв переговорки"},
         {name: "viewBookingsMeetingRoom", text: "Просматривать резервы переговорки"}
     ]
+    const rolesForNews = [
+        {name: "addNews", text: "Добавить новость"},
+        {name: "viewAllNews", text: "Просмотреть все новсти"}
+    ]
+    const rolesForContentLinks = [
+        {name: "addContentlink", text: "Создавать новые заявки"},
+        {name: "viewOwnContentlinks", text: "Просматривать заявки за текущую дату (созданные этим пользователем)"},
+        {name: "viewAllContentlinks", text: "Просматривать заявки всех контент менеджеров"}
+    ]
     return (
         <div className="AddRole">
             <div>
@@ -104,6 +113,14 @@ const AddRole = () => {
                                 <label htmlFor={role.name}>{role.text}</label><br/>
                             </div>
                         ))}
+                        <h3>Права по отношению к новостям</h3>
+                        {rolesForNews.map(role => (
+                            <div key={role.name}>
+                                <input type="checkbox" id={role.name} name="role" value={role.name} 
+                                    checked={state.role.includes(role.name) && true} onChange={inputChangeHandler}/>
+                                <label htmlFor={role.name}>{role.text}</label><br/>
+                            </div>
+                        ))}
                     </div>
                     <div className="AddRole__roles-col">
                         <h3>Права по отношению к пользователям</h3>
@@ -116,6 +133,14 @@ const AddRole = () => {
                         ))}
                         <h3>Права по отношению к переговорке</h3>
                         {rolesForMeetingRoom.map(role => (
+                            <div key={role.name}>
+                                <input type="checkbox" id={role.name} name="role" value={role.name} 
+                                    checked={state.role.includes(role.name) && true} onChange={inputChangeHandler}/>
+                                <label htmlFor={role.name}>{role.text}</label><br/>
+                            </div>
+                        ))}
+                        <h3>Права по отношению к контент менеджеру</h3>
+                        {rolesForContentLinks.map(role => (
                             <div key={role.name}>
                                 <input type="checkbox" id={role.name} name="role" value={role.name} 
                                     checked={state.role.includes(role.name) && true} onChange={inputChangeHandler}/>

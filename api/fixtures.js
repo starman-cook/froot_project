@@ -13,6 +13,7 @@ db.once('open', async () => {
         await db.dropCollection('users')
         await db.dropCollection('calendarEvents')
         await db.dropCollection('rooms')
+        await db.dropCollection('contentlinks')
     } catch (e) {
         console.log('Collection were not present, skipping drop...')
     }
@@ -58,7 +59,7 @@ db.once('open', async () => {
         telegramName: "@admin",
         phone: "+7 555 555 55 55",
         password: "12345a",
-        role: ['deleteMeetingRoom', 'addNewMeetingRoom','viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'approvePayment', 'payPayment', 'postponePayment', 'viewToBePaid', 'viewTodayPayments', 'initCancelApprovedPayment', 'cancelApprovedPayment', 'initCancelPayedPayment', 'cancelPayedPayment', 'deletePayment', 'authorizeUser', 'editUser', 'deleteUser', 'viewUsers', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom', 'addContentlink', 'viewOwnContentlinks', 'viewAllContentlinks'],
+        role: ['deleteMeetingRoom', 'addNewMeetingRoom','viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'approvePayment', 'payPayment', 'postponePayment', 'viewToBePaid', 'viewTodayPayments', 'initCancelApprovedPayment', 'cancelApprovedPayment', 'initCancelPayedPayment', 'cancelPayedPayment', 'deletePayment', 'authorizeUser', 'editUser', 'deleteUser', 'viewUsers', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom', 'addContentlink', 'viewOwnContentlinks', 'viewAllContentlinks', 'addNews', 'viewAllNews'],
         token: [nanoid(), nanoid()]
     });
     await Payment.create({

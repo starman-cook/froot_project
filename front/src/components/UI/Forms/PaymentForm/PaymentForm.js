@@ -165,6 +165,7 @@ const PaymentForm = ({ onSubmit, paymentId }) => {
                         required
                         name="image"
                         label="Image"
+                        placeholder="Счет на оплату"
                         onChange={fileChangeHandler}
                     />
                 </div>

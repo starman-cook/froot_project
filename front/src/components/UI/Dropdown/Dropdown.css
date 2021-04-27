@@ -1,0 +1,30 @@
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin: 0 10px;
+}
+.Dropdown__title {
+    padding: 5px;
+    /* min-width: 150px; */
+    /* border: 1px solid gray; */
+    cursor: pointer;
+}
+.Dropdown__content {
+    display: none;
+    position: absolute;
+    margin-top: 5px;
+    list-style: none;
+    background: white;
+    /* min-width: 144px; */
+    border: 1px solid gray;
+    z-index: 1;
+}
+.Dropdown:hover .Dropdown__content {
+    display: block;
+}
+.Dropdown__content-item {
+    padding: 5px 10px;
+}
+.Dropdown__content-item:hover {
+    background: #bbb9b9;
+}

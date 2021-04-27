@@ -1,11 +1,12 @@
-import { CHANGE_BUTTON_NAME, FETCH_CONTENT_LINKS_ERRORS, FETCH_CONTENT_LINKS_FOR_TODAY, SET_LOADING_FALSE, SET_LOADING_TRUE, SET_NEW_LINK_FOR_COUNT } from "../actions/contentActions"
+import { CHANGE_BUTTON_NAME, FETCH_CONTENT_LINKS_ERRORS, FETCH_CONTENT_LINKS_FOR_TODAY, FETCH_CONTENT_REPORTS, SET_LOADING_FALSE, SET_LOADING_TRUE, SET_NEW_LINK_FOR_COUNT } from "../actions/contentActions"
 
 const initialState = {
     contentLinks:[],
     contentErrors:null,
     button:'Старт',
     loading:false,
-    url:''
+    url:'',
+    contentReports:{}
 }
 
 
@@ -23,6 +24,8 @@ const contentReducer = (state = initialState, action) => {
             return {...state, loading:false};
         case SET_NEW_LINK_FOR_COUNT:
             return {...state, url:action.value};
+        case FETCH_CONTENT_REPORTS:
+            return{...state,contentReports:action.value, contentErrors:null}
 
         default:
             return state

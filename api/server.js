@@ -3,12 +3,13 @@ const mongoose = require('mongoose');
 const users = require('./app/users');
 const payments = require('./app/payments');
 const meetings = require('./app/meetings');
+const news = require('./app/news');
 const calendarEvents = require('./app/calendarEvent');
 const contentlinks = require('./app/contentlinks');
 const cors = require('cors');
 const config = require('./app/config');
 const User = require('./app/models/User');
-const mongo = require('./app/db');
+// const mongo = require('./app/db');
 const rooms = require('./app/room')
 
 const app = express();
@@ -34,19 +35,13 @@ const run = async () => {
     app.use('/calendarEvents', calendarEvents)
     app.use('/rooms', rooms)
     app.use('/contentlinks', contentlinks());
+    app.use('/news', news());
 
     app.listen(port, () => {
         console.log(`Server started on port ${port}!`)
     })
     console.log('Mongoose connected!'); //добавлено для демо
 
-    // const db = mongoose.connection;
-    // db.once('open', async () => {
-    //     try {
-    //         await db.dropCollection('users');
-    //     } catch (e) {
-    //         console.log('Collection were not present, skipping drop...')
-    //     }
     const admin=await User.findOne({workEmail: "admin@admin.com"});
     if(!admin){
         await User.create({
@@ -63,9 +58,7 @@ const run = async () => {
         });
         console.log('fixtures connected');    
     }
-        
-    // })
-    // module.exports =app;
+
 
 };
 run().catch(console.log);

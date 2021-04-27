@@ -24,7 +24,7 @@ export const config = {
     uploadPath: `${__dirname}/public/images`,
     // localApiUrl: "http://localhost:" + apiPort,
     // imagePathFromApi: 'http://localhost:' + apiPort,
-    imagePathFromApi: `http://${baseUrlForBackend}:` + apiPort,
+    imagePathFromApi: `http://${baseUrlForBackend}:` + apiPort, //docker
     localApiUrl: `http://${baseUrlForBackend}:` + apiPort, //docker
     telegramToken: "1688455909:AAG6JNSW5JfBA8Z5JrkS22EbnbJPuZk1SpI", //@FrootNotify
     // telegramToken: "1786540893:AAGlvXIiohO_NYDER4v5hft8r4aBvZwt0hc", //@TestingFrootBot

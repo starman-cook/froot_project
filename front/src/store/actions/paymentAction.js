@@ -103,7 +103,6 @@ export const fetchPaymentById = (id) => {
 };
 
 export const createPayment = (payment) => {
-  console.log("payment", payment)
   return async (dispatch) => {
     try {
       await axiosApi.post("/payments", payment);

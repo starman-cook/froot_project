@@ -107,7 +107,7 @@ const Account = ({ registry, payments, approve, cancelApprove, pay, cancelPay, s
           ))}
         </tbody>
       </table>
-      {showModal.show && <Modal show={showModal.show} src={showModal.src} close={closeModal} />}
+      {showModal.show && <Modal src={showModal.src} close={closeModal} />}
     </>
   );
 };

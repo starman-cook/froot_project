@@ -1,17 +1,19 @@
 .Modal {
-    position: fixed;
     z-index: 500;
-    background-color: white;
-    width: 80%;
     border: 1px solid #ccc;
+    background-color: white;
     box-shadow: 1px 1px 1px black;
-    padding: 16px;
-    left: 10%;
-    top: 10%;
-    box-sizing: border-box;
+    margin: 50px 0;
     text-align: center;
     transition: all 0.3s ease-out;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
-.Modal > img {
-    width: 50%;
+.Modal__container {
+    padding: 20px;
+}
+.Modal__content {
+    padding: 20px 0;
 }

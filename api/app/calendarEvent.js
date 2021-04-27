@@ -125,14 +125,20 @@ router.get('/:room/:date/daily', async (req, res) => {
 })
 
 router.delete('/:id', async (req, res) => {
-    // add send new info to all the participants that the meeting has been canceled
     try {
+        const event = await CalendarEvent.findById(req.params.id)
+        try{
+            axios.post(config.baseUrlForTelegram + ':8001/telegram/delete/calendarEvents', event);
+        } catch (err) {
+            console.log(err)
+        }
         await CalendarEvent.findByIdAndRemove(req.params.id)
         res.send({message: "Success"})
     } catch (err) {
         res.status(500).send({error: err})
     }
 })
+
 
 router.get('/:id/accept', auth, async (req, res) => {
     try {

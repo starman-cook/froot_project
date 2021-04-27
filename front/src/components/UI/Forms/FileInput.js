@@ -1,7 +1,8 @@
 import React, { useRef, useState } from "react";
+import ButtonWhite from "../Buttons/ButtonWhite/ButtonWhite";
 import "./FileInput.css"
 
-const FileInput = ({ name, label, onChange }) => {
+const FileInput = ({ name, label, placeholder, onChange }) => {
   const inputRef = useRef();
   const [filename, setFilename] = useState("");
 
@@ -27,15 +28,13 @@ const FileInput = ({ name, label, onChange }) => {
         ref={inputRef}
       />
       <input className="FileInput__input"
-        placeholder="Счет на оплату"
+        placeholder={placeholder}
         disabled
         label={label}
         value={filename}
         onClick={activateInput}
       />
-      <button className="FileInput__btn" type="button" onClick={activateInput}>
-        Загрузить файл
-      </button>
+      <ButtonWhite text="Загрузить файл" type="button" onClickHandler={activateInput}/>
     </>
   );
 };

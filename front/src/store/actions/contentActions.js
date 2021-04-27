@@ -11,6 +11,8 @@ export const SET_LOADING_FALSE='SET_LOADING_FALSE';
 
 export const SET_NEW_LINK_FOR_COUNT='SET_NEW_LINK_FOR_COUNT';
 
+export const FETCH_CONTENT_REPORTS='FETCH_CONTENT_REPORTS';
+
 export const fetchContentLinksSuccess=value=>({type:FETCH_CONTENT_LINKS_FOR_TODAY,value});
 export const fetchContentLinksFail=error=>({type:FETCH_CONTENT_LINKS_ERRORS,error});
 
@@ -45,3 +47,25 @@ export const setLoadingTrue=()=>({type:SET_LOADING_TRUE});
 export const setLoadingFalse=()=>({type:SET_LOADING_FALSE});
 
 export const setNewLinkForCount=value=>({type:SET_NEW_LINK_FOR_COUNT,value});
+
+export const fetchContentReportsSuccess=value=>({type:FETCH_CONTENT_REPORTS,value});
+
+export const fetchContentReports=()=>{
+    return async dispatch=>{
+        try{
+            const resp=await axiosApi.get('/contentlinks/all');
+            // const array=[];
+            // for (let i in resp.data){
+            //     const newReport={
+            //         _id:Object.keys(resp.data).find(key =>resp.data[key] === resp.data[i]),
+            //         options:resp.data[i]
+            //     }
+            //     array.push(newReport)
+            // }
+            dispatch(fetchContentReportsSuccess(resp.data));
+        }
+        catch(e){
+            dispatch(fetchContentLinksFail(e));
+        }
+    }
+}

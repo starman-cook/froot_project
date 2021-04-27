@@ -8,6 +8,7 @@ import usersReducer from "./reducers/usersReducer";
 import meetingReducer from "./reducers/meetingReducer";
 import calendarReducer from "./reducers/calendarReducer";
 import contentReducer from "./reducers/contentReducer";
+import newsReducer from "./reducers/newsReducer";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const history = createBrowserHistory();
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   meetings:meetingReducer,
   calendarEvents: calendarReducer,
   contentLinks:contentReducer,
+  news: newsReducer,
   router: connectRouter(history),
 });
 
