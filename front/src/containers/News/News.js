@@ -42,10 +42,10 @@ const News = () => {
     };
 
     // для изменения статуса
-    const changeStatusHandler = (e, newsId) => {
+    const changeStatusHandler = async (e, newsId) => {
         const status = e.target.innerHTML        
-        dispatch(fetchChangeStatus(newsId, status));
-        dispatch(fetchNews());
+        await dispatch(fetchChangeStatus(newsId, status));
+        await dispatch(fetchNews());
       };
 
     // для модалки: добавление новости
