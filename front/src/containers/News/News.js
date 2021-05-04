@@ -58,7 +58,6 @@ const News = () => {
     const closeModal = () => {
         setShowModal({ show: false })
     }
-    const today = moment().format('DD-MM-YYYY') 
     const modalBody = <>
         <h3>Добавьте карту ввода или вывода</h3>
         <form 
@@ -76,6 +75,8 @@ const News = () => {
             <ButtonPink text="Добавить" /> 
         </form>
         </>
+    const today = moment().format('DD-MM-YYYY') 
+    
     let statuses = ['Не сделано', 'В работе', 'Сделано']
     
     return (
@@ -117,8 +118,7 @@ const News = () => {
                                     dropdownTitle = {newsItem.status}
                                     dropdownContents = {statuses.filter(s => String(s) !== String(newsItem.status)) }
                                     changeContentHandler = {(e, )=>changeStatusHandler(e, newsItem._id)}/> : newsItem.status}
-                            </td>
-                           
+                            </td>                           
                         </tr>))}
                 </tbody>  
             </table>                                     
