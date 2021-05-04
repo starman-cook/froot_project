@@ -29,7 +29,7 @@ const createRouter = () => {
     });
     router.get('/', auth, async (req, res) => {
         try {
-            const news = await News.find().populate("user");
+            const news = await News.find().populate(["user", "contentManager"]);
             res.send(news);
         } catch (e) {
             res.status(500).send(e);
@@ -38,7 +38,16 @@ const createRouter = () => {
     router.get('/:id/:status', auth, async (req, res) => {
         try {
             const newsItem = await News.findById(req.params.id)
-            newsItem.status = req.params.status
+            if(!newsItem.contentManager || (newsItem.contentManager && String(newsItem.contentManager._id) === String(req.user._id))) {
+                newsItem.status = req.params.status
+            }else {
+                return res.send({message: 'Вы не можете изменить статус данной новости'})
+            }
+            if(String(newsItem.status) === 'Не сделано') {
+                newsItem.contentManager = null
+            }else{
+                newsItem.contentManager = req.user._id
+            }
             await newsItem.save();
             res.send(newsItem);
         } catch (error) {

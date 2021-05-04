@@ -16,6 +16,10 @@ const NewsSchema = new Schema({
     createDate: {
         type: String 
     },
+    contentManager: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    },
     status: {
         type: String,
         required: true,

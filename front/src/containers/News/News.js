@@ -82,7 +82,7 @@ const News = () => {
         <>
             <div className="News flex-space">
                 <h2 >Сегодня: {today} </h2>
-                <ButtonPink text="Добавить" onClickHandler={openModal}/>   
+                {user && user.role.includes('addNews') && <ButtonPink text="Добавить" onClickHandler={openModal}/>}   
             </div>                     
             {showModal.show && <Modal className="News__modal" 
                                     body={modalBody} 
@@ -110,13 +110,14 @@ const News = () => {
                                 {newsItem.user && newsItem.user.surname + " " + newsItem.user.name}
                                 </td>
                             <td>
-                                {user && user.role.includes('viewAllNews') && user.surname + " " + user.name}
+                                {user && user.role.includes('viewAllNews') && newsItem.contentManager? newsItem.contentManager.surname + " " + newsItem.contentManager.name : null}
                                 </td>
-                            {user && user.role.includes('viewAllNews') && <td>
+                            <td>{user && user.role.includes('changeStatusNews')?  
                                 <Dropdown 
                                     dropdownTitle = {newsItem.status}
                                     dropdownContents = {statuses.filter(s => String(s) !== String(newsItem.status)) }
-                                    changeContentHandler = {(e, )=>changeStatusHandler(e, newsItem._id)}/></td>}
+                                    changeContentHandler = {(e, )=>changeStatusHandler(e, newsItem._id)}/> : newsItem.status}
+                            </td>
                            
                         </tr>))}
                 </tbody>  

@@ -81,7 +81,8 @@ const AddRole = () => {
     ]
     const rolesForNews = [
         {name: "addNews", text: "Добавить новость"},
-        {name: "viewAllNews", text: "Просмотреть все новсти"}
+        {name: "viewAllNews", text: "Просмотреть все новости"},
+        {name: "changeStatusNews", text: "Поменять статус новости"}
     ]
     const rolesForContentLinks = [
         {name: "addContentlink", text: "Создавать новые заявки"},
