@@ -65,17 +65,27 @@ module.exports = {
     },
 
     screenshot: async (url, name) => {
-        const browser = await puppeteer.launch();
-        const device_width = 1920;
-        const device_height = 1080;
-        const page = await browser.newPage();
-        await page.setViewport({ width: device_width, height: device_height })
-        await page.goto(url, { waitUntil: 'domcontentloaded' });
-        await page.screenshot({
-            fullPage: true,
-            path: `./public/uploads/${name}`
-        });
-        await browser.close();
+       try{
+            const browser = await puppeteer.launch(
+                {
+                    headless: true,
+                    args: ['--no-sandbox']
+                 }
+            );
+            const device_width = 1920;
+            const device_height = 1080;
+            const page = await browser.newPage();
+            await page.setViewport({ width: device_width, height: device_height })
+            await page.goto(url, { waitUntil: 'domcontentloaded' });
+            await page.screenshot({
+                fullPage: true,
+                path: `./public/uploads/${name}`
+            });
+            await browser.close();
+       }
+       catch(e){
+           console.log(e);
+       }
     },
 
     buildContentlinksReportExcelFile: async (contentlinks) => {
@@ -172,7 +182,7 @@ module.exports = {
             });
         };
 
-        const filename = 'ContentReport_' + moment().format('DD-MM-YYYY-HH-mm-ss') + '.xlsx';
+        const filename = 'ContentReport_' + moment().format('DD-MM-YYYY') + '.xlsx';
         await workbook.xlsx.writeFile('./public/files/' + filename);
 
         return usersObj;

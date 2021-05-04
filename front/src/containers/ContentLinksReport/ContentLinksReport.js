@@ -47,7 +47,7 @@ const ContenLinksReport=()=>{
             }
         </div>
     )
-    const src=(apiURL+'/files/ContentReport_' + moment().format('DD-MM-YYYY-HH-mm-ss') + '.xlsx')
+    const src=(apiURL+'/files/ContentReport_' + moment().format('DD-MM-YYYY') + '.xlsx')
     return(
         <>
             <a href={src} download>Download Report</a>
