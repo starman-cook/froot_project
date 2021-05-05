@@ -34,10 +34,10 @@ const AddRole = () => {
     const checkStatus = (name) => {
         console.log(name);
         const roleCopy = [...state.role];
-        if ((name === 'payPayment' || name === 'initCancelPayedPayment' || name === 'cancelPayedPayment') && roleCopy.includes('approvePayment')) {
+        if ((name === 'payPayment' || name === 'initCancelPayedPayment' || name === 'cancelPayedPayment') && (roleCopy.includes('approvePayment') || roleCopy.includes('initCancelApprovedPayment') || roleCopy.includes('cancelApprovedPayment'))) {
             return true
         }
-        if ((name === 'approvePayment' || name === 'initCancelApprovedPayment' || name === 'cancelApprovedPayment') && roleCopy.includes('payPayment')) {
+        if ((name === 'approvePayment' || name === 'initCancelApprovedPayment' || name === 'cancelApprovedPayment') && (roleCopy.includes('payPayment') || roleCopy.includes('initCancelPayedPayment') || roleCopy.includes('cancelPayedPayment'))) {
             return true
         }
         return false
