@@ -19,7 +19,6 @@ const AddRole = () => {
         workEmail: "",
         phone: "",
       });
-    //   const [checkDirector, setCheckDirector] = useState(false);
     useEffect(() => {
         dispatch(fetchUserByID(id)).then(stateData=> {
             let stateCopy = {};
@@ -30,9 +29,7 @@ const AddRole = () => {
         });
     }, [dispatch]);
 
-
     const checkStatus = (name) => {
-        console.log(name);
         const roleCopy = [...state.role];
         if ((name === 'payPayment' || name === 'initCancelPayedPayment' || name === 'cancelPayedPayment') && (roleCopy.includes('approvePayment') || roleCopy.includes('initCancelApprovedPayment') || roleCopy.includes('cancelApprovedPayment'))) {
             return true
@@ -46,20 +43,6 @@ const AddRole = () => {
         console.log(event.target);
         const role = event.target.value
         const roleCopy = [...state.role];
-     
-        // const director = ['approvePayment', 'initCancelApprovedPayment', 'cancelApprovedPayment'];
-        // if (director.includes(role)) {
-        //     console.log(1);
-        //     const disabled = document.getElementById('payPayment');
-        //         if (document.getElementById('approvePayment').checked) {
-        //             console.log(2);
-        //         disabled.setAttribute('disabled', true);
-        //         }
-        //         else {
-        //             console.log(3);
-        //             disabled.setAttribute('disabled', '')
-        //         }
-        //     }
         
         if(roleCopy.includes(role)) {
             const index = roleCopy.indexOf(role);
@@ -77,8 +60,6 @@ const AddRole = () => {
                 return {...prevState, role: roleCopy}
             }); 
         }
-
-
     };
 
     const submitFormHandler = event => {
