@@ -19,6 +19,7 @@ const AddRole = () => {
         workEmail: "",
         phone: "",
       });
+    //   const [checkDirector, setCheckDirector] = useState(false);
     useEffect(() => {
         dispatch(fetchUserByID(id)).then(stateData=> {
             let stateCopy = {};
@@ -29,23 +30,55 @@ const AddRole = () => {
         });
     }, [dispatch]);
 
+
+    const checkStatus = (name) => {
+        console.log(name);
+        const roleCopy = [...state.role];
+        if ((name === 'payPayment' || name === 'initCancelPayedPayment' || name === 'cancelPayedPayment') && roleCopy.includes('approvePayment')) {
+            return true
+        }
+        if ((name === 'approvePayment' || name === 'initCancelApprovedPayment' || name === 'cancelApprovedPayment') && roleCopy.includes('payPayment')) {
+            return true
+        }
+        return false
+    }
     const inputChangeHandler = event => {
+        console.log(event.target);
         const role = event.target.value
         const roleCopy = [...state.role];
+     
+        // const director = ['approvePayment', 'initCancelApprovedPayment', 'cancelApprovedPayment'];
+        // if (director.includes(role)) {
+        //     console.log(1);
+        //     const disabled = document.getElementById('payPayment');
+        //         if (document.getElementById('approvePayment').checked) {
+        //             console.log(2);
+        //         disabled.setAttribute('disabled', true);
+        //         }
+        //         else {
+        //             console.log(3);
+        //             disabled.setAttribute('disabled', '')
+        //         }
+        //     }
+        
         if(roleCopy.includes(role)) {
             const index = roleCopy.indexOf(role);
             if (index > -1) {
                 roleCopy.splice(index, 1);
+
             }
             setState(prevState => {
                 return {...prevState, role: roleCopy}
             }); 
         }else {
             roleCopy.push(role)
+
             setState(prevState => {
                 return {...prevState, role: roleCopy}
             }); 
         }
+
+
     };
 
     const submitFormHandler = event => {
@@ -109,7 +142,7 @@ const AddRole = () => {
                         {rolesForPayment.map((role,index) => (
                             <div key={role.name}>
                                 <input type="checkbox" id={role.name} name="role" value={role.name} 
-                                    checked={state.role.includes(role.name)? true : false} onChange={(e) => inputChangeHandler(e)}/>
+                                    checked={state.role.includes(role.name)} disabled={checkStatus(role.name)} onChange={(e) => inputChangeHandler(e)}/>
                                 <label htmlFor={role.name}>{role.text}</label><br/>
                             </div>
                         ))}
