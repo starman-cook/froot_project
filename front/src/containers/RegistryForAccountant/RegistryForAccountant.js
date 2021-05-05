@@ -134,7 +134,7 @@ const RegistryForAccountant = () => {
           <a
             className="RegistryForAccountant__downloads-btn"
             download
-            href={"http://localhost:8000/files/" + today + ".xlsx"}
+            href={apiURL+"/files/" + today + ".xlsx"}
           >
             Формирование Excell
           </a>
