@@ -13,6 +13,8 @@ export const SET_NEW_LINK_FOR_COUNT='SET_NEW_LINK_FOR_COUNT';
 
 export const FETCH_CONTENT_REPORTS='FETCH_CONTENT_REPORTS';
 
+export const SET_NEW_MERCHENT_FOR_CONTENTLINKS='SET_NEW_MERCHENT_FOR_CONTENTLINKS';
+
 export const fetchContentLinksSuccess=value=>({type:FETCH_CONTENT_LINKS_FOR_TODAY,value});
 export const fetchContentLinksFail=error=>({type:FETCH_CONTENT_LINKS_ERRORS,error});
 
@@ -69,3 +71,5 @@ export const fetchContentReports=()=>{
         }
     }
 }
+
+export const setNewMerchentForContent=value=>({type:SET_NEW_MERCHENT_FOR_CONTENTLINKS,value});

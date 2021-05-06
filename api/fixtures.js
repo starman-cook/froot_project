@@ -11,7 +11,7 @@ db.once('open', async () => {
     try {
         await db.dropCollection('payments')
         await db.dropCollection('users')
-        await db.dropCollection('calendarEvents')
+        // await db.dropCollection('calendarEvents')
         await db.dropCollection('rooms')
         await db.dropCollection('contentlinks')
     } catch (e) {

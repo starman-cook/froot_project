@@ -19,22 +19,32 @@ const ContenLinksReport=()=>{
     const reportsDiv=(
         <div>
             {
-                array.map(item=>{
+                array.map((item, i)=>{
                     const userContentlinks=item.userContentlinks;
                     return(
-                        <div key={Math.random()}>
+                        <div key={i}>
                             <h3>{item.userData.name}, {item.userData.workEmail}</h3>
                             {
-                                userContentlinks.map((i,n)=>{
-                                    const hour=i.stopdate.slice(11,13)-i.startdate.slice(11,13);
-                                    const minute=i.stopdate.slice(14,16)-i.startdate.slice(14,16);
+                                userContentlinks.map((n,i)=>{
+                                    const dif = new Date(n.stopdate).valueOf() - new Date(n.startdate).valueOf()
 
+                                    const hour=Math.floor(dif / 3600000)
+                                    const minute=Math.floor(dif / 60000)
+                                    const seconds = dif % 60000 / 1000
+                                    // console.log(new Date(i.startdate).valueOf())
+                                    // console.log(new Date(i.stopdate).valueOf())
+                                    // const dif = new Date(i.stopdate).valueOf() - new Date(i.startdate).valueOf()
+                                    // console.log())
+
+
+
+                                    // const seconds = i.stopdate.slice(17,19)-i.startdate.slice(17,19)
                                     return(
-                                        <div>
-                                            <h4>{n+1}</h4>
+                                        <div key={i}>
+                                            <h4>{i+1}</h4>
                                             <div>
-                                                <a href={i.url}>{i.url}</a>
-                                                <p>Время: {hour>0 ? hour+' часов, ' : ' '} {minute>0 ? minute+' минут,':' '} {i.stopdate.slice(17,19)-i.startdate.slice(17,19)} секунд</p>
+                                                <a href={n.url}>{n.url}</a>
+                                                <p>Время: {hour>0 ? hour+' часов, ' : ' '} {minute>0 ? minute+' минут,':' '} {seconds}  секунд</p>
                                             </div>
                                         </div>
                                     )

@@ -9,6 +9,10 @@ const ContentlinkSchema = new Schema({
         type: String,
         required: true
     },
+    merchent:{
+        type: String,
+        required: true
+    },
     startdate: {
         type: String,
     },

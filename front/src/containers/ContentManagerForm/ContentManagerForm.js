@@ -1,6 +1,6 @@
 import React, { useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContentLink, changeButtonName, fetchContentLinks, setLoadingFalse, setLoadingTrue, setNewLinkForCount } from '../../store/actions/contentActions';
+import { addContentLink, changeButtonName, fetchContentLinks, setLoadingFalse, setLoadingTrue, setNewLinkForCount, setNewMerchentForContent } from '../../store/actions/contentActions';
 import './ContentManagerForm.css';
 import {apiURL} from '../../config';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -8,7 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 const ContentManagerForm=()=>{
     const dispatch=useDispatch();
     const amountLinks=useSelector(state=>state.contentLinks.contentLinks);
-    const {button,loading,url}=useSelector(state=>state.contentLinks);
+    const {button,loading,url,merchent}=useSelector(state=>state.contentLinks);
 
     useEffect(()=>{
         dispatch(fetchContentLinks());
@@ -25,15 +25,22 @@ const ContentManagerForm=()=>{
         }  
     },[amountLinks]); 
 
-    const inputHandler = event => {
-        dispatch(setNewLinkForCount(event.target.value));
+    const inputHandler = e => {
+        const { name, value } = e.target;
+        if(name==='url'){
+            dispatch(setNewLinkForCount(value));
+        }
+        else if(name==='merchent'){
+            dispatch(setNewMerchentForContent(value));
+        }
+        
     };
     
     const formSubmitHandler = async event => {
         
         event.preventDefault();
         dispatch(setLoadingTrue());
-        await dispatch(addContentLink({url}));
+        await dispatch(addContentLink({url,merchent}));
        
         if(button==='Стоп'){
             dispatch(setNewLinkForCount(''));
@@ -103,6 +110,7 @@ const ContentManagerForm=()=>{
         <>
             <form onSubmit={formSubmitHandler}>
                 <input type='text'value={url} className='screen-input' placeholder='Введите ссылку на редактируемый продукт' name='url' onChange={(e)=>inputHandler(e)}/>
+                <input type='text'value={merchent} className='screen-input' placeholder='Введите Мерчента' name='merchent' onChange={(e)=>inputHandler(e)}/>
                 <div className='counter-form-inside'>
                     <button type='submit' className='btn'>{button}</button>
                     {loading ? <CircularProgress/> :<div></div>}
