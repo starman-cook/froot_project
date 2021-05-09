@@ -38,7 +38,7 @@ Deploy to dev:
         - pm2 stop api && pm2 delete api
         - pm2 stop front && pm2 delete front
         - pm2 stop bot && pm2 delete bot
-        - cd ./api && npm install
+        - cd ./api && npm install && npm run seed
         - pm2 start --name api npm -- start
         - cd ../front && npm install
         - pm2 start --name front npm -- start
