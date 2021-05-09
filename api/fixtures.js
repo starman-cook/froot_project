@@ -17,78 +17,78 @@ db.once('open', async () => {
     } catch (e) {
         console.log('Collection were not present, skipping drop...')
     }
-    const [user, accountant] = await User.create({
-        workEmail: "user@user.com",
-        surname: "Иванов",
-        name: "Иван",
-        patronymic: "Иванович",
-        position: "менеджер",
-        telegramName: "@IvanIvanov",
-        phone: "+7 777 77 77 77",
-        password: "12345a",
-        role: ['viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'initCancelApprovedPayment', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom', 'addContentlink', 'viewOwnContentlinks'],
-        token: [nanoid(), nanoid()]
-    }, {
-        workEmail: "accountant@accountant.com",
-        surname: "Петрова",
-        name: "Ольга",
-        patronymic: "Петровна",
-        position: "бухгалтер",
-        telegramName: "@OlgaPetrova",
-        phone: "+7 555 555 55 55",
-        password: "12345a",
-        role: ['viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'payPayment', 'viewToBePaid', 'viewTodayPayments', 'initCancelApprovedPayment', 'initCancelPayedPayment', 'cancelPayedPayment', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom'],
-        token: [nanoid(), nanoid()]
-    }, {
-        workEmail: "director@director.com",
-        surname: "Директор",
-        name: "Директор",
-        patronymic: "Директор",
-        position: "директор",
-        telegramName: "@director",
-        phone: "+7 555 555 55 55",
-        password: "12345a",
-        role: ['viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'approvePayment', 'postponePayment', 'viewTodayPayments', 'initCancelApprovedPayment', 'cancelApprovedPayment', 'initCancelPayedPayment', 'deletePayment', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom', 'addContentlink', 'viewOwnContentlinks', 'viewAllContentlinks'],
-        token: [nanoid(), nanoid()]
-    }, {
-        workEmail: "admin@admin.com",
-        surname: "Admin",
-        name: "Admin",
-        patronymic: "Admin",
-        position: "admin",
-        telegramName: "@admin",
-        phone: "+7 555 555 55 55",
-        password: "12345a",
-        role: ['deleteMeetingRoom', 'addNewMeetingRoom','viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'approvePayment', 'payPayment', 'postponePayment', 'viewToBePaid', 'viewTodayPayments', 'initCancelApprovedPayment', 'cancelApprovedPayment', 'initCancelPayedPayment', 'cancelPayedPayment', 'deletePayment', 'authorizeUser', 'editUser', 'deleteUser', 'viewUsers', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom', 'addContentlink', 'viewOwnContentlinks', 'viewAllContentlinks', 'addNews', 'viewAllNews'],
-        token: [nanoid(), nanoid()]
-    });
-    await Payment.create({
-        user: user,
-        paided: false,
-        approved: false,
-        repeatability: false,
-        purpose: "за товар",
-        payer: "Froot_Middle_Asia",
-        invoice: "1",
-        sum: "200000",
-        dateOfPayment: "2021-02-27",
-        contractor: "P&G",
-        priority: "важный",
-        image: "invoice.jpg",
-    }, {
-        user: accountant,
-        paided: false,
-        approved: false,
-        repeatability: false,
-        purpose: "за товар",
-        payer: "Froot_Middle_Asia",
-        invoice: "2",
-        sum: "100000",
-        dateOfPayment: "2021-03-01",
-        contractor: "BAT",
-        priority: "важный",
-        image: "invoice.jpg",
-    })
+    // const [user, accountant] = await User.create({
+    //     workEmail: "user@user.com",
+    //     surname: "Иванов",
+    //     name: "Иван",
+    //     patronymic: "Иванович",
+    //     position: "менеджер",
+    //     telegramName: "@IvanIvanov",
+    //     phone: "+7 777 77 77 77",
+    //     password: "12345a",
+    //     role: ['viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'initCancelApprovedPayment', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom', 'addContentlink', 'viewOwnContentlinks'],
+    //     token: [nanoid(), nanoid()]
+    // }, {
+    //     workEmail: "accountant@accountant.com",
+    //     surname: "Петрова",
+    //     name: "Ольга",
+    //     patronymic: "Петровна",
+    //     position: "бухгалтер",
+    //     telegramName: "@OlgaPetrova",
+    //     phone: "+7 555 555 55 55",
+    //     password: "12345a",
+    //     role: ['viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'payPayment', 'viewToBePaid', 'viewTodayPayments', 'initCancelApprovedPayment', 'initCancelPayedPayment', 'cancelPayedPayment', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom'],
+    //     token: [nanoid(), nanoid()]
+    // }, {
+    //     workEmail: "director@director.com",
+    //     surname: "Директор",
+    //     name: "Директор",
+    //     patronymic: "Директор",
+    //     position: "директор",
+    //     telegramName: "@director",
+    //     phone: "+7 555 555 55 55",
+    //     password: "12345a",
+    //     role: ['viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'approvePayment', 'postponePayment', 'viewTodayPayments', 'initCancelApprovedPayment', 'cancelApprovedPayment', 'initCancelPayedPayment', 'deletePayment', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom', 'addContentlink', 'viewOwnContentlinks', 'viewAllContentlinks'],
+    //     token: [nanoid(), nanoid()]
+    // }, {
+    //     workEmail: "admin@admin.com",
+    //     surname: "Admin",
+    //     name: "Admin",
+    //     patronymic: "Admin",
+    //     position: "admin",
+    //     telegramName: "@admin",
+    //     phone: "+7 555 555 55 55",
+    //     password: "12345a",
+    //     role: ['deleteMeetingRoom', 'addNewMeetingRoom','viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'approvePayment', 'payPayment', 'postponePayment', 'viewToBePaid', 'viewTodayPayments', 'initCancelApprovedPayment', 'cancelApprovedPayment', 'initCancelPayedPayment', 'cancelPayedPayment', 'deletePayment', 'authorizeUser', 'editUser', 'deleteUser', 'viewUsers', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom', 'addContentlink', 'viewOwnContentlinks', 'viewAllContentlinks', 'addNews', 'viewAllNews'],
+    //     token: [nanoid(), nanoid()]
+    // });
+    // await Payment.create({
+    //     user: user,
+    //     paided: false,
+    //     approved: false,
+    //     repeatability: false,
+    //     purpose: "за товар",
+    //     payer: "Froot_Middle_Asia",
+    //     invoice: "1",
+    //     sum: "200000",
+    //     dateOfPayment: "2021-02-27",
+    //     contractor: "P&G",
+    //     priority: "важный",
+    //     image: "invoice.jpg",
+    // }, {
+    //     user: accountant,
+    //     paided: false,
+    //     approved: false,
+    //     repeatability: false,
+    //     purpose: "за товар",
+    //     payer: "Froot_Middle_Asia",
+    //     invoice: "2",
+    //     sum: "100000",
+    //     dateOfPayment: "2021-03-01",
+    //     contractor: "BAT",
+    //     priority: "важный",
+    //     image: "invoice.jpg",
+    // })
     await Room.create({
         room: "1"
     }, {
