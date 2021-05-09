@@ -23,6 +23,7 @@ const ContenLinksReport=()=>{
                     const userContentlinks=item.userContentlinks;
                     return(
                         <div key={i}>
+                            <hr/>
                             <h3>{item.userData.name}, {item.userData.workEmail}</h3>
                             {
                                 userContentlinks.map((n,i)=>{
@@ -31,20 +32,14 @@ const ContenLinksReport=()=>{
                                     const hour=Math.floor(dif / 3600000)
                                     const minute=Math.floor(dif / 60000)
                                     const seconds = dif % 60000 / 1000
-                                    // console.log(new Date(i.startdate).valueOf())
-                                    // console.log(new Date(i.stopdate).valueOf())
-                                    // const dif = new Date(i.stopdate).valueOf() - new Date(i.startdate).valueOf()
-                                    // console.log())
-
-
-
-                                    // const seconds = i.stopdate.slice(17,19)-i.startdate.slice(17,19)
+                                    
                                     return(
                                         <div key={i}>
                                             <h4>{i+1}</h4>
                                             <div>
                                                 <a href={n.url}>{n.url}</a>
                                                 <p>Время: {hour>0 ? hour+' часов, ' : ' '} {minute>0 ? minute+' минут,':' '} {seconds}  секунд</p>
+                                                <p>Мерчент: <b>{n.merchent}</b> </p>
                                             </div>
                                         </div>
                                     )

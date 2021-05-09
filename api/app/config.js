@@ -26,6 +26,6 @@ module.exports = {
         // url: 'mongodb://104.248.198.29',
     },
     //11 baseUrlForTelegram: 'http://'+process.env.BOT_HOST,  //docker
-    baseUrlForTelegram: 'http://localhost'
+    baseUrlForTelegram: process.env.BOT_HOST? 'http://'+process.env.BOT_HOST : 'http://localhost'
 };
 

@@ -84,6 +84,7 @@ const ContentManagerForm=()=>{
                                     <div>   
                                         <p> Время начала: <b>{item.startdate.slice(0, 10)}, {item.startdate.slice(11, 13)}:{item.startdate.slice(14, 16)}:{item.startdate.slice(17,19)}</b></p>
                                         <p> Время окончания: <b>{stopdate}</b></p>
+                                        <p>Мерчент: <b>{item.merchent}</b> </p>
                                     </div>
                                 </div>
                             </div>
@@ -97,6 +98,7 @@ const ContentManagerForm=()=>{
                                 <div>   
                                     <p> Время начала: <b>{item.startdate.slice(0, 10)}, {item.startdate.slice(11, 13)}:{item.startdate.slice(14, 16)}:{item.startdate.slice(17,19)}</b></p>
                                     <p> Время окончания: <b>{stopdate}</b></p>
+                                    <p>Мерчент: <b>{item.merchent}</b> </p>
                                 </div>
                             </div>
                         </div>
