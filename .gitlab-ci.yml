@@ -35,6 +35,7 @@ Deploy to dev:
         # - docker rmi esdp-telegram-1 esdp-frontend-1 esdp-backend-1
         # - cd ./docker
         # - docker-compose up --build -d
+        - ls
         - echo 'deploy success'
     only:
         - test-deploy
