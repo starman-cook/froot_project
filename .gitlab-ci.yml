@@ -44,10 +44,10 @@ Deploy to dev:
         - cd ./api
         - npm install
         - pm2 start --name api npm -- start
-        - cd ./front
+        - cd ../front
         - npm install
         - pm2 start --name front npm -- start
-        - cd ./telegram
+        - cd ../telegram
         - npm install
         - pm2 start --name bot npm -- start
         - echo 'deploy success'
