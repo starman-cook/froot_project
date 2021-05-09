@@ -35,20 +35,14 @@ Deploy to dev:
         # - docker rmi esdp-telegram-1 esdp-frontend-1 esdp-backend-1
         # - cd ./docker
         # - docker-compose up --build -d
-        - pm2 stop api
-        - pm2 delete api
-        - pm2 stop front
-        - pm2 delete front
-        - pm2 stop bot 
-        - pm2 delete bot
-        - cd ./api
-        - npm install
+        - pm2 stop api && pm2 delete api
+        - pm2 stop front && pm2 delete front
+        - pm2 stop bot && pm2 delete bot
+        - cd ./api && npm install
         - pm2 start --name api npm -- start
-        - cd ../front
-        - npm install
+        - cd ../front && npm install
         - pm2 start --name front npm -- start
-        - cd ../telegram
-        - npm install
+        - cd ../telegram && npm install
         - pm2 start --name bot npm -- start
         - echo 'deploy success'
     only:
