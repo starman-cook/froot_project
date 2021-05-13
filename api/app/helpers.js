@@ -65,12 +65,12 @@ module.exports = {
     },
 
     screenshot: async (url, name) => {
-       try{
+        try {
             const browser = await puppeteer.launch(
                 {
                     headless: true,
                     args: ['--no-sandbox']
-                 }
+                }
             );
             const device_width = 1920;
             const device_height = 1080;
@@ -82,10 +82,10 @@ module.exports = {
                 path: `./public/uploads/${name}`
             });
             await browser.close();
-       }
-       catch(e){
-           console.log(e);
-       }
+        }
+        catch (e) {
+            console.log(e);
+        }
     },
 
     buildContentlinksReportExcelFile: async (contentlinks) => {
@@ -139,28 +139,28 @@ module.exports = {
                 let row = sheet.addRow(newRow);
 
                 //подкрасить ссылку в зависимости от кол - ва минут
-                let color = 'FFFFFFFF';
+                let color = 'FFFFFF';
                 switch (true) {
                     case (contentlinkDurationInMinutes < 1):
-                        color = 'FFFF00FF';
+                        color = 'BBA8FF';
                         break;
                     case (contentlinkDurationInMinutes >= 1 && contentlinkDurationInMinutes < 3):
-                        color = 'FF00FFFF';
+                        color = 'A8C7FF';
                         break;
                     case (contentlinkDurationInMinutes >= 3 && contentlinkDurationInMinutes < 5):
-                        color = 'FF00BFFF';
+                        color = 'A8FFFB';
                         break;
                     case (contentlinkDurationInMinutes >= 5 && contentlinkDurationInMinutes < 7):
-                        color = 'FF00FF00';
+                        color = 'B2FFA8';
                         break;
                     case (contentlinkDurationInMinutes >= 7 && contentlinkDurationInMinutes < 10):
-                        color = 'FFFFFF00';
+                        color = 'FFEEA8';
                         break;
                     case (contentlinkDurationInMinutes >= 10 && contentlinkDurationInMinutes < 15):
-                        color = 'FFFFA500';
+                        color = 'FFC5A8';
                         break;
                     case (contentlinkDurationInMinutes >= 15):
-                        color = 'FFFF0000';
+                        color = 'FFA8A8';
                         break;
                     default:
                         return;
