@@ -14,6 +14,8 @@ Unit test:
 #        - cd ./api
     script:
 #        - npm run test
+        - cd ./api && npm install
+        - npm run test:jest
         - echo 'this is unit test!'
 #    tags:
 #        - server
