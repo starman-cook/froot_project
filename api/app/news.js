@@ -35,7 +35,7 @@ const createRouter = () => {
             res.status(500).send(e);
         }
     })
-    router.get('/:id/:status', auth, async (req, res) => {
+    router.get('/:id/:status', [auth, permit('changeStatusNews')], async (req, res) => {
         try {
             const newsItem = await News.findById(req.params.id)
             if(!newsItem.contentManager || (newsItem.contentManager && String(newsItem.contentManager._id) === String(req.user._id))) {

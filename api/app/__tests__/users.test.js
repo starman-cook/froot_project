@@ -4,7 +4,7 @@ const config = require ('../config')
 const {app, port} = require('../../app.js')
 const User = require('../models/User')
 
-describe ('route-payments', () => {
+describe ('route-users', () => {
     const server = app.listen(port)
     let token
     let user
