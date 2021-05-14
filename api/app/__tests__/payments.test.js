@@ -5,7 +5,6 @@ const {app, port} = require('../../app.js')
 const Payment = require('../models/Payment')
 
 describe ('route-payments', () => {
-    console.log(process.env.NODE_ENV)
     const server = app.listen(port)
     let token
     let user

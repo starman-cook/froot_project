@@ -45,8 +45,6 @@ const createRouter = () => {
 
     })
     router.put('/:id/edit', [auth, permit('viewUsers', 'editUser')], async (req, res) => {
-        // const user = await User.findById(req.params.id);
-        // await User.updateOne(user, { $set: req.body });
         const user = await User.findByIdAndUpdate(req.params.id, { $set: req.body }, { useFindAndModify: false }, function (err, result) {
             if (err) {
                 console.log(err);
@@ -56,7 +54,7 @@ const createRouter = () => {
         res.send(user);
     });
     router.delete('/:id/delete', [auth, permit('deleteUser')], async (req, res) => {
-        const user = await User.findById(req.params.id);
+        const user = await User.findByIdAndDelete(req.params.id);
         try {
             user.deleteOne();
         } catch (error) {
@@ -89,7 +87,7 @@ const createRouter = () => {
         }
         // user.chatId = req.body.chatId
         await user.generationToken('telegram')
-        console.log("NEW GENERATED TOKEN: *****************************, " , user.token)
+        // console.log("NEW GENERATED TOKEN: *****************************, " , user.token)
         await user.save({ validateBeforeSave: false });
         res.send({ user: user })
         // res.send({message: 'Email and password correct!'});
