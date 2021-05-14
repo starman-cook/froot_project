@@ -25,7 +25,7 @@ schedule.scheduleJob("16 21 * * *", async  function(){
 
 const createRouter = () => {
     
-    router.get('/', [auth, permit('viewAllPayments')], async (req, res) => {
+    router.get('/', auth, async (req, res) => {
         let filter = {}
         if (req.query.date) {
             filter.dateOfPayment = req.query.date
@@ -60,7 +60,9 @@ const createRouter = () => {
             payment.user = req.user._id;
             if (payment.repeatability) payment.repeatabilityId = payment._id;
             await payment.save();
-            axios.post(config.baseUrlForTelegram + ':8001/telegram', payment);
+            if (process.env.NODE_ENV !== 'test') { 
+                axios.post(config.baseUrlForTelegram + ':8001/telegram', payment);
+            }
             res.send(payment);
         } catch (err) {
             res.status(400).send({ message: err });
@@ -93,7 +95,9 @@ const createRouter = () => {
         payment.approved = true;
         try {
             await payment.save();
-            axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/approved`, payment);
+            if (process.env.NODE_ENV !== 'test') { 
+                axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/approved`, payment);
+            }
             res.send(payment);
         } catch (e) {
             res.status(400).send(e);
@@ -109,7 +113,9 @@ const createRouter = () => {
         };
         try {
             await payment.save();
-            axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/approved/cancel`, payment);
+            if (process.env.NODE_ENV !== 'test') { 
+                axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/approved/cancel`, payment);
+            }
             res.send(payment);
         } catch (e) {
             res.status(400).send(e);
@@ -125,7 +131,9 @@ const createRouter = () => {
         };
         try {
             await payment.save();
-            axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/paid`, payment);
+            if (process.env.NODE_ENV !== 'test') { 
+                axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/paid`, payment);
+            }
             res.send(payment);
         } catch (e) {
             res.status(400).send(e);
@@ -137,22 +145,9 @@ const createRouter = () => {
         payment.paided = false;
         try {
             await payment.save();
-            axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/paid/cancel`, payment);
-            res.send(payment);
-        } catch (e) {
-            res.status(400).send(e);
-        }
-    });
-
-    router.get('/:id/date', [auth, permit('postponePayment')], async (req, res) => {
-        const payment = await Payment.findById(req.params.id)
-        const today = new Date();
-
-        const tomorrow = today.setDate(today.getDate() + 1);
-        payment.dateOfPayment = tomorrow
-        try {
-            await payment.save();
-            await axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/date`, payment);
+            if (process.env.NODE_ENV !== 'test') { 
+                axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/paid/cancel`, payment);
+            }
             res.send(payment);
         } catch (e) {
             res.status(400).send(e);
@@ -188,6 +183,7 @@ const createRouter = () => {
             res.status(500).send(e);
         }
     });
+
     router.get('/files/today', [auth, permit('payPayment')], async (req, res) => {
         let filter = {
             dateOfPayment: {
@@ -208,17 +204,60 @@ const createRouter = () => {
             res.status(500).send(e);
         }
     });
-    router.get('/due/to-be-paid', [auth, permit('viewToBePaid')], async (req, res) => {
-        let filter = { paided: false, approved: true };
+    
+    router.post('/:id/not-repeatability', [auth, permit('stopRepeatabilityPayment')], async (req,res) => {
+        let filter ={_id: req.params.id};
+        req.user.position!=='директор' ? filter.user = req.user._id: null;
+        const payment = await Payment.findOne({...filter}).populate('user', 'surname name workEmail');
         try {
-            const payments = await Payment.find(filter).populate('user', 'surname name workEmail');
-            await helpers.buildExcelFile(payments)
-            res.send(payments);
-        } catch (e) {
+            if (!payment) return res.status(500).send({message: 'Not your payment'});
+            payment.repeatability = false;
+            payment.save();            
+            res.send(payment)
+        } catch(e) {
             res.status(500).send(e);
         }
-    });
+    })
 
+    // не используется
+    // router.get('/:id/date', [auth, permit('postponePayment')], async (req, res) => {
+    //     const payment = await Payment.findById(req.params.id)
+    //     const today = new Date();
+    //     const tomorrow = today.setDate(today.getDate() + 1);
+    //     payment.dateOfPayment = tomorrow
+    //     try {
+    //         await payment.save();
+    //         if (process.env.NODE_ENV !== 'test') { 
+    //             await axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/date`, payment);
+    //         }
+    //         res.send(payment);
+    //     } catch (e) {
+    //         res.status(400).send(e);
+    //     }
+    // });
+    // не используется
+    // router.get('/due/to-be-paid', [auth, permit('viewToBePaid')], async (req, res) => {
+    //     let filter = { paided: false, approved: true };
+    //     try {
+    //         const payments = await Payment.find(filter).populate('user', 'surname name workEmail');
+    //         await helpers.buildExcelFile(payments)
+    //         res.send(payments);
+    //     } catch (e) {
+    //         res.status(500).send(e);
+    //     }
+    // });
+    // не используется
+    // router.delete('/:id/delete', [auth, permit('deletePayment')], async (req, res) => {
+    //     const payment = await Payment.findById(req.params.id);
+    //     try {
+    //         payment.deleteOne();
+    //     } catch (error) {
+    //         res.send(error);
+    //     }
+    //     res.send({ message: 'payment deleted!', _id: payment._id });
+    // });
+
+    // нет тестов
     router.get('/telegram/:id/approved', [auth, permit('approvePayment')], async (req, res) => {
         try {
             const payment = await Payment.findById(req.params.id)
@@ -230,7 +269,7 @@ const createRouter = () => {
             res.status(404).send({ message: "Not found" });
         }
     });
-
+    // нет тестов
     router.get('/telegram/:id/date', [auth, permit('postponePayment')], async (req, res) => {
         try {
             const payment = await Payment.findById(req.params.id)
@@ -244,31 +283,8 @@ const createRouter = () => {
             res.status(404).send({ message: "Not found" });
         }
     });
-
-    router.delete('/:id/delete', [auth, permit('deletePayment')], async (req, res) => {
-        const payment = await Payment.findById(req.params.id);
-        try {
-            payment.deleteOne();
-        } catch (error) {
-            res.send(error);
-        }
-        res.send({ message: 'payment deleted!', _id: payment._id });
-    });
-
-    router.post('/:id/not-repeatability', [auth, permit('stopRepeatabilityPayment')], async (req,res) => {
-        let filter ={_id: req.params.id};
-        req.user.position!=='директор' ? filter.user = req.user._id: null;
-        const payment = await Payment.findOne({...filter}).populate('user', 'surname name workEmail');
-        try {
-            if (!payment) return res.status(500).send({message: 'Not your payment'});
-            payment.repeatability = false;
-            payment.save();
-            
-            res.send(payment)
-        } catch(e) {
-            res.status(500).send(e);
-        }
-    })
+    
     return router;
 }
 module.exports = createRouter;
+
