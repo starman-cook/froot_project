@@ -30,6 +30,14 @@ const Payments = () => {
   const clearData = () => {
     let dropText = document.getElementById('dropdown');
     dropText.innerText='Статус платежа';
+    setState({payer: "",
+    dateOfPayment: {
+      fromDate: "",
+      toDate: "",
+    },
+    approved: "",
+    paided: ""})
+    dispatch(fetchPayments());
     return
     };
 
