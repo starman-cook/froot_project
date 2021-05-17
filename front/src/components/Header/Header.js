@@ -1,5 +1,5 @@
 import { Button, Menu, MenuItem } from "@material-ui/core";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../../assets/images/logo-white.svg";
 import "./Header.css";
@@ -8,6 +8,23 @@ import UserMenu from "./Menus/UserMenu/UserMenu";
 
 const Header = ({ user }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [state,setState]=useState({menuShow:false,accauntShow:false})
+  const classNameOfAccaunt=state.accauntShow ? 'Header__menu Header__accaunt': 'Header__menu--none';
+  const classNameOfMenu=state.menuShow? 'Header__menu': 'Header__menu--none';
+
+  const [windowWidth,setWindowWidth]=useState(window.innerWidth);
+  const handleResize=e=>{
+    setWindowWidth(e.target.window.innerWidth);
+  }
+  useEffect(()=>{
+    window.addEventListener("resize", handleResize);
+  },[]);
+
+  useEffect(()=>{
+    if(windowWidth>1500){
+      setState({menuShow:true,accauntShow:true});
+    }
+  },[windowWidth])
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -16,12 +33,37 @@ const Header = ({ user }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const menuClick=()=>{
+    if(!state.menuShow){
+      setState(prevState=>{
+        return {...prevState,menuShow:true}
+      })
+    }
+    else{
+      setState(prevState=>{
+        return {...prevState,menuShow:false}
+      })
+    }
+  };
+  const accauntClick=()=>{
+    if(!state.accauntShow){
+      setState(prevState=>{
+        return {...prevState,accauntShow:true}
+      })
+    }
+    else{
+      setState(prevState=>{
+        return {...prevState,accauntShow:false}
+      })
+    }
+  }
   return (
     <div className="Header">
       <NavLink to="/">
         <img src={logo} alt="logo" />
       </NavLink>
-      <menu>
+      <button className={windowWidth>1500? 'Header__menu--none':"UserMenu__btn Header__burger"} onClick={menuClick}>Menu</button>
+      <menu className={classNameOfMenu}>
         {user && (
           <Fragment>
             <Button
@@ -108,7 +150,8 @@ const Header = ({ user }) => {
           Новости
         </NavLink>
       </menu>
-      <div>{user ? <UserMenu user={user} /> : <AnonymousMenu />}</div>
+      <button className={windowWidth>1500? 'Header__menu--none':"UserMenu__btn Header__burger"} onClick={accauntClick}>Профиль</button>
+      <div className={classNameOfAccaunt}>{user ? <UserMenu user={user} /> : <AnonymousMenu />}</div>
     </div>
   );
 };
