@@ -162,7 +162,7 @@ const Payments = () => {
             </div>
 
           </div>
-          <button className="Payments__btn" onClick={() => postData()}>Применить</button>
+          <button className="Payments__btn" type='button' onClick={() => postData()}>Применить</button>
           <button className="Payments__btn" type='reset' onClick={()=>clearData()}>Сброс</button>
           </form>
 
