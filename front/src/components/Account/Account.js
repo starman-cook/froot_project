@@ -25,6 +25,7 @@ const Account = ({ registry, payments, approve, cancelApprove, pay, cancelPay, s
  
   return (
     <>
+    <div className="table-wrap">
       <table className="table">
         <thead>
           <tr>
@@ -32,7 +33,7 @@ const Account = ({ registry, payments, approve, cancelApprove, pay, cancelPay, s
             <th>Дата платежа</th>
             <th>Компания</th>
             <th>Назначение</th>
-            <th>Основание договора/счета</th>
+            <th>Договор/Счет</th>
             <th>Контрагент</th>
             <th>Приоритет</th>
             <th>Сумма платежа</th>
@@ -107,6 +108,7 @@ const Account = ({ registry, payments, approve, cancelApprove, pay, cancelPay, s
           ))}
         </tbody>
       </table>
+    </div>
       {showModal.show && <Modal src={showModal.src} close={closeModal} />}
     </>
   );
