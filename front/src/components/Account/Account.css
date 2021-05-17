@@ -48,17 +48,19 @@ th {
 .Account__btn:hover, .Account__btn:focus {
   background-color: #c4c7c7;
 }
-.dropbtn {
-  background-color: #3498DB;
+.button {
+  display: inline-block;
+  text-decoration: none;
+  margin: 2px;
+  padding: 10px;
+  background: linear-gradient(64.35deg,#ff7488 9.2%,#ff077d 89.76%);
   color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
+  border-radius: 10px;
   cursor: pointer;
 }
 
-.dropbtn:hover, .dropbtn:focus {
-  background-color: #2980B9;
+.button:hover, .button:focus {
+  box-shadow: 0 0 0 4px rgba(0, 0, 255, .2);
 }
 
 /* .dropdown {

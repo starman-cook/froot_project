@@ -62,8 +62,8 @@ const Account = ({ registry, payments, approve, cancelApprove, pay, cancelPay, s
               <td>{payment.sum}</td>
               <td>{`${payment.user && payment.user.surname} ${payment.user && payment.user.name}`}</td>
               <td>{payment.image? <>
-                <span onClick={() => openModal(apiURL + "/uploads/" + payment.image)}>Посмотреть</span><br />
-                <a onClick={()=> download(apiURL + "/uploads/" + payment.image, "file.jpg")}>Скачать</a>
+                <span className='button' onClick={() => openModal(apiURL + "/uploads/" + payment.image)}>Посмотреть</span><br />
+                <a className='button' onClick={()=> download(apiURL + "/uploads/" + payment.image, "file.jpg")}>Скачать</a>
                 </> : <span>Файл отсутствует</span>
               }                                
               </td>

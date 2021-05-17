@@ -25,7 +25,7 @@ const run = async () => {
             telegramName: "@admin",
             phone: "+7 555 555 55 55",
             password: "12345a",
-            role: ['deleteMeetingRoom', 'addNewMeetingRoom', 'viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'approvePayment', 'payPayment', 'postponePayment', 'viewToBePaid', 'viewTodayPayments', 'initCancelApprovedPayment', 'cancelApprovedPayment', 'initCancelPayedPayment', 'cancelPayedPayment', 'deletePayment', 'authorizeUser', 'editUser', 'deleteUser', 'viewUsers', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom', 'addContentlink', 'viewOwnContentlinks', 'viewAllContentlinks'],
+            role: ['deleteMeetingRoom', 'addNewMeetingRoom', 'viewAllPayments', 'stopRepeatabilityPayment', 'addPayment', 'editPayment', 'approvePayment', 'postponePayment', 'viewToBePaid', 'viewTodayPayments', 'cancelApprovedPayment', 'deletePayment', 'authorizeUser', 'editUser', 'deleteUser', 'viewUsers', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom', 'addContentlink', 'viewOwnContentlinks', 'viewAllContentlinks'],
             token: ['adminToken', 'adminToken']
         });
         console.log('fixtures connected');

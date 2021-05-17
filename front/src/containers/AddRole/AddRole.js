@@ -31,10 +31,10 @@ const AddRole = () => {
 
     const checkStatus = (name) => {
         const roleCopy = [...state.role];
-        if ((name === 'payPayment' || name === 'initCancelPayedPayment' || name === 'cancelPayedPayment') && (roleCopy.includes('approvePayment') || roleCopy.includes('initCancelApprovedPayment') || roleCopy.includes('cancelApprovedPayment'))) {
+        if ((name === 'payPayment' || name === 'cancelPayedPayment') && (roleCopy.includes('approvePayment') || roleCopy.includes('cancelApprovedPayment'))) {
             return true
         }
-        if ((name === 'approvePayment' || name === 'initCancelApprovedPayment' || name === 'cancelApprovedPayment') && (roleCopy.includes('payPayment') || roleCopy.includes('initCancelPayedPayment') || roleCopy.includes('cancelPayedPayment'))) {
+        if ((name === 'approvePayment' || name === 'cancelApprovedPayment') && (roleCopy.includes('payPayment') || roleCopy.includes('cancelPayedPayment'))) {
             return true
         }
         return false
@@ -75,9 +75,7 @@ const AddRole = () => {
         {name: "postponePayment", text: "Переносить платеж на следующий день"},
         {name: "viewAllPayments", text: "Просматривать все платежи"},
         {name: "viewTodayPayments", text: "Просматривать реестр платежей на сегодня"},
-        {name: "initCancelApprovedPayment", text: "Инициировать отмену подтверждения"},
         {name: "cancelApprovedPayment", text: "Отменить подтверждение платежа"},
-        {name: "initCancelPayedPayment", text: "Инициировать отмену оплаченного статуса у платежа"},
         {name: "cancelPayedPayment", text: "Отменить оплату платежа"},
         {name: "deletePayment", text: "Удалить платеж"}
     ]

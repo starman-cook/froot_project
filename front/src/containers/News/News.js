@@ -106,7 +106,7 @@ const News = () => {
                             <td>{index+1}</td>
                             <td>{newsItem._id}</td>
                             <td>{newsItem.createDate}</td>
-                            <td>{newsItem.file && <a onClick={()=> download(apiURL + "/uploads/" + newsItem.file, `file ${newsItem._id}.xlsx`)}>Скачать</a>}</td>
+                            <td>{newsItem.file && <a classname='button' onClick={()=> download(apiURL + "/uploads/" + newsItem.file, `file ${newsItem._id}.xlsx`)}>Скачать</a>}</td>
                             <td>
                                 {newsItem.user && newsItem.user.surname + " " + newsItem.user.name}
                                 </td>

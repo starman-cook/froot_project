@@ -22,65 +22,66 @@ const Header = ({ user }) => {
         <img src={logo} alt="logo" />
       </NavLink>
       <menu>
-        {user && (
+        {user && user.role.includes("viewAllPayments") && (
           <Fragment>
-            <Button
-              aria-controls="simple-menu"
-              aria-haspopup="true"
-              onClick={handleClick}
-            >
-              <span className="Header__link">Платежи</span>
-            </Button>
-            <Menu
-              id="simple-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              {user.role.includes("approvePayment") && (
+          <Button
+            aria-controls="simple-menu"
+            aria-haspopup="true"
+            onClick={handleClick}
+          >
+            <span className="Header__link">Платежи</span>
+          </Button>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            {user.role.includes("approvePayment") && (
+              <MenuItem>
+                <NavLink className="Header__link" to="/approve-registry">
+                  Платежи для подтверждения
+                </NavLink>
+              </MenuItem>
+            )}
+
+            {user.role.includes("payPayment") && (
+              <MenuItem>
+                <NavLink className="Header__link" to="/pay-registry">
+                  Платежи для оплаты
+                </NavLink>
+              </MenuItem>
+            )}
+            {console.log(user.role)}
+
+            {user.role.includes("viewAllPayments") && (
+              <MenuItem>
+                <NavLink to="/" className="Header__link">
+                  Все платежи
+                </NavLink>
+              </MenuItem>
+            )}
+
+            {user.role.includes("viewTodayPayments") &&
+              !user.role.includes("payPayment") &&
+              !user.role.includes("approvePayment") && (
                 <MenuItem>
-                  <NavLink className="Header__link" to="/approve-registry">
-                    Платежи для подтверждения
-                  </NavLink>
+                  <NavLink className="Header__link" to="/registry">
+                    Платежи на сегодня
+                  </NavLink>{" "}
                 </MenuItem>
               )}
 
-              {user.role.includes("payPayment") && (
-                <MenuItem>
-                  <NavLink className="Header__link" to="/pay-registry">
-                    Платежи для оплаты
-                  </NavLink>
-                </MenuItem>
-              )}
-
-              {user.role.includes("viewAllPayments") && (
-                <MenuItem>
-                  <NavLink to="/" className="Header__link">
-                    Все платежи
-                  </NavLink>
-                </MenuItem>
-              )}
-
-              {user.role.includes("viewTodayPayments") &&
-                !user.role.includes("payPayment") &&
-                !user.role.includes("approvePayment") && (
-                  <MenuItem>
-                    <NavLink className="Header__link" to="/registry">
-                      Платежи на сегодня
-                    </NavLink>{" "}
-                  </MenuItem>
-                )}
-
-              {user.role.includes("addPayment") && (
-                <MenuItem>
-                  <NavLink to="/new-payment" className="Header__link">
-                    Добавить платеж
-                  </NavLink>
-                </MenuItem>
-              )}
-            </Menu>
-          </Fragment>
+            {user.role.includes("addPayment") && (
+              <MenuItem>
+                <NavLink to="/new-payment" className="Header__link">
+                  Добавить платеж
+                </NavLink>
+              </MenuItem>
+            )}
+          </Menu>
+        </Fragment>
         )}
 
         {user && user.role.includes("viewUsers") && (
@@ -104,9 +105,12 @@ const Header = ({ user }) => {
             Отчет по ссылкам
           </NavLink>
         )}
+        {user && user.role.includes('viewAllNews') && (
         <NavLink to="/news" className="Header__link">
           Новости
         </NavLink>
+        )}
+        
       </menu>
       <div>{user ? <UserMenu user={user} /> : <AnonymousMenu />}</div>
     </div>
