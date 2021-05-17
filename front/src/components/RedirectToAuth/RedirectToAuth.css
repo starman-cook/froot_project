@@ -1,6 +1,10 @@
 .Redirect {
     max-width: 500px;
-    margin: 0 auto;
+    margin: 50px auto;
+}
+.Redirect__inside{
+    display: flex;
+    flex-wrap: wrap;
 }
 .btn {
     text-decoration: none;
@@ -8,5 +12,19 @@
     padding: 10px;
     background: linear-gradient(64.35deg,#ff7488 9.2%,#ff077d 89.76%);
     color: white;
-    border-radius: 10px
+    border-radius: 10px;
+    /* display: inline; */
+}
+.Redirect__title{
+    font-size: 18px;
+}
+@media screen  and (min-width:600){
+    .Redirect__title{
+        font-size: 20px;
+    }
+}
+@media screen and (min-width:1500) {
+    .Redirect{
+        margin: 20px auto;
+    }
 }

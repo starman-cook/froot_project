@@ -1,5 +1,7 @@
+import { RadioButtonChecked } from "@material-ui/icons";
 import React, { Fragment } from "react";
 import Backdrop from "../Backdrop/Backdrop";
+import ButtonClose from "../Buttons/ButtonClose/ButtonClose"
 import "./Modal.css";
 
 const Modal = ({ src, body, close}) => {
@@ -8,12 +10,9 @@ const Modal = ({ src, body, close}) => {
       <Backdrop close={close}/>
       <div className="Modal">
         <div className="Modal__container"> 
-          <button onClick={close}>
-            Close
-          </button>
-          {src? <img src={src}/> : body }
-             
-        </div>       
+          {src? <img className="Modal__img" src={src}/> : body }
+          <ButtonClose onClickHandler={close}/>
+        </div> 
       </div>
     </Fragment>
   );
