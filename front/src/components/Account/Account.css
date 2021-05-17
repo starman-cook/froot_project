@@ -1,32 +1,57 @@
 h4 {
   margin: 2rem 0rem 1rem;
 }
+.table-wrap {
+  margin-top: 0;
+  padding-top: 0;
+  overflow: auto;
+  position: relative;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 
-.table-image > td,
-th {
+  overflow-y: auto; 
+  height: 250px;
+}
+.table-image > td,th {
   vertical-align: middle;
   text-align: center;
 }
-.table{
-    margin: 0 auto;
-    border-collapse: collapse;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    width: 100%;
+.table thead{
+  margin-top: 0;
+  padding-top: 0;
 }
-.table>thead{
+.table{
+  height: 100%;
+  text-align: center;
+  margin: 0 auto;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  display: inline-block;
+  vertical-align: top;
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  border-collapse: collapse; width: 100%;
+}
+/* .table>thead{
     background-color: #009879;
-    color: #ffffff;
     text-align: left;
 
+} */
+.table th {
+  position: sticky; 
+  top: 0;
+  color: #ffffff;
+  background:#424141;
+}
+.table td, th {
+  padding: 0 5px;
+  box-sizing: border-box;
+  height: 40px;
 }
 .table,td,th {
-    border: 1px solid black;
-    border-collapse: collapse;
-    padding: 5px;
-    height: 100%;
-    text-align: center;
+  border: 1px solid black;
+  text-align: center;
 }
 .flex-space {
   display: flex;
@@ -48,7 +73,7 @@ th {
 .Account__btn:hover, .Account__btn:focus {
   background-color: #c4c7c7;
 }
-.dropbtn {
+/* .dropbtn {
   background-color: #3498DB;
   color: white;
   padding: 16px;
@@ -61,13 +86,7 @@ th {
   background-color: #2980B9;
 }
 
-/* .dropdown {
-  position: relative;
-  display: inline-block;
-} */
-
 .dropdown-content {
-  /* display: none; */
   position: absolute;
   background-color: #f1f1f1;
   min-width: 160px;
@@ -83,6 +102,21 @@ th {
   display: block;
 }
 
-.dropdown a:hover {background-color: #ddd;}
+.dropdown a:hover {background-color: #ddd;} */
 
 .show {display: block;}
+
+/* @media screen and (max-width: 600px){
+  .table-wrap {
+    overflow: auto;
+    position: relative;
+  }
+  .table{
+    display: inline-block;
+    vertical-align: top;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+} */

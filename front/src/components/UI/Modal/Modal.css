@@ -1,4 +1,6 @@
 .Modal {
+    width: 80%;
+    padding: 20px;
     z-index: 500;
     border: 1px solid #ccc;
     background-color: white;
@@ -12,8 +14,22 @@
     transform: translate(-50%, -50%);
 }
 .Modal__container {
-    padding: 20px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
 }
-.Modal__content {
-    padding: 20px 0;
+.Modal__img {
+    width: 100%;
+    display: block;
+}
+@media screen and (max-width: 900px){
+    .Modal, .Modal__img {
+        width: 100%;
+    }
+}
+@media screen and (max-width: 600px){
+    .Modal, .Modal__img {
+        max-width: 100%;
+    }
 }

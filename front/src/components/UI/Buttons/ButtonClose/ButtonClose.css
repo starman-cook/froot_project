@@ -1,0 +1,9 @@
+.ButtonClose {
+    padding: 3px 3px 0 3px;
+    border-radius: 3px;
+    background: white;
+    margin-left: auto;
+}
+.ButtonClose:hover {
+    box-shadow: 0 0 10px 1px #9d9ea0;
+}
