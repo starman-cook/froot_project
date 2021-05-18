@@ -11,6 +11,7 @@ const config = require('./app/config');
 const User = require('./app/models/User');
 // const mongo = require('./app/db');
 const rooms = require('./app/room')
+const bigBrother = require('./app/bigBrother')
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -32,6 +33,7 @@ const run = async () => {
     app.use('/meetings', meetings());
     app.use('/payments', payments());
     app.use('/users', users());
+    app.use('/bigBrother', bigBrother);
     app.use('/calendarEvents', calendarEvents)
     app.use('/rooms', rooms)
     app.use('/contentlinks', contentlinks());

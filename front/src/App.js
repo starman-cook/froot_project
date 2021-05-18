@@ -19,97 +19,105 @@ import RegistryForApprove from "./containers/RegistryForApprove/RegistryForAppro
 import Calendar from "./containers/Calendar/Calendar";
 import ContentManagerForm from "./containers/ContentManagerForm/ContentManagerForm";
 import ContenLinksReport from "./containers/ContentLinksReport/ContentLinksReport";
+import BigBrother from "./components/BigBrother/BigBrother";
 
 const App = () => {
   const user = useSelector(state => state.users.user);
   return (
     <>
-      <Header user={user} />
-      <main className="App__main">
+
         <Switch>
-          <Route path="/" exact component={Payments} />
-          <Route path="/registry" exact component={Registry} />
-          <ProtectedRoute
-            isAllowed={
-              user && user.role.includes("approvePayment")
-            }
-            redirectTo={'/'}
-            path="/approve-registry"
-            exact
-            component={RegistryForApprove}
-          />
-          <ProtectedRoute
-            isAllowed={
-              user && user.role.includes("payPayment")
-            }
-            redirectTo={'/'}
-            path="/pay-registry"
-            exact
-            component={RegistryForAccountant}
-          />
-          <ProtectedRoute
-            isAllowed={user && user.role.includes("addPayment")}
-            redirectTo={"/"}
-            path="/new-payment"
-            exact
-            component={AddPayment}
-          />
-          <ProtectedRoute
-            isAllowed={user && user.role.includes('viewBookingsMeetingRoom')}
-            redirectTo={"/"}
-            path="/meetings"
-            exact
-            component={Calendar}
-          />
-          <Route path="/payments/:id" exact component={PaymentById} />
-          <ProtectedRoute
-            isAllowed={user}
-            redirectTo={"/"}
-            path="/payments/:id/edit"
-            exact
-            component={EditPayment}
-          />
-          <ProtectedRoute
-            isAllowed={user && user.role.includes('deleteUser')}
-            redirectTo={"/"}
-            path="/admin-panel"
-            exact
-            component={AdminPanel}
-          />
-          <ProtectedRoute
-            isAllowed={user && user.role.includes('deleteUser')}
-            redirectTo={"/"}
-            path="/users/:id/edit"
-            exact
-            component={Employee}
-          />
-          <ProtectedRoute
-            isAllowed={user && user.role.includes('deleteUser')}
-            redirectTo={"/"}
-            path="/users/:id/role"
-            exact
-            component={AddRole}
-          />
-          <ProtectedRoute
-            isAllowed={user && user.role.includes('addContentlink')}
-            redirectTo={"/"}
-            path="/content-manager"
-            exact
-            component={ContentManagerForm}
-          />
-          <ProtectedRoute
-            isAllowed={user && user.role.includes('viewAllContentlinks')}
-            redirectTo={"/"}
-            path="/content-report"
-            exact
-            component={ContenLinksReport}
-          />
-          <Route path="/news" exact component={News} />
-          <Route path="/register" exact component={Register} />
-          <Route path="/login" exact component={Login} />
-          <Route component={() => (<div>404 PAGE NOT FOUND</div>)} />
+          <Route path="/bigbrother" exact component={BigBrother} />
+          <Route>
+            <Header user={user} />
+            <main className="App__main">
+              <Switch>
+              <Route path="/" exact component={Payments} />
+              <Route path="/registry" exact component={Registry} />
+              <ProtectedRoute
+                  isAllowed={
+                    user && user.role.includes("approvePayment")
+                  }
+                  redirectTo={'/'}
+                  path="/approve-registry"
+                  exact
+                  component={RegistryForApprove}
+              />
+              <ProtectedRoute
+                  isAllowed={
+                    user && user.role.includes("payPayment")
+                  }
+                  redirectTo={'/'}
+                  path="/pay-registry"
+                  exact
+                  component={RegistryForAccountant}
+              />
+              <ProtectedRoute
+                  isAllowed={user && user.role.includes("addPayment")}
+                  redirectTo={"/"}
+                  path="/new-payment"
+                  exact
+                  component={AddPayment}
+              />
+              <ProtectedRoute
+                  isAllowed={user && user.role.includes('viewBookingsMeetingRoom')}
+                  redirectTo={"/"}
+                  path="/meetings"
+                  exact
+                  component={Calendar}
+              />
+              <Route path="/payments/:id" exact component={PaymentById} />
+              <ProtectedRoute
+                  isAllowed={user}
+                  redirectTo={"/"}
+                  path="/payments/:id/edit"
+                  exact
+                  component={EditPayment}
+              />
+              <ProtectedRoute
+                  isAllowed={user && user.role.includes('deleteUser')}
+                  redirectTo={"/"}
+                  path="/admin-panel"
+                  exact
+                  component={AdminPanel}
+              />
+              <ProtectedRoute
+                  isAllowed={user && user.role.includes('deleteUser')}
+                  redirectTo={"/"}
+                  path="/users/:id/edit"
+                  exact
+                  component={Employee}
+              />
+              <ProtectedRoute
+                  isAllowed={user && user.role.includes('deleteUser')}
+                  redirectTo={"/"}
+                  path="/users/:id/role"
+                  exact
+                  component={AddRole}
+              />
+              <ProtectedRoute
+                  isAllowed={user && user.role.includes('addContentlink')}
+                  redirectTo={"/"}
+                  path="/content-manager"
+                  exact
+                  component={ContentManagerForm}
+              />
+              <ProtectedRoute
+                  isAllowed={user && user.role.includes('viewAllContentlinks')}
+                  redirectTo={"/"}
+                  path="/content-report"
+                  exact
+                  component={ContenLinksReport}
+              />
+              <Route path="/news" exact component={News} />
+              <Route path="/register" exact component={Register} />
+              <Route path="/login" exact component={Login} />
+              <Route component={() => (<div>404 PAGE NOT FOUND</div>)} />
+              </Switch>
+              </main>
+          </Route>
         </Switch>
-      </main>
+
     </>
   );
 };

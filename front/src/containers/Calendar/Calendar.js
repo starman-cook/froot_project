@@ -13,8 +13,9 @@ const Calendar = () => {
     // нужно коэфициент загруженности показывать, чтобы пометить дату соответсвуюшим оттенком цвета
 
     const dispatch = useDispatch()
+    const rooms = useSelector(state => state.calendarEvents.rooms);
 
-    const [room, setRoom] = useState("1");
+    const [room, setRoom] = useState("");
     const [year, setYear] = useState(moment().year());
     const [month, setMonth] = useState(moment().month());
     const [day, setDay] = useState(moment().date());
@@ -155,7 +156,6 @@ const Calendar = () => {
     });
 
     // const rooms = ["1", "2", "room", "coming soon"];
-    const rooms = useSelector(state => state.calendarEvents.rooms);
     const deleteRoomHandler = async (id) => {
         await dispatch(deleteRoom(id))
         await dispatch(getAllRooms())
@@ -214,6 +214,7 @@ const Calendar = () => {
         setRoomName(event.target.value)
         console.log(roomName)
     }
+
     const oneCalendar = (
         <>
             {isBg ? <div onClick={closeBg} className="CalendarOne__bg"/> : null}

@@ -15,14 +15,14 @@ module.exports = {
     rootPath,
     uploadPath: path.join(rootPath, '../public/uploads'),
     db: {
-        // name: 'froot',
+        name: 'froot',
         // name: 'test',
         // name:`${dbMongo}?authSource=${initDb}`,  //docker
-        name: process.env.MONGO_DB ? `${dbMongo}?authSource=${initDb}` : 'froot',
+        // name: process.env.MONGO_DB ? `${dbMongo}?authSource=${initDb}` : 'froot',
         // url: 'mongodb://localhost',
-        // url: 'mongodb+srv://QWE123:QWE123@cluster0.rrd3k.mongodb.net', // Pasha's mongo address !!
+        url: 'mongodb+srv://QWE123:QWE123@cluster0.rrd3k.mongodb.net', // Pasha's mongo address !!
         // url:`mongodb://${user}:${password}@${host}:${port}`,  //docker
-        url:process.env.MONGO_USER ? `mongodb://${user}:${password}@${host}:${port}` : 'mongodb://localhost',
+        // url:process.env.MONGO_USER ? `mongodb://${user}:${password}@${host}:${port}` : 'mongodb://localhost',
         // url: 'mongodb://104.248.198.29',
     },
     //11 baseUrlForTelegram: 'http://'+process.env.BOT_HOST,  //docker
