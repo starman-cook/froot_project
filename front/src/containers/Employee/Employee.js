@@ -8,7 +8,7 @@ import './Employee.css';
 
 const Employee = () => {
 
-    const {id} = useParams();
+    const { id } = useParams();
     const dispatch = useDispatch();
     const [state, setState] = useState({
         name: "",
@@ -19,32 +19,32 @@ const Employee = () => {
         telegramName: "",
         workEmail: "",
         phone: "",
-      });
+    });
     useEffect(() => {
-        dispatch(fetchUserByID(id)).then(stateData=> {
+        dispatch(fetchUserByID(id)).then(stateData => {
             let stateCopy = {};
             Object.keys(state).forEach(key => {
                 stateCopy[key] = stateData[key];
             });
-            setState({...stateCopy});
+            setState({ ...stateCopy });
         });
     }, [dispatch]);
 
     const inputChangeHandler = (event) => {
         const { name, value } = event.target;
         setState((prevState) => {
-          return { ...prevState, [name]: value };
+            return { ...prevState, [name]: value };
         });
     };
     const postData = (id) => {
         dispatch(editUsersData(id, state));
         dispatch(push('/admin-panel'))
-      
+
     }
 
     return (
         <>
-            <div>
+            <div className='fontSans'>
                 <FormElement
                     placeholder="Имя"
                     label="Имя"
@@ -109,13 +109,13 @@ const Employee = () => {
                     required
                     onChange={inputChangeHandler}
                 >
-                <option disabled value="Выберите роль">Выберите роль</option>
-                <option value="director">director</option>
-                <option value="accountant">accountant</option>
-                <option value="user">user</option>
-                <option value="admin">admin</option>
+                    <option disabled value="Выберите роль">Выберите роль</option>
+                    <option value="director">director</option>
+                    <option value="accountant">accountant</option>
+                    <option value="user">user</option>
+                    <option value="admin">admin</option>
                 </select>
-                <button className='Employee__btn' onClick={()=>postData(id)}>Сохранить</button>
+                <button className='Employee__btn' onClick={() => postData(id)}>Сохранить</button>
             </div>
         </>
     )

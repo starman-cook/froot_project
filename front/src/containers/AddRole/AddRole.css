@@ -28,3 +28,7 @@
     color: white;
     font-size: 18px;
 }
+
+.fontSans {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}

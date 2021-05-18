@@ -53,7 +53,7 @@ describe('route/contentlinks', () => {
             .expect(200);
         await Contentlink.findByIdAndDelete(res.body._id);
         done();
-    });
+    }, 10000);
 
     it('Get own contentlinks', async done => {
         const res = await request(server)
