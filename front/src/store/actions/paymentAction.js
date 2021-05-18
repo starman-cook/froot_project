@@ -2,6 +2,7 @@ import { push } from "connected-react-router";
 import axiosApi from "../../axiosApi";
 
 export const FETCH_PAYMENTS_SUCCESS = "FETCH_PAYMENTS_SUCCESS";
+export const FETCH_PAYMENTS_FAILURE = "FETCH_PAYMENTS_FAILURE";
 export const FETCH_PAYMENT_BY_ID_SUCCESS = "FETCH_PAYMENT_BY_ID_SUCCESS";
 export const CREATE_PAYMENT_SUCCESS = "CREATE_PAYMENT_SUCCESS";
 export const FETCH_TODAYS_PAYMENTS_SUCCESS = "FETCH_TODAYS_PAYMENTS_SUCCESS";
@@ -11,6 +12,9 @@ export const EDIT_DATA_SUCCESS = "EDIT_DATA_SUCCESS";
 
 export const fetchPaymentsSuccess = (payments) => {
   return { type: FETCH_PAYMENTS_SUCCESS, payments };
+};
+export const fetchPaymentsFailure = (error) => {
+  return { type: FETCH_PAYMENTS_FAILURE, error };
 };
 export const fetchPaymentByIdSuccess = (payment) => {
   return { type: FETCH_PAYMENT_BY_ID_SUCCESS, payment }
@@ -86,8 +90,12 @@ export const fetchPayments = () => {
       const response = await axiosApi.get("/payments");
       dispatch(fetchPaymentsSuccess(response.data));
     } catch (e) {
-      console.error(e);
-    }
+      if (e.response && e.response.data) {
+          dispatch(fetchPaymentsFailure(e.response.data))
+      } else {
+          dispatch(fetchPaymentsFailure({ global: 'No internet' }))
+      }
+  }
   };
 };
 export const fetchPaymentById = (id) => {

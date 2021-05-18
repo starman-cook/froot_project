@@ -4,11 +4,11 @@ import Backdrop from "../Backdrop/Backdrop";
 import ButtonClose from "../Buttons/ButtonClose/ButtonClose"
 import "./Modal.css";
 
-const Modal = ({ src, body, close}) => {
+const Modal = ({ src, body, name, close}) => {
   return (
     <Fragment>
-      <Backdrop close={close}/>
-      <div className="Modal">
+     {!body && <Backdrop close={close}/>}
+      <div className={name==='filter'? "Modal filter" : "Modal"}>
         <div className="Modal__container"> 
           {src? <img className="Modal__img" src={src}/> : body }
           <ButtonClose onClickHandler={close}/>

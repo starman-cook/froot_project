@@ -1,21 +1,14 @@
-.Registry__title {
-    color: #b1b0b0;
-    font-size: 30px;
-    text-align: left;
-    text-shadow: 1px 1px 2px black;
-    margin: 0;
-}
-.Registry__total {
+.Total {
     text-align: center;
     margin: 10px auto;
     color: #363636;
     display: flex;
     flex-direction: column;
 }
-.Registry__total-title {
+.Total__title {
     margin: 10px;
 }
-.Registry__total-company {
+.Total__company {
     color: #363636;
     font-size: 16px;
     font-weight: 500;
@@ -26,16 +19,13 @@
     width: 95%;
 }
 @media screen and (min-width:600px) {
-    .Registry {
-        padding: 15px;
-    }
-    .Registry__total-company {
+    .Total__company {
         font-size: 20px;
         width: 320px;
     }
 }
 @media screen and (min-width:1200px) {
-    .Registry__total {
+    .Total {
         flex-direction: row;
     }
 }

@@ -1,11 +1,11 @@
 .Modal {
-    width: 80%;
-    padding: 20px;
+    width: 70%;
+    max-height: 90%;
+    padding: 10px;
     z-index: 500;
     border: 1px solid #ccc;
     background-color: white;
-    box-shadow: 1px 1px 1px black;
-    margin: 50px 0;
+    box-shadow: 1px 1px 100px black;
     text-align: center;
     transition: all 0.3s ease-out;
     position: absolute;
@@ -14,14 +14,17 @@
     transform: translate(-50%, -50%);
 }
 .Modal__container {
-    padding: 10px;
     display: flex;
     justify-content: space-between;
-    align-items: start;
+    align-items: flex-start;
 }
 .Modal__img {
-    width: 100%;
+    width: 90%;
     display: block;
+}
+.filter {
+    left: 53%;
+    top: 85px;
 }
 @media screen and (max-width: 900px){
     .Modal, .Modal__img {

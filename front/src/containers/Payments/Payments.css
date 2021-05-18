@@ -1,76 +1,64 @@
 .Payments {
-    margin: 0 auto;
-    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
 }
-.Payments__close {
-    margin-left: auto;
-    padding: 3px 3px 0 3px;
-    border-radius: 3px;
-    background: white;
-}
-.Payments__btn {
-    padding: 5px 10px;
-    font-size: 18px;
-    font-weight: bold;
-    background: #f52284;
-    border: none;
-    margin: 20px 0;
-    color: white;
-    border-radius: 5px;
-    box-shadow: 0 0 3px 2px;
-    outline: none;
-    cursor: pointer;
-}
-.Payments__btn:hover {
-    background: #762c80;
-}
-.Payments__btn:active {
-    box-shadow: none;
+.Payments__header {
+    border-bottom: 2px solid #e5e5ea;
+    padding-bottom: 10px;
+    text-align: center;
 }
 .Payments__title {
     color: #b1b0b0;
     font-size: 30px;
     text-align: center;
     text-shadow: 1px 1px 2px black;
-    margin: 0;
-    margin-bottom: 10px;
-}
-.Payments__total {
-    color: #363636;
-    text-align: center;
-    width: 50%;
-    margin: 0 auto 10px;
-}
-.Payments__total-company {
-    color: #363636;
-    font-size: 20px;
-    font-weight: 500;
-    border: 2px solid grey;
-    border-radius: 5px;
-    padding: 5px;
-    margin: 5px;
-    width: 50%;
-}
-.Payments__filter {
-    display: flex;
-    align-items: center;
-    width: 70%;
     margin: 0 auto;
 }
+.Payments__content, .Payments__header {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* filter */
+.Payments__filter {
+    text-align: right;
+}
+.Payments__filter-input {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+.Payments__filter-title {
+    margin: 5px;
+}
+.mb {
+    margin-bottom: 14px;
+    width: 150px;
+}
+.Payments__filter-item {
+    margin: 0 30px;
+}
 select, input {
+    height: 35px;
+    box-sizing: border-box;
     padding: 5px;
     margin: 0 10px;
     font-size: 14px;
+    border-radius: 0;
+    border: 1px solid gray;
 }
 .dropdown {
     position: relative;
     display: inline-block;
-    margin: 0 10px;
-    
 }
 .dropdown__title {
-    padding: 5px 10px;
-    min-width: 150px;
+    padding: 8px 10px;
+    width: 150px;
     border: 1px solid gray;
     cursor: pointer;
 }
@@ -80,7 +68,7 @@ select, input {
     margin-top: 5px;
     list-style: none;
     background: white;
-    min-width: 144px;
+    width: 144px;
     border: 1px solid gray;
     z-index: 1;
 }
@@ -92,4 +80,20 @@ select, input {
 }
 .dropdown__content-item:hover {
     background: #bbb9b9;
+}
+.Payments__filter-control {
+    margin: 20px 0 10px;
+}
+
+@media screen and (min-width:600px) {
+    .Payments {
+        padding: 15px;
+    }
+    .Payments__header {
+        justify-content: space-between;
+    }
+    .Payments__title {
+        text-align: left;
+        margin: 0;
+    }
 }
