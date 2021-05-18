@@ -11,11 +11,9 @@ const AdminForm = ({ id, options, value, onValueChange, defaultValue }) => {
                 value={value}
                 inputValue={inputValue}
                 onChange={(event, newValue) => {
-                    console.log('newValue', newValue);
                     onValueChange(newValue);
                 }}
                 onInputChange={(event, newInputValue) => {
-                    console.log('newInputValue', newInputValue);
                     setInputValue(newInputValue);
                 }}
                 options={options}
