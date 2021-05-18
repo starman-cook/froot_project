@@ -82,8 +82,6 @@ const Register = () => {
                     onChange={inputChangeHandler}
                     name="patronymic"
                     value={state.patronymic}
-                    required
-                    error={getError('patronymic')}
                 />
                 <FormElement
                     placeholder="Должность"

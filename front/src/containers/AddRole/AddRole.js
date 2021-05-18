@@ -31,10 +31,10 @@ const AddRole = () => {
 
     const checkStatus = (name) => {
         const roleCopy = [...state.role];
-        if ((name === 'payPayment' || name === 'initCancelPayedPayment' || name === 'cancelPayedPayment') && (roleCopy.includes('approvePayment') || roleCopy.includes('initCancelApprovedPayment') || roleCopy.includes('cancelApprovedPayment'))) {
+        if ((name === 'payPayment' || name === 'cancelPayedPayment') && (roleCopy.includes('approvePayment') || roleCopy.includes('cancelApprovedPayment'))) {
             return true
         }
-        if ((name === 'approvePayment' || name === 'initCancelApprovedPayment' || name === 'cancelApprovedPayment') && (roleCopy.includes('payPayment') || roleCopy.includes('initCancelPayedPayment') || roleCopy.includes('cancelPayedPayment'))) {
+        if ((name === 'approvePayment' || name === 'cancelApprovedPayment') && (roleCopy.includes('payPayment') || roleCopy.includes('cancelPayedPayment'))) {
             return true
         }
         return false
@@ -68,6 +68,7 @@ const AddRole = () => {
         dispatch(push('/admin-panel'))
     };
     const rolesForPayment = [
+<<<<<<< HEAD
         { name: "addPayment", text: "Создавать платеж" },
         { name: "editPayment", text: "Редактировать платеж" },
         { name: "approvePayment", text: "Подтверждать платеж" },
@@ -80,6 +81,18 @@ const AddRole = () => {
         { name: "initCancelPayedPayment", text: "Инициировать отмену оплаченного статуса у платежа" },
         { name: "cancelPayedPayment", text: "Отменить оплату платежа" },
         { name: "deletePayment", text: "Удалить платеж" }
+=======
+        {name: "addPayment", text: "Создавать платеж"},
+        {name: "editPayment", text: "Редактировать платеж"},
+        {name: "approvePayment", text: "Подтверждать платеж"},
+        {name: "payPayment", text: "Оплачивать платеж"},
+        {name: "postponePayment", text: "Переносить платеж на следующий день"},
+        {name: "viewAllPayments", text: "Просматривать все платежи"},
+        {name: "viewTodayPayments", text: "Просматривать реестр платежей на сегодня"},
+        {name: "cancelApprovedPayment", text: "Отменить подтверждение платежа"},
+        {name: "cancelPayedPayment", text: "Отменить оплату платежа"},
+        {name: "deletePayment", text: "Удалить платеж"}
+>>>>>>> 8ec52f0d863e9656ced314290e91834b9b00f88c
     ]
     const rolesForUser = [
         { name: "authorizeUser", text: "Определять права пользователя" },

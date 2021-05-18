@@ -6,11 +6,15 @@ const RedirectToAuth = () => {
     return (
         <Fragment>
             <div className='Redirect'>
-                <h1>Добро пожаловать во froot.kz</h1>
-                <p>Если у вас еще нет аккаунта, пройдите по странице
-                    <NavLink className='btn' to='/register'> Регистрация
-                    
-                    </NavLink></p><p> Если у вас уже имеется аккаунт <NavLink className='btn' to='/login'>Войти</NavLink></p>
+                <h1 className='Redirect__title'>Добро пожаловать во froot.kz</h1>
+                <div className='Redirect__inside'>
+                    <p className='Redirect__text'>Если у вас еще нет аккаунта, пройдите по странице</p>
+                    <NavLink className='btn' to='/register'> Регистрация</NavLink>
+                </div>
+                <div className='Redirect__inside'>
+                    <p> Если у вас уже имеется аккаунт </p>
+                    <NavLink className='btn' to='/login'>Войти</NavLink>
+                </div>
             </div>
         </Fragment>
     )

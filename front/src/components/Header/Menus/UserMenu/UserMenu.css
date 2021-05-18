@@ -1,6 +1,7 @@
 .UserMenu__title {
     color: white;
     margin: 0;
+    font-size: 16px;
 }
 .UserMenu__btn {
     border-radius: 18px;
@@ -12,4 +13,9 @@
     margin-left: 20px;
     outline: none;
     cursor: pointer;
+}
+@media screen and (min-width:1200px){
+    .UserMenu__title{
+        font-size: 20px;
+    }
 }

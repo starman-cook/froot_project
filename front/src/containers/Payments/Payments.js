@@ -1,7 +1,9 @@
+import { push } from "connected-react-router";
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Account from "../../components/Account/Account";
 import RedirectToAuth from "../../components/RedirectToAuth/RedirectToAuth";
+import UsersPermission from "../../components/UsersPermission/UsersPermission";
 import {
   fetchPayments,
   fetchSortedData,
@@ -24,6 +26,20 @@ const Payments = () => {
   useEffect(() => {
     dispatch(fetchPayments());
   }, [dispatch]);
+
+  const clearData = () => {
+    let dropText = document.getElementById('dropdown');
+    dropText.innerText='Статус платежа';
+    setState({payer: "",
+    dateOfPayment: {
+      fromDate: "",
+      toDate: "",
+    },
+    approved: "",
+    paided: ""})
+    dispatch(fetchPayments());
+    return
+    };
 
   let totalAsia = 0
     payments.filter((payment) => {
@@ -106,7 +122,9 @@ const Payments = () => {
   return (
     <Fragment>
       {user ? <div className="Payments">
-        <h2 className="Payments__title">Все платежи</h2>
+        {user.role.includes('viewAllPayments') ? (
+          <Fragment>
+            <h2 className="Payments__title">Все платежи</h2>
         <div className="Payments__total">
                   <h3>Общая сумма платежей по компаниям:</h3>
                   <div className="flex-space">
@@ -115,7 +133,9 @@ const Payments = () => {
                   </div>
               </div>
         <div className="Payments__filter">
+          <form>
           <select
+              className="toClear"
               name="payer"
               value={state.payer}
               onChange={e => inputChangeHandler(e)}
@@ -125,16 +145,18 @@ const Payments = () => {
             <option value="Froot_Бизнес">Froot_Бизнес</option>
           </select>
 
-          <p>с</p>
+          <span>с</span>
 
           <input
+            className="inputToClear"
             type="date"
             onChange={(e) => inputDateChangeHandler(e)}
             name="fromDate"
           />
-          <p>до</p>
+          <span>до</span>
 
           <input
+            className="toClear"
             type="date"
             onChange={(e) => inputDateChangeHandler(e)}
             name="toDate"
@@ -142,18 +164,24 @@ const Payments = () => {
           <div className="dropdown">
             <span id="dropdown" className="dropdown__title">Статусы платежей</span>
             <div className="dropdown__content">
-              <div className="dropdown__content-item" onClick={e=>statusChangeHandler(e)}>Не подтвержден</div>
               <div className="dropdown__content-item" onClick={e=>statusChangeHandler(e)}>Подтвержден</div>
+              <div className="dropdown__content-item" onClick={e=>statusChangeHandler(e)}>Не подтвержден</div>
               <div className="dropdown__content-item" onClick={e=>statusChangeHandler(e)}>Оплачен</div>
             </div>
 
           </div>
+          <button className="Payments__btn" type='button' onClick={() => postData()}>Применить</button>
+          <button className="Payments__btn" type='reset' onClick={()=>clearData()}>Сброс</button>
+          </form>
 
-          <button className="Payments__btn" onClick={() => postData()}>Применить</button>
+         
         </div>
         <Account payments={payments}
           statusDateChange = {statusChangeHandler}
           />
+          </Fragment>
+        ): <UsersPermission/>}
+        
       </div> : <RedirectToAuth/>}
     </Fragment>
   );

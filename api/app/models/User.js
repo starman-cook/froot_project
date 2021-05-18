@@ -34,8 +34,7 @@ const UserSchema = new Schema({
         required: true
     },
     patronymic: {
-        type: String,
-        required: true
+        type: String
     },
     position: {
         type: String,
@@ -72,8 +71,7 @@ const UserSchema = new Schema({
     role: {
         type: [String],
         required: true,
-        default: ['viewAllPayments'],
-        enum: ['viewAllPayments', 'addPayment', 'editPayment', 'approvePayment', 'payPayment', 'postponePayment', 'viewToBePaid', 'viewTodayPayments', 'initCancelApprovedPayment', 'cancelApprovedPayment', 'initCancelPayedPayment', 'cancelPayedPayment', 'deletePayment', 'stopRepeatabilityPayment', 'authorizeUser', 'editUser', 'deleteUser', 'viewUsers', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom', 'addNewMeetingRoom', 'deleteMeetingRoom',  'addContentlink', 'viewOwnContentlinks', 'viewAllContentlinks', 'addNews', 'viewAllNews', 'changeStatusNews']
+        enum: ['viewAllPayments', 'addPayment', 'editPayment', 'approvePayment', 'payPayment', 'postponePayment', 'viewToBePaid', 'viewTodayPayments', 'cancelApprovedPayment', 'cancelPayedPayment', 'deletePayment', 'stopRepeatabilityPayment', 'authorizeUser', 'editUser', 'deleteUser', 'viewUsers', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom', 'addNewMeetingRoom', 'deleteMeetingRoom',  'addContentlink', 'viewOwnContentlinks', 'viewAllContentlinks', 'addNews', 'viewAllNews', 'changeStatusNews']
     },
     token: {
         type: [String],

@@ -25,6 +25,7 @@ const Account = ({ registry, payments, approve, cancelApprove, pay, cancelPay, s
  
   return (
     <>
+    <div className="table-wrap">
       <table className="table">
         <thead>
           <tr>
@@ -32,7 +33,7 @@ const Account = ({ registry, payments, approve, cancelApprove, pay, cancelPay, s
             <th>Дата платежа</th>
             <th>Компания</th>
             <th>Назначение</th>
-            <th>Основание договора/счета</th>
+            <th>Договор/Счет</th>
             <th>Контрагент</th>
             <th>Приоритет</th>
             <th>Сумма платежа</th>
@@ -62,8 +63,8 @@ const Account = ({ registry, payments, approve, cancelApprove, pay, cancelPay, s
               <td>{payment.sum}</td>
               <td>{`${payment.user && payment.user.surname} ${payment.user && payment.user.name}`}</td>
               <td>{payment.image? <>
-                <span onClick={() => openModal(apiURL + "/uploads/" + payment.image)}>Посмотреть</span><br />
-                <a onClick={()=> download(apiURL + "/uploads/" + payment.image, "file.jpg")}>Скачать</a>
+                <span className='button' onClick={() => openModal(apiURL + "/uploads/" + payment.image)}>Посмотреть</span><br />
+                <a className='button' onClick={()=> download(apiURL + "/uploads/" + payment.image, "file.jpg")}>Скачать</a>
                 </> : <span>Файл отсутствует</span>
               }                                
               </td>
@@ -107,6 +108,7 @@ const Account = ({ registry, payments, approve, cancelApprove, pay, cancelPay, s
           ))}
         </tbody>
       </table>
+    </div>
       {showModal.show && <Modal src={showModal.src} close={closeModal} />}
     </>
   );

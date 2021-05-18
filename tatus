@@ -1,0 +1,65 @@
+[33mcommit 9cef7ddbfb05fda524fd5df7409da6023752a9bf[m[33m ([m[1;36mHEAD -> [m[1;32mtest-deploy[m[33m, [m[1;31morigin/test-deploy[m[33m)[m
+Author: Elena Tsoy <ltsoy1120@gmail.com>
+Date:   Mon May 17 17:58:16 2021 +0600
+
+    #86 добавлены стили и адаптив таблице
+
+[33mcommit f5122f1e99a049954e7999911aa5e0319507cad4[m
+Author: Elena Tsoy <ltsoy1120@gmail.com>
+Date:   Fri May 14 22:13:51 2021 +0600
+
+    #84 тестирование api-news
+
+[33mcommit bdd6f2ee527ff972deada1627a7afa26a6693808[m
+Author: Elena Tsoy <ltsoy1120@gmail.com>
+Date:   Fri May 14 19:14:50 2021 +0600
+
+    #84 тестирование api-users
+
+[33mcommit 6eb1a123a71d59bb0a9ee5b9a67acd790d714812[m
+Author: Elena Tsoy <ltsoy1120@gmail.com>
+Date:   Fri May 14 12:54:39 2021 +0600
+
+    #84 тестирование api-payments
+
+[33mcommit 6b9cd4cd20508c1f359e727576c96be89409b1da[m
+Author: Askar Amantayev <askar.amantayev@gmail.com>
+Date:   Thu May 13 12:41:12 2021 +0600
+
+    #78 - в конфиг файле gitlab cicd добавил настройки для jest тестов
+
+[33mcommit 53c8abac7c291f2ac68310a156c4d495f6e36b16[m
+Author: Askar Amantayev <askar.amantayev@gmail.com>
+Date:   Thu May 13 12:37:11 2021 +0600
+
+    #78 - в конфиг файле фронта вернул настройки чтоб смотрел на сервер
+
+[33mcommit 5a57a383d4a64924d5b018fbf5693fe558faf2f6[m
+Author: Askar Amantayev <askar.amantayev@gmail.com>
+Date:   Thu May 13 12:33:54 2021 +0600
+
+    #78 - исправления - после отката на пред.версию вернул тесты jest на бэк
+
+[33mcommit 023f99ad8777f75231196fe500933caebcda0d78[m
+Author: dmitriy <calloftrust@gmail.com>
+Date:   Sun May 9 17:28:23 2021 +0600
+
+    #78 проверка cicd
+
+[33mcommit c20d7c212509a802e6271237a1152bd7b6af28c6[m
+Author: dmitriy <calloftrust@gmail.com>
+Date:   Sun May 9 17:18:27 2021 +0600
+
+    #78 проверка cicd
+
+[33mcommit f357a604b042cd0f24dba71b60b9da0c35ffcd4b[m
+Author: dmitriy <calloftrust@gmail.com>
+Date:   Sun May 9 17:14:22 2021 +0600
+
+    #78 проверка cicd
+
+[33mcommit cae5d8c4477895181acbf1685a7c9032ac8c6187[m
+Author: dmitriy <calloftrust@gmail.com>
+Date:   Sun May 9 17:08:36 2021 +0600
+
+    #78 проверка cicd
