@@ -1,13 +1,13 @@
 .ButtonPink {
-    width: 200px;
-    height: 40px;
+    min-width: 150px;
+    height: 35px;
     font-size: 16px;
     font-weight: bold;
     background-color: #ff067c;
     border: none;
     margin-left: 35px;
     color: #fff;
-    border-radius: 8px;
+    border-radius: 5px;
     box-shadow: 0 0 3px 2px;
     outline: none;
     cursor: pointer;

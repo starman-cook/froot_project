@@ -1,24 +1,59 @@
+.Registry {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+}
+.Registry__header {
+    border-bottom: 2px solid #e5e5ea;
+    padding-bottom: 10px;
+}
 .Registry__title {
     color: #b1b0b0;
     font-size: 30px;
-    text-align: center;
+    text-align: left;
     text-shadow: 1px 1px 2px black;
     margin: 0;
-    margin-bottom: 10px;
 }
+.Registry__content, .Registry__header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+/* total */
 .Registry__total {
-    color: #363636;
     text-align: center;
-    width: 50%;
-    margin: 0 auto 10px;
+    margin: 10px auto;
+    color: #363636;
+    display: flex;
+    flex-direction: column;
+}
+.Registry__total-title {
+    margin: 10px;
 }
 .Registry__total-company {
     color: #363636;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 500;
-    border: 2px solid grey;
+    border: 1px solid #f52284;
     border-radius: 5px;
     padding: 5px;
     margin: 5px;
-    width: 50%;
+    width: 95%;
+}
+@media screen and (min-width:600px) {
+    .Registry {
+        padding: 15px;
+    }
+    .Registry__total-company {
+        font-size: 20px;
+        width: 320px;
+    }
+}
+@media screen and (min-width:1200px) {
+    .Registry__total {
+        flex-direction: row;
+    }
 }

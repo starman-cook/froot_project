@@ -70,10 +70,10 @@ const Account = ({ registry, payments, approve, cancelApprove, pay, cancelPay, s
               </td>
               {registry && user && (user._id===payment.user._id || user.role.includes('approvePayment'))?<td>
                 {payment.repeatability? (
-                  <> 
-                  <span >да</span>
-                  <button className="Account__btn" onClick={() => stopRepeatability(payment._id)}>Отменить</button>
-                  </>
+                  <div className="flex-space"> 
+                    <span >да</span>
+                    <button className="Account__btn" onClick={() => stopRepeatability(payment._id)}>Отменить</button>
+                  </div>
                   ): <span >нет</span>}
                 </td>:user && user.role.includes('viewAllPayments') && <td>
                 {!payment.repeatability? <span >нет</span> : <span >да</span>}</td>}
@@ -83,15 +83,15 @@ const Account = ({ registry, payments, approve, cancelApprove, pay, cancelPay, s
                 {payment.approved && payment.paided && <span style={{ color: 'green' }}>Оплачен</span>}</td>}                               
               {registry && user && user.role.includes('approvePayment') && <td>
                 {!payment.approved? (
-                  <>
-                  <span style={{ color: 'red' }}>Не подтвержден</span>
-                  <button className="Account__btn" onClick={() => approve(payment._id)}>Подтвердить</button>
-                  </>
+                  <div className="flex-space">
+                    <span style={{ color: 'red' }}>Не подтвержден</span>
+                    <button className="Account__btn" onClick={() => approve(payment._id)}>Подтвердить</button>
+                  </div>
                   ): (
-                  <>
-                  <span style={{ color: 'orange' }}>Подтвержден</span>
-                  <button className="Account__btn" onClick={() => cancelApprove(payment._id)}>Отменить</button>
-                  </>)}
+                  <div className="flex-space">
+                    <span style={{ color: 'orange' }}>Подтвержден</span>
+                    <button className="Account__btn" onClick={() => cancelApprove(payment._id)}>Отменить</button>
+                  </div>)}
                 </td>}
               {registry && user && user.role.includes('payPayment') && !user.role.includes('approvePayment') && payment.approved && <td>
                 {!payment.paided? (
