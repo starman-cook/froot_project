@@ -2,24 +2,26 @@ import React, {useState, useEffect} from 'react'
 import './BigBrother.css'
 import axios from 'axios'
 import {apiURL} from "../../config";
+import {useSelector} from "react-redux";
 
 const BigBrother = () => {
     const [loader, setLoader] = useState(false)
 
 ////////// TEST USER, CHANGE FOR A REAL ONE
-    const user = {
-        "_id": "60a3a4bd7da1a70838b69b72",
-        "workEmail": "mail@mail.mail",
-        "password": "12345a",
-        "name": "name",
-        "surname": "surname",
-        "position": "director",
-        "telegramName": "TelegaName",
-        "phone": "12334454768",
-        "role": ["asd", "sdf"],
-        "token": "wefwefwef21",
-        "patronymic": "Some"
-    }
+//     const user = {
+//         "_id": "60a3a4bd7da1a70838b69b72",
+//         "workEmail": "mail@mail.mail",
+//         "password": "12345a",
+//         "name": "name",
+//         "surname": "surname",
+//         "position": "director",
+//         "telegramName": "TelegaName",
+//         "phone": "12334454768",
+//         "role": ["asd", "sdf"],
+//         "token": "wefwefwef21",
+//         "patronymic": "Some"
+//     }
+    const user = useSelector(state => state.users.user)
 
     function getDisplayMedia(options) {
         if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
