@@ -19,8 +19,8 @@ const AdminForm = ({ id, options, value, onValueChange, defaultValue }) => {
                     setInputValue(newInputValue);
                 }}
                 options={options}
-                getOptionLabel={(option) => option[id]}
-                getOptionSelected={(option, value) => option[id] === value} //
+                getOptionLabel={(option) => option[id] ? option[id] : ""}
+                getOptionSelected={(option, value) => option[id] !== value} //
                 style={{ width: 300 }}
                 renderInput={(params) => <TextField {...params} variant="outlined" />}
             />
