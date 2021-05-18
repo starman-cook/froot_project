@@ -68,7 +68,6 @@ const AddRole = () => {
         dispatch(push('/admin-panel'))
     };
     const rolesForPayment = [
-<<<<<<< HEAD
         { name: "addPayment", text: "Создавать платеж" },
         { name: "editPayment", text: "Редактировать платеж" },
         { name: "approvePayment", text: "Подтверждать платеж" },
@@ -76,23 +75,9 @@ const AddRole = () => {
         { name: "postponePayment", text: "Переносить платеж на следующий день" },
         { name: "viewAllPayments", text: "Просматривать все платежи" },
         { name: "viewTodayPayments", text: "Просматривать реестр платежей на сегодня" },
-        { name: "initCancelApprovedPayment", text: "Инициировать отмену подтверждения" },
         { name: "cancelApprovedPayment", text: "Отменить подтверждение платежа" },
-        { name: "initCancelPayedPayment", text: "Инициировать отмену оплаченного статуса у платежа" },
         { name: "cancelPayedPayment", text: "Отменить оплату платежа" },
         { name: "deletePayment", text: "Удалить платеж" }
-=======
-        {name: "addPayment", text: "Создавать платеж"},
-        {name: "editPayment", text: "Редактировать платеж"},
-        {name: "approvePayment", text: "Подтверждать платеж"},
-        {name: "payPayment", text: "Оплачивать платеж"},
-        {name: "postponePayment", text: "Переносить платеж на следующий день"},
-        {name: "viewAllPayments", text: "Просматривать все платежи"},
-        {name: "viewTodayPayments", text: "Просматривать реестр платежей на сегодня"},
-        {name: "cancelApprovedPayment", text: "Отменить подтверждение платежа"},
-        {name: "cancelPayedPayment", text: "Отменить оплату платежа"},
-        {name: "deletePayment", text: "Удалить платеж"}
->>>>>>> 8ec52f0d863e9656ced314290e91834b9b00f88c
     ]
     const rolesForUser = [
         { name: "authorizeUser", text: "Определять права пользователя" },
