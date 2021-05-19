@@ -203,6 +203,8 @@ const BigBrother = () => {
         checkIfLast()
     }, [])
 
+
+
     return (
         <div className={"BigBrother__bg--top"}>
             {!isStarted ? <input required value={infoBB.merchant} name={"merchant"} onChange={(event) => {inputMerchant(event)}} placeholder={"merchant"} className={"BigBrotherInput"} type={"text"} /> : null}

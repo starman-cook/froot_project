@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContentLink, changeButtonName, fetchContentLinks, setLoadingFalse, setLoadingTrue, setNewLinkForCount, setNewMerchentForContent } from '../../store/actions/contentActions';
 import './ContentManagerForm.css';
@@ -6,6 +6,7 @@ import {apiURL} from '../../config';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {Route, Switch} from "react-router-dom";
 import BigBrother from "../../components/BigBrother/BigBrother";
+import axios from "axios";
 
 const ContentManagerForm=()=>{
     // const dispatch=useDispatch();
@@ -109,6 +110,8 @@ const ContentManagerForm=()=>{
     //         }
     //     </div>
     // )
+
+    const user = useSelector(state => state.users.user)
     const openBigBrother = (event) => {
         event.preventDefault()
         window.open("/bigbrother",'targetWindow',
@@ -120,13 +123,48 @@ const ContentManagerForm=()=>{
                                     width=240,
                                     height=220`)}
 
+    const [jobs, setJobs] = useState([])
+    let allJobs;
+    const getUsersPrevScreens = async () => {
+        try {
+            const response = await axios.get(apiURL + '/bigBrother/' + user._id)
+            setJobs(response.data)
+            console.log("ALLJOBS**************  ",response.data)
+        } catch(err) {
+            console.log(err)
+        }
+    }
+
+    useEffect(() => {
+        getUsersPrevScreens()
+    }, [])
+
+    if (jobs.length) {
+        allJobs = jobs.map((el, i) => {
+            return (
+                <div key={i} className={"Job"}>
+                    <h2>{i + 1}</h2>
+                    <div className={"Job__imgBlock"}>
+                        <img className={"Job__img"} src={`${apiURL}/uploads/contentLinks/${el.startScreen}`} alt={el.merchant} />
+                        <img className={"Job__img"} src={`${apiURL}/uploads/contentLinks/${el.stopScreen}`} alt={el.merchant} />
+                    </div>
+                    <div className={"Job__timeBlock"}>
+                        <p className={"Job__text"}>Начало: {el.startTime}</p>
+                        <p className={"Job__text"}>Конец: {el.stopTime}</p>
+                    </div>
+                    <p className={"Job__text"} >Поставщик: {el.merchant}</p>
+                    <p className={"Job__text"} >Общее время: {el.totalTime}</p>
+                </div>
+            )
+        })
+    }
 
     return(
         <>
             <div>
                 <a className='btn BigBrother__btn--pushDown'  onClick={(event)=> {openBigBrother(event)}}>START DOING JOB</a>
             </div>
-
+            {allJobs}
             {/*<form onSubmit={formSubmitHandler}>*/}
             {/*    <input type='text'value={url} className='screen-input' placeholder='Введите ссылку на редактируемый продукт' name='url' onChange={(e)=>inputHandler(e)}/>*/}
             {/*    <input type='text'value={merchent} className='screen-input' placeholder='Введите Мерчента' name='merchent' onChange={(e)=>inputHandler(e)}/>*/}
