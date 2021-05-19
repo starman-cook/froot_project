@@ -12,10 +12,10 @@ const bigBrother = require('./app/bigBrother')
 const app = express();
 const port = process.env.NODE_ENV !== 'test' ? 8000 : 8010;
 
-const corsOptions = {
-    origin: 'http://104.248.198.29:3000',
-    optionsSuccessStatus: 200
-}
+// const corsOptions = {
+//     origin: 'http://104.248.198.29:3000',
+//     optionsSuccessStatus: 200
+// }
 
 app.use(cors());
 app.use(express.json());
