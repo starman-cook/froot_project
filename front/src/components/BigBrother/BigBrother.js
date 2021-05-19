@@ -24,35 +24,35 @@ const BigBrother = () => {
     const user = useSelector(state => state.users.user)
 
     function getDisplayMedia(options) {
-        if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
+        // if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
             return navigator.mediaDevices.getDisplayMedia(options)
-        }
-        if (navigator.getDisplayMedia) {
-            return navigator.getDisplayMedia(options)
-        }
-        if (navigator.webkitGetDisplayMedia) {
-            return navigator.webkitGetDisplayMedia(options)
-        }
-        if (navigator.mozGetDisplayMedia) {
-            return navigator.mozGetDisplayMedia(options)
-        }
-        throw new Error('getDisplayMedia is not defined')
+        // }
+        // if (navigator.getDisplayMedia) {
+        //     return navigator.getDisplayMedia(options)
+        // }
+        // if (navigator.webkitGetDisplayMedia) {
+        //     return navigator.webkitGetDisplayMedia(options)
+        // }
+        // if (navigator.mozGetDisplayMedia) {
+        //     return navigator.mozGetDisplayMedia(options)
+        // }
+        // throw new Error('getDisplayMedia is not defined')
     }
 
     function getUserMedia(options) {
-        // if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             return navigator.mediaDevices.getUserMedia(options)
-        // }
-        // if (navigator.getUserMedia) {
-        //     return navigator.getUserMedia(options)
-        // }
-        // if (navigator.webkitGetUserMedia) {
-        //     return navigator.webkitGetUserMedia(options)
-        // }
-        // if (navigator.mozGetUserMedia) {
-        //     return navigator.mozGetUserMedia(options)
-        // }
-        // throw new Error('getUserMedia is not defined')
+        }
+        if (navigator.getUserMedia) {
+            return navigator.getUserMedia(options)
+        }
+        if (navigator.webkitGetUserMedia) {
+            return navigator.webkitGetUserMedia(options)
+        }
+        if (navigator.mozGetUserMedia) {
+            return navigator.mozGetUserMedia(options)
+        }
+        throw new Error('getUserMedia is not defined')
     }
 
     async function takeScreenshotStream() {
