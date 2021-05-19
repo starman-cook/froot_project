@@ -24,19 +24,19 @@ const BigBrother = () => {
     const user = useSelector(state => state.users.user)
 
     function getDisplayMedia(options) {
-        // if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
+        if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
             return navigator.mediaDevices.getDisplayMedia(options)
-        // }
-        // if (navigator.getDisplayMedia) {
-        //     return navigator.getDisplayMedia(options)
-        // }
-        // if (navigator.webkitGetDisplayMedia) {
-        //     return navigator.webkitGetDisplayMedia(options)
-        // }
-        // if (navigator.mozGetDisplayMedia) {
-        //     return navigator.mozGetDisplayMedia(options)
-        // }
-        // throw new Error('getDisplayMedia is not defined')
+        }
+        if (navigator.getDisplayMedia) {
+            return navigator.getDisplayMedia(options)
+        }
+        if (navigator.webkitGetDisplayMedia) {
+            return navigator.webkitGetDisplayMedia(options)
+        }
+        if (navigator.mozGetDisplayMedia) {
+            return navigator.mozGetDisplayMedia(options)
+        }
+        throw new Error('getDisplayMedia is not defined')
     }
 
     function getUserMedia(options) {
