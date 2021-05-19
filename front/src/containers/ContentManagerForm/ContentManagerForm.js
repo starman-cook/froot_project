@@ -6,7 +6,8 @@ import {apiURL} from '../../config';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {Route, Switch} from "react-router-dom";
 import BigBrother from "../../components/BigBrother/BigBrother";
-import axios from "axios";
+import axiosApi from "../../axiosApi";
+// import axios from "axios";
 
 const ContentManagerForm=()=>{
     // const dispatch=useDispatch();
@@ -127,7 +128,7 @@ const ContentManagerForm=()=>{
     let allJobs;
     const getUsersPrevScreens = async () => {
         try {
-            const response = await axios.get(apiURL + '/bigBrother/' + user._id)
+            const response = await axiosApi.get('/bigBrother/' + user._id)
             setJobs(response.data)
             console.log("ALLJOBS**************  ",response.data)
         } catch(err) {
