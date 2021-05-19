@@ -1,13 +1,31 @@
-const helpers = require('./helpers');
 const express = require('express');
 const router = express.Router();
-const auth = require('./middleware/auth.js');
-const upload = require('./middleware/upload.js');
-const permit = require('./middleware/permit.js');
-const axios = require('axios');
 const moment = require('moment')
 const BigBrother = require('./models/BigBrother');
 const config = require('./config');
+const multer = require('multer')
+const {nanoid} = require('nanoid')
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+
+        // try {
+        //     fs.opendir("./" + moment().format("DD_MM_YYYY"), (err) => {
+        //         console.log("directory exists")
+        //     })
+        // } catch {
+        // console.log(req.body)
+        //     fs.mkdir("./public/" + moment().format("DD_MM_YYYY"), { recursive: true }, (err) => {
+        //         if (err) throw err;
+        //     });
+        // }
+        cb(null, config.uploadPath + "/contentLinks");
+    },
+    filename:(req, file, cb) => {
+        cb(null, nanoid() + (file.originalname !== "blob" ? path.extname(file.originalname) : ".jpg"));
+    }
+});
+const upload = multer({storage});
 
 
     router.get('/', async(req, res) => {
