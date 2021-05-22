@@ -56,8 +56,12 @@ const createRouter = () => {
         };
         try {
             const contentlinks = await Contentlink.find(filter).populate('user', 'surname name workEmail');;
+            if (process.env.NODE_ENV !== 'test') { 
             const contentlinksByUsers = await helpers.buildContentlinksReportExcelFile(contentlinks);
             res.send(contentlinksByUsers);
+            }else{
+                res.send(contentlinks)
+            }
         } catch (error) {
             res.status(500).send(error);
         }
