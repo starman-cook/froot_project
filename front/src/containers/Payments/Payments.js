@@ -3,6 +3,10 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Account from "../../components/Account/Account";
 import RedirectToAuth from "../../components/RedirectToAuth/RedirectToAuth";
+import Total from "../../components/Total/Total";
+import ButtonPink from "../../components/UI/Buttons/ButtonPink/ButtonPink";
+import ButtonWhite from "../../components/UI/Buttons/ButtonWhite/ButtonWhite";
+import Modal from "../../components/UI/Modal/Modal";
 import UsersPermission from "../../components/UsersPermission/UsersPermission";
 import {
   fetchPayments,
@@ -39,22 +43,7 @@ const Payments = () => {
     paided: ""})
     dispatch(fetchPayments());
     return
-    };
-
-  let totalAsia = 0
-    payments.filter((payment) => {
-        if(payment.payer === "Froot_Middle_Asia"){
-            totalAsia += Number(payment.sum)
-        }
-        return totalAsia
-    });
-    let totalBusiness = 0
-    payments.filter((payment) => {
-        if(payment.payer === "Froot_Бизнес"){
-            totalBusiness += Number(payment.sum)
-        }
-        return totalBusiness
-    });
+  };
   const inputChangeHandler = (event) => {
     const { name, value } = event.target;
     setState((prevState) => {
@@ -118,35 +107,35 @@ const Payments = () => {
     }
     dispatch(fetchSortedData(stateCopy));
   };
-  
-  return (
-    <Fragment>
-      {user ? <div className="Payments">
-        {user.role.includes('viewAllPayments') ? (
-          <Fragment>
-            <h2 className="Payments__title">Все платежи</h2>
-        <div className="Payments__total">
-                  <h3>Общая сумма платежей по компаниям:</h3>
-                  <div className="flex-space">
-                      <span className="Payments__total-company">"Froot_Middle_Asia": <strong>{totalAsia}</strong> KZT</span>
-                      <span className="Payments__total-company">"Froot_Бизнес": <strong>{totalBusiness}</strong> KZT</span>
-                  </div>
-              </div>
-        <div className="Payments__filter">
-          <form>
+  // --для модалки--
+  const [showModal, setShowModal] = useState({
+    show: false
+  });
+  const openModal = () => {
+    setShowModal({ show: true });
+  }
+  const closeModal = () => {
+    setShowModal({ show: false })
+  }
+  const body = (
+    <form>
+      <div className="Payments__filter-input">
+        <div className="Payments__filter-item">
+          <h3 className="Payments__filter-title">По компании:</h3>
           <select
-              className="toClear"
-              name="payer"
-              value={state.payer}
-              onChange={e => inputChangeHandler(e)}
+            className="toClear"
+            name="payer"
+            value={state.payer}
+            onChange={e => inputChangeHandler(e)}
           >
             <option value="">Все компании</option>
             <option value="Froot_Middle_Asia">Froot_Middle_Asia</option>
             <option value="Froot_Бизнес">Froot_Бизнес</option>
           </select>
-
+        </div>
+        <div className="Payments__filter-item">
+          <h3 className="Payments__filter-title">По дате:</h3>
           <span>с</span>
-
           <input
             className="inputToClear"
             type="date"
@@ -154,35 +143,52 @@ const Payments = () => {
             name="fromDate"
           />
           <span>до</span>
-
           <input
             className="toClear"
             type="date"
             onChange={(e) => inputDateChangeHandler(e)}
             name="toDate"
           />
-          <div className="dropdown">
-            <span id="dropdown" className="dropdown__title">Статусы платежей</span>
-            <div className="dropdown__content">
-              <div className="dropdown__content-item" onClick={e=>statusChangeHandler(e)}>Подтвержден</div>
-              <div className="dropdown__content-item" onClick={e=>statusChangeHandler(e)}>Не подтвержден</div>
-              <div className="dropdown__content-item" onClick={e=>statusChangeHandler(e)}>Оплачен</div>
-            </div>
-
-          </div>
-          <button className="Payments__btn" type='button' onClick={() => postData()}>Применить</button>
-          <button className="Payments__btn" type='reset' onClick={()=>clearData()}>Сброс</button>
-          </form>
-
-         
         </div>
+        <div className="Payments__filter-item dropdown">
+          <h3 className="Payments__filter-title mb">По статусу:</h3>
+          <span id="dropdown" className="dropdown__title">Статусы платежей</span>
+          <div className="dropdown__content">
+            <div className="dropdown__content-item" onClick={e=>statusChangeHandler(e)}>Подтвержден</div>
+            <div className="dropdown__content-item" onClick={e=>statusChangeHandler(e)}>Не подтвержден</div>
+            <div className="dropdown__content-item" onClick={e=>statusChangeHandler(e)}>Оплачен</div>
+          </div>
+        </div>
+      </div>
+      <div className="Payments__filter-control">
+        <ButtonPink type='button' text='Применить' onClickHandler={postData}/>
+        <ButtonWhite type='reset' text='Сброс' onClickHandler={clearData}/>
+      </div>
+    </form>      
+  )
+
+  return (
+    <Fragment>
+      {user && <div className="Payments">
+        {user.role.includes('viewAllPayments') ? (
+          <Fragment>
+            <div className="Payments__content">
+              <div className="Payments__header">
+                <h2 className="Payments__title">Все платежи</h2>
+                <div className="Payments__filter">
+                  <ButtonPink type='button' text='Фильтры' onClickHandler={openModal}/>
+                  {showModal.show && <Modal body={body} name={'filter'} close={closeModal} />}
+                </div>
+              </div>
+              <Total payments={payments}/>
+           </div>
         <Account payments={payments}
           statusDateChange = {statusChangeHandler}
           />
           </Fragment>
         ): <UsersPermission/>}
         
-      </div> : <RedirectToAuth/>}
+      </div> }
     </Fragment>
   );
 };

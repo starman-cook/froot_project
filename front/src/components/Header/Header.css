@@ -76,7 +76,7 @@
         margin-bottom: 0;
     }
 }
-@media screen and (min-width:1500px) {
+@media screen and (min-width:1200px) {
     .Header__menu{
         position:unset;
         display: flex;

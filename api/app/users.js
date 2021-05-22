@@ -5,6 +5,7 @@ const router = express.Router();
 const User = require('./models/User');
 
 const createRouter = () => {
+
     router.get('/',
      [auth, permit('viewUsers')],
       async (req, res) => {

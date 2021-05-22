@@ -5,13 +5,13 @@ const Room = require('./models/Room')
 
 router.post('/', async (req, res) => {
     try {
-        const roomExists = await room.findOne({room: req.body.room})
+        const roomExists = await Room.findOne({room: req.body.room})
         if (roomExists) return res.res.status(400).send({message: "Комната с данным названием уже существует"})
         const room = await new Room(req.body)
         room.save()
         res.send(room)
     } catch(err) {
-        res.status(500).send({error: err})
+        res.status(500).send({error: "cannot create room, something went wrong"})
     }
 })
 router.get('/', async (req, res) => {

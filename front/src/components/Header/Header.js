@@ -21,7 +21,7 @@ const Header = ({ user }) => {
   }, []);
 
   useEffect(() => {
-    if (windowWidth > 1500) {
+    if (windowWidth > 1200) {
       setState({ menuShow: true, accauntShow: true });
     }
   }, [windowWidth])
@@ -62,7 +62,7 @@ const Header = ({ user }) => {
       <NavLink to="/">
         <img src={logo} alt="logo" />
       </NavLink>
-      <button className={windowWidth > 1500 ? 'Header__menu--none' : "UserMenu__btn Header__burger"} onClick={menuClick}>Menu</button>
+      <button className={windowWidth > 1200 ? 'Header__menu--none' : "UserMenu__btn Header__burger"} onClick={menuClick}>Menu</button>
       <menu className={classNameOfMenu}>
         {user && user.role.includes("viewAllPayments") && (
           <Fragment>
@@ -87,10 +87,11 @@ const Header = ({ user }) => {
                 </NavLink>
                 </MenuItem>
               )}
-              {user.role.includes("payPayment") && (
+
+              {user.role.includes("viewAllPayments") && (
                 <MenuItem>
-                  <NavLink className="Header__link" to="/pay-registry">
-                    Платежи для оплаты
+                  <NavLink to="/" className="Header__link">
+                    Все платежи
                 </NavLink>
                 </MenuItem>
               )}
@@ -148,7 +149,7 @@ const Header = ({ user }) => {
         )}
 
       </menu>
-      <button className={windowWidth > 1500 ? 'Header__menu--none' : "UserMenu__btn Header__burger"} onClick={accauntClick}>Профиль</button>
+      <button className={windowWidth > 1200 ? 'Header__menu--none' : "UserMenu__btn Header__burger"} onClick={accauntClick}>Профиль</button>
       <div className={classNameOfAccaunt}>{user ? <UserMenu user={user} /> : <AnonymousMenu />}</div>
     </div>
   );

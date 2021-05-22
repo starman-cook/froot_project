@@ -1,6 +1,6 @@
 const permit = (...roles) => {
-    return (req, res, next) => {
 
+    return (req, res, next) => {
         if (!req.user) {
             return res.status(401).send({ 'message': 'Unauthenticated' })
         }

@@ -106,8 +106,9 @@ UserSchema.methods.generationToken = function (tokenType) {
     const copy = [...this.token]
     if (tokenType === 'telegram') {
         copy[1] = nanoid()
+    } else {
+        copy[0] = nanoid()
     }
-    copy[0] = nanoid()
     return this.token = copy;
 }
 // UserSchema.methods.generationTokenTelegram = function () {
