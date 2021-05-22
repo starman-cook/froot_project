@@ -169,7 +169,7 @@ const Payments = () => {
 
   return (
     <Fragment>
-      {user && payments.length? <div className="Payments">
+      {user && <div className="Payments">
         {user.role.includes('viewAllPayments') ? (
           <Fragment>
             <div className="Payments__content">
@@ -188,7 +188,7 @@ const Payments = () => {
           </Fragment>
         ): <UsersPermission/>}
         
-      </div> : <RedirectToAuth/>}
+      </div> }
     </Fragment>
   );
 };

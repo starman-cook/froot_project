@@ -4,7 +4,6 @@ const User = require('./app/models/User');
 
 const { app, port } = require('./app');
 
-
 const run = async () => {
     if (process.env.NODE_ENV !== 'test') { ///// !!!чтобы отрабатывала тестовая среда - перенес сюда коннект к монго и слежение порта
         await mongoose.connect(config.db.url + '/' + config.db.name, { useNewUrlParser: true, useUnifiedTopology: true });

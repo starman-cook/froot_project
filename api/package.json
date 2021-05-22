@@ -8,7 +8,7 @@
     "seed": "node fixtures.js",
     "test": "mocha",
     "start": "node index.js",
-    "test:jest": "NODE_ENV=test jest --detectOpenHandles --maxWorkers=1 --forceExit"
+    "test:jest": "NODE_ENV=test jest --detectOpenHandles --watch --maxWorkers=1 --forceExit"
   },
   "jest": {
     "bail": true,

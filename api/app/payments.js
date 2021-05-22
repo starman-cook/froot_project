@@ -22,9 +22,8 @@ schedule.scheduleJob("16 21 * * *", async  function(){
         console.log(e)
     }
 });
-
 const createRouter = () => {
-    
+
     router.get('/', auth, async (req, res) => {
         let filter = {}
         if (req.query.date) {
@@ -176,6 +175,7 @@ const createRouter = () => {
         };
         try {
             const payments = await Payment.find(filter).populate('user', 'surname name workEmail');
+
             await helpers.checkRepeatability(payments)
             await helpers.buildExcelFile(payments)
             res.send(payments);
@@ -193,8 +193,9 @@ const createRouter = () => {
         };
         try {
             const payments = await Payment.find(filter).populate('user', 'surname name workEmail');
+            
             let files = []
-            payments.map(p=>{
+            payments && payments.map(p=>{
                 if(p.image){
                     files.push(p.image)
                 }                

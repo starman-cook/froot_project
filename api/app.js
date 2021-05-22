@@ -6,7 +6,7 @@ const news = require('./app/news');
 const calendarEvents = require('./app/calendarEvent');
 const contentlinks = require('./app/contentlinks');
 const cors = require('cors');
-const rooms = require('./app/room')
+const rooms = require('./app/rooms')
 const bigBrother = require('./app/bigBrother')
 
 const app = express();
