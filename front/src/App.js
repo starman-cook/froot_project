@@ -27,7 +27,15 @@ const App = () => {
       <Header user={user} />
       <main className="App__main">
         <Switch>
-          <Route path="/" exact component={Payments} />
+          <ProtectedRoute
+            isAllowed={
+              user && user.role.includes("viewAllPayments")
+            }
+            redirectTo={'/login'}
+            path="/"
+            exact
+            component={Payments}
+          />
           <Route path="/registry" exact component={Registry} />
           <ProtectedRoute
             isAllowed={

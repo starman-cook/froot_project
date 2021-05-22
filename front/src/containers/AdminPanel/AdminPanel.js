@@ -68,7 +68,7 @@ const AdminPanel = () => {
 
     return (
         <Fragment>
-            <h1 className="fontSans">Сотрудники</h1>
+            <h1>Сотрудники</h1>
             {users &&
                 <FormControl variant="outlined" className={classes.formControl}>
                     <InputLabel id="demo-mutiple-name-label">Фильтр</InputLabel>

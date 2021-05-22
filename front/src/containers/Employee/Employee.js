@@ -44,7 +44,7 @@ const Employee = () => {
 
     return (
         <>
-            <div className='fontSans'>
+            <div>
                 <FormElement
                     placeholder="Имя"
                     label="Имя"

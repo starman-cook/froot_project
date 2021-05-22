@@ -102,7 +102,7 @@ const AddRole = () => {
         { name: "viewAllContentlinks", text: "Просматривать заявки всех контент менеджеров" }
     ]
     return (
-        <div className="AddRole fontSans">
+        <div className="AddRole">
             <div>
                 <h2>Добавить права пользователю:</h2>
                 <p><b>Имя:</b> {state.name}</p>
