@@ -39,6 +39,7 @@ const Calendar = () => {
         }
         return `${monthCopy}${year}`
     }
+    
     const getFullDateString = (day, month, year) => {
         if (day < 10) {
             day = "0" + day
@@ -48,7 +49,6 @@ const Calendar = () => {
         }
         return `${day}${month}${year}`
     }
-
 
     const [isModalMonth, setIsModalMonth] = useState(false);
     const [isModalRoom, setIsModalRoom] = useState(false);
@@ -74,7 +74,6 @@ const Calendar = () => {
         setIsModalMonth(false)
         setIsDayTiming(false)
         setIsModalRoom(false)
-        // await getBusyMonth(room, getDateForBusy())
     }
 
     const [isDayTiming, setIsDayTiming] = useState(false);
@@ -94,8 +93,6 @@ const Calendar = () => {
         setIsModalMonth(false)
         setIsModalRoom(false)
     }
-
-
 
     const tableHead = (
         <div className="CalendarOne__weekdays-block">
@@ -155,7 +152,6 @@ const Calendar = () => {
         )
     });
 
-    // const rooms = ["1", "2", "room", "coming soon"];
     const deleteRoomHandler = async (id) => {
         await dispatch(deleteRoom(id))
         await dispatch(getAllRooms())
@@ -196,9 +192,9 @@ const Calendar = () => {
         dispatch(getAllRooms())
         dispatch(fetchAllUsers())
     }, [])
-
+    
     useEffect(() => {
-        dispatch(getBusyMonth(room, getDateForBusy()))
+        room && dispatch(getBusyMonth(room, getDateForBusy()))
     }, [isBg, isModalRoom, isModalYear, isModalMonth, month, year, room])
 
     const [roomName, setRoomName] = useState('')
@@ -212,7 +208,7 @@ const Calendar = () => {
     }
     const roomNameInput = (event) => {
         setRoomName(event.target.value)
-        console.log(roomName)
+        .log(roomName)
     }
 
     const oneCalendar = (

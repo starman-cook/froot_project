@@ -1,9 +1,8 @@
 const express = require('express');
 const users = require('./app/users');
 const payments = require('./app/payments');
-const meetings = require('./app/meetings');
 const news = require('./app/news');
-const calendarEvents = require('./app/calendarEvent');
+const calendarEvents = require('./app/calendarEvents');
 const contentlinks = require('./app/contentlinks');
 const cors = require('cors');
 const rooms = require('./app/rooms')
@@ -21,7 +20,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-app.use('/meetings', meetings());
 app.use('/payments', payments());
 app.use('/users', users());
 app.use('/bigBrother', bigBrother);

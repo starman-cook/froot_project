@@ -11,22 +11,6 @@ const DayTiming = (props) => {
 
     const fileLoader = useRef();
 
-    //TODO ВАЖНО запросы может удалять инициатор и какой нибудь тип с офигенным допуском
-
-    //TODO Сохранять сотрудников в стэйт и делать проверку перед запросом если в базе есть сотрудники, чтобы по сто раз не отправлять запросы при кликам по разным датам
-
-    //TODO Логирование добавить на апи, разбить по папкам, чтобы поиск был удобным
-
-    //TODO при удалении информировать участников
-
-    //TODO информировать участников
-
-    //TODO файлов может быть несколько(((((
-
-    //TODO запретить делать резервы на прошедшие даты
-
-
-
     /**
      * Здесь получем цвет
      * @returns {string}
@@ -47,7 +31,7 @@ const DayTiming = (props) => {
     const monthNum = props.monthNum
     const year = props.year;
     const fullDate = props.fullDate
-    const room = props.room // получать номер комнаты через выпадашку или еще какую штуку
+    const room = props.room 
 
     const getDateForBusy = () => {
         let monthCopy = monthNum + 1;
@@ -62,19 +46,13 @@ const DayTiming = (props) => {
     const [secondClick, setSecondClick] = useState(null)
     const [color, setColor] = useState(getRandomColor())
 
-
     const activeTimes = useSelector(state => state.calendarEvents.events)
     const allWorkers = useSelector(state => state.users.users)
-
-
-
 
     useEffect(() => {
         dispatch(fetchAllUsers())
         dispatch(getAllEvents(room, fullDate))
     }, [fullDate])
-
-
 
     const [chosenTime, setChosenTime] = useState("");
 
@@ -87,16 +65,6 @@ const DayTiming = (props) => {
         }
     }
     const [scale, setScale] = useState([])
-
-    // const makeAllCellsWhite = () => {
-    //     const allCells = document.getElementsByClassName("DayTiming__cell")
-    //     for (let i = 0; i < allCells.length; i++) {
-    //         allCells[i].style.background = "rgb(255, 255, 255)"
-    //     }
-    // }
-    // useEffect(() => {
-    //     makeAllCellsWhite()
-    // }, [props.closeModal])
 
     const pickTheRange = (event, i) => {
         const scaleCopy = [...scale]
@@ -158,7 +126,6 @@ const DayTiming = (props) => {
         await dispatch(getAllEvents(room, fullDate))
     }
 
-
     let timeTable;
     if (activeTimes) {
         timeTable = (
@@ -168,7 +135,6 @@ const DayTiming = (props) => {
                 <div className="DayTiming__table-wrapper">
                     {timePeriods.map((el, i) => {
                         const index = activeTimes.findIndex(at => at.scale.includes(el))
-                        console.log(activeTimes[index])
                         let isOwner;
                         let participants;
                         if (index > -1) {
@@ -222,8 +188,6 @@ const DayTiming = (props) => {
         }
         copyChosenWorkers.push(worker)
         setChosenWorkers(copyChosenWorkers)
-        console.log(chosenWorkers)
-
     }
     const deleteWorker = (i) => {
         const copyChosenWorkers = [...chosenWorkers]
@@ -260,9 +224,8 @@ const DayTiming = (props) => {
             return {...prevState, [name]: value}
         })
     }
-    /**
-     * Создание резерва переговорки и отправка данных на сервер
-     */
+    
+    // Создание резерва переговорки и отправка данных на сервер
 
     const submitEvent = async (event) => {
         event.preventDefault()
@@ -270,7 +233,6 @@ const DayTiming = (props) => {
         chosenWorkers.forEach(el => {
             workersObjects.push({userId: el._id, name: el.name, surname: el.surname, position: el.position,  accepted: null})
         })
-        console.log(workersObjects)
         let obj = {
             monthYear: monthYear,
             user: user._id,
@@ -285,8 +247,6 @@ const DayTiming = (props) => {
             from: secondClick ? firstClick.index < secondClick.index ? firstClick.time : secondClick.time : firstClick.time,
             to: secondClick ? firstClick.index > secondClick.index ? parseMyTime(firstClick.time) : parseMyTime(secondClick.time) : parseMyTime(firstClick.time)
         }
-
-        console.log("OBJECT SUBMIT ********** ",obj)
 
         const formData = new FormData()
         Object.keys(obj).forEach(key => {

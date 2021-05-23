@@ -59,7 +59,6 @@ export const addNewRoom = (name) => {
         }
     }
 }
-
 export const getAllRooms = () => {
     return async dispatch => {
         try {
