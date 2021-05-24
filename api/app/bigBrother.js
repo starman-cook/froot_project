@@ -3,12 +3,12 @@ const router = express.Router();
 const moment = require('moment')
 const BigBrother = require('./models/BigBrother');
 const config = require('./config');
-const multer = require('multer')
-const {nanoid} = require('nanoid');
 const logger=config.log4jsApi.getLogger("api");
-
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
+// const multer = require('multer')
+// const {nanoid} = require('nanoid')
+//
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
 
         // try {
         //     fs.opendir("./" + moment().format("DD_MM_YYYY"), (err) => {
@@ -20,13 +20,13 @@ const storage = multer.diskStorage({
         //         if (err) throw err;
         //     });
         // }
-        cb(null, config.uploadPath + "/contentLinks");
-    },
-    filename:(req, file, cb) => {
-        cb(null, nanoid() + (file.originalname !== "blob" ? path.extname(file.originalname) : ".jpg"));
-    }
-});
-const upload = multer({storage});
+    //     cb(null, config.uploadPath + "/contentLinks");
+    // },
+    // filename:(req, file, cb) => {
+    //     cb(null, nanoid() + (file.originalname !== "blob" ? path.extname(file.originalname) : ".jpg"));
+    // }
+// });
+// const upload = multer({storage});
 
 
     router.get('/', async(req, res) => {
@@ -41,7 +41,7 @@ const upload = multer({storage});
 
     router.get('/:userId', async(req, res) => {
         try {
-            console.log(req.params.userId)
+            // console.log(req.params.userId)
             const jobs = await BigBrother.find({user: req.params.userId}).populate("User")
             res.send(jobs)
         } catch (err) {
@@ -50,16 +50,17 @@ const upload = multer({storage});
         }
     })
 
-    router.get('/lastJob', async(req, res) => {
+    router.get('/:userId/lastJob', async(req, res) => {
+        // console.log("LAST DAMNED *********** ",req.body)
         try {
-            const lastJob = await BigBrother.findOne({stopScreen: null})
+            const lastJob = await BigBrother.findOne({user: req.params.userId, stopScreen: null})
             if (lastJob) {
                 res.send(lastJob)
             } else {
                 res.send({message: "ok"})
             }
         } catch (err) {
-            logger.error('GET /bigBrother/lastJob '+err);
+            logger.error('GET /bigBrother/:userId/lastJob '+err);
             res.status(400).send({ message: err });
         }
     })
@@ -74,11 +75,14 @@ const upload = multer({storage});
         }
     })
 
-    router.post('/', upload.single('image'), async (req, res) => {
+    router.post('/', async (req, res) => {
+
         try {
-            const lastJob = await BigBrother.findOne({stopScreen: null})
+
+            const lastJob = await BigBrother.findOne({user: req.body.user, stopScreen: null})
             if (lastJob) {
-                lastJob.stopScreen = req.file.filename
+
+                lastJob.stopScreen = req.body.image
                 const duration = moment.duration(moment().valueOf() - lastJob.startTime)
                 lastJob.totalTime = `${duration.hours()}:${duration.minutes()}:${duration.seconds()}`
                 lastJob.startTime = moment(lastJob.startTime, "x").format("DD-MM-YYYY_HH:mm:ss")
@@ -88,18 +92,126 @@ const upload = multer({storage});
             }
             else {
                 const bBrother = await new BigBrother()
-                bBrother.startScreen = req.file.filename
+                bBrother.startScreen = req.body.image
                 bBrother.startTime = moment().valueOf()
                 bBrother.merchant = req.body.merchant
                 bBrother.user = req.body.user
-
                 bBrother.save({ validateBeforeSave: false });
+
             }
+
             res.send({message: "success"});
         } catch (err) {
             logger.error('POST /bigBrother '+err);
-            res.status(400).send({ message: err });
+            res.status(400).send({ message: "err" });
         }
     });
 
 module.exports = router;
+
+
+// const express = require('express');
+// const router = express.Router();
+// const moment = require('moment')
+// const BigBrother = require('./models/BigBrother');
+// const config = require('./config');
+// const multer = require('multer')
+// const {nanoid} = require('nanoid');
+// const logger=config.log4jsApi.getLogger("api");
+
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+
+//         // try {
+//         //     fs.opendir("./" + moment().format("DD_MM_YYYY"), (err) => {
+//         //         console.log("directory exists")
+//         //     })
+//         // } catch {
+//         // console.log(req.body)
+//         //     fs.mkdir("./public/" + moment().format("DD_MM_YYYY"), { recursive: true }, (err) => {
+//         //         if (err) throw err;
+//         //     });
+//         // }
+//         cb(null, config.uploadPath + "/contentLinks");
+//     },
+//     filename:(req, file, cb) => {
+//         cb(null, nanoid() + (file.originalname !== "blob" ? path.extname(file.originalname) : ".jpg"));
+//     }
+// });
+// const upload = multer({storage});
+
+
+//     router.get('/', async(req, res) => {
+//         try {
+//             const jobs = await BigBrother.find()
+//             res.send(jobs)
+//         } catch (err) {
+//             logger.error('GET /bigBrother '+err);
+//             res.status(400).send({ message: err });
+//         }
+//     })
+
+//     router.get('/:userId', async(req, res) => {
+//         try {
+//             console.log(req.params.userId)
+//             const jobs = await BigBrother.find({user: req.params.userId}).populate("User")
+//             res.send(jobs)
+//         } catch (err) {
+//             logger.error('GET /bigBrother/:userId '+err);
+//             res.status(400).send({ message: err });
+//         }
+//     })
+
+//     router.get('/lastJob', async(req, res) => {
+//         try {
+//             const lastJob = await BigBrother.findOne({stopScreen: null})
+//             if (lastJob) {
+//                 res.send(lastJob)
+//             } else {
+//                 res.send({message: "ok"})
+//             }
+//         } catch (err) {
+//             logger.error('GET /bigBrother/lastJob '+err);
+//             res.status(400).send({ message: err });
+//         }
+//     })
+
+//     router.delete("/:id", async (req, res) => {
+//         try {
+//             await BigBrother.findByIdAndRemove(req.param.id)
+//             res.send({message: "ok"})
+//         } catch(err) {
+//             logger.error('DELETE /bigBrother/:id '+err);
+//             res.status(400).send({ message: err });
+//         }
+//     })
+
+//     router.post('/', upload.single('image'), async (req, res) => {
+//         try {
+//             const lastJob = await BigBrother.findOne({stopScreen: null})
+//             if (lastJob) {
+//                 lastJob.stopScreen = req.file.filename
+//                 const duration = moment.duration(moment().valueOf() - lastJob.startTime)
+//                 lastJob.totalTime = `${duration.hours()}:${duration.minutes()}:${duration.seconds()}`
+//                 lastJob.startTime = moment(lastJob.startTime, "x").format("DD-MM-YYYY_HH:mm:ss")
+//                 lastJob.stopTime = moment().format("DD-MM-YYYY_HH:mm:ss")
+
+//                 lastJob.save({ validateBeforeSave: false });
+//             }
+//             else {
+//                 const bBrother = await new BigBrother()
+//                 bBrother.startScreen = req.file.filename
+//                 bBrother.startTime = moment().valueOf()
+//                 bBrother.merchant = req.body.merchant
+//                 bBrother.user = req.body.user
+
+//                 bBrother.save({ validateBeforeSave: false });
+//             }
+//             res.send({message: "success"});
+//         } catch (err) {
+//             logger.error('POST /bigBrother '+err);
+//             res.status(400).send({ message: err });
+//         }
+//     });
+
+// module.exports = router;

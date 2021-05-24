@@ -8,6 +8,10 @@ const cors = require('cors');
 const rooms = require('./app/rooms')
 const bigBrother = require('./app/bigBrother')
 
+const bodyParser = require('body-parser');
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+
 const app = express();
 const port = process.env.NODE_ENV !== 'test' ? 8000 : 8010;
 

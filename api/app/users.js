@@ -75,7 +75,7 @@ const createRouter = () => {
     router.post('/sessions', async (req, res) => {
         try{
             logger.error('TEST  **** POST /users/sessions ');
-            
+
             const user = await User.findOne({ workEmail: req.body.workEmail });
             if (!user) {
                 return res.status(400).send({ error: 'Неправильный email или пароль!' });
@@ -124,6 +124,23 @@ const createRouter = () => {
         }
         catch(e){
             logger.error('DELETE /users/sessions '+e);
+        }
+    })
+    router.post('/electron', async (req, res) => {
+        try{
+                const user = await User.findOne({ workEmail: req.body.workEmail });
+            if (!user) {
+                return res.status(400).send({ error: 'Неправильный email или пароль!' });
+            }
+            const isMatch = await user.checkPassword(req.body.password);
+            if (!isMatch) {
+                return res.status(400).send({ error: 'Неправильный email или пароль!' });
+            }
+
+            res.send({ message: 'Email and password correct!', user: user });
+        }
+        catch(e){
+            logger.error('POST /users/electron '+e);
         }
     })
     return router;
