@@ -9,6 +9,7 @@ const moment = require('moment')
 const Payment = require('./models/Payment');
 const config = require('./config');
 const schedule = require('node-schedule');
+const logger=config.log4jsApi.getLogger("api");
 
 const today = moment().format('YYYY-MM-DD') 
 
@@ -33,6 +34,7 @@ const createRouter = () => {
             const payments = await Payment.find(filter).populate('user', 'surname name workEmail')
             res.send(payments);
         } catch (e) {
+            logger.error('GET /payments '+e);
             res.status(500).send(e);
         }
     });
@@ -42,6 +44,7 @@ const createRouter = () => {
             const payment = await Payment.findOne({ _id: req.params.id });
             res.send(payment);
         } catch (e) {
+            logger.error('GET /payments/:id '+e);
             res.status(400).send(e);
         }
     });
@@ -64,6 +67,7 @@ const createRouter = () => {
             }
             res.send(payment);
         } catch (err) {
+            logger.error('POST /payments '+err);
             res.status(400).send({ message: err });
         }
     });
@@ -85,6 +89,7 @@ const createRouter = () => {
             const payments = await Payment.find(obj).populate('user', 'surname name workEmail')
             res.send(payments);
         } catch (e) {
+            logger.error('POST /payments/filter '+e);
             res.status(500).send(e);
         }
     });
@@ -99,6 +104,7 @@ const createRouter = () => {
             }
             res.send(payment);
         } catch (e) {
+            logger.error('GET /payments/:id/approved '+e);
             res.status(400).send(e);
         }
     });
@@ -117,6 +123,7 @@ const createRouter = () => {
             }
             res.send(payment);
         } catch (e) {
+            logger.error('GET /payments/:id/approved/cancel '+e);
             res.status(400).send(e);
         }
     });
@@ -135,6 +142,7 @@ const createRouter = () => {
             }
             res.send(payment);
         } catch (e) {
+            logger.error('GET /payments/:id/paid '+e);
             res.status(400).send(e);
         }
     });
@@ -149,21 +157,29 @@ const createRouter = () => {
             }
             res.send(payment);
         } catch (e) {
+            logger.error('GET /payments/:id/paid/cancel '+e);
             res.status(400).send(e);
         }
     });
 
     router.put('/:id/edit', [auth, permit('editPayment'), upload.single('image')], async (req, res) => {
-        const payment = await Payment.findByIdAndUpdate(req.params.id, { $set: req.body }, { useFindAndModify: false }, function (err, result) {
-            if (err) {
-                console.log(err);
-            }
-        });
-        if (req.file) {
-            payment.image = req.file.filename;
-        };
-        await payment.save();
-        res.send(payment);
+
+        try{
+            const payment = await Payment.findByIdAndUpdate(req.params.id, { $set: req.body }, { useFindAndModify: false }, function (err, result) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+            if (req.file) {
+                payment.image = req.file.filename;
+            };
+            await payment.save();
+            res.send(payment);
+        }
+        catch(e){
+            logger.error('PUT /payments/:id/edit '+e);
+            res.status(400).send(e);
+        }
     });
 
     router.get('/due/today', [auth, permit('viewTodayPayments')], async (req, res) => {
@@ -181,6 +197,7 @@ const createRouter = () => {
             }
             res.send(payments);
         } catch (e) {
+            logger.error('GET /payments/due/today '+e);
             res.status(500).send(e);
         }
     });
@@ -203,6 +220,7 @@ const createRouter = () => {
             })
             res.send(files);
         } catch (e) {
+            logger.error('GET /payments/files/today '+e);
             res.status(500).send(e);
         }
     });
@@ -217,6 +235,7 @@ const createRouter = () => {
             payment.save();            
             res.send(payment)
         } catch(e) {
+            logger.error('POST /payments/:id/not-repeatability '+e);
             res.status(500).send(e);
         }
     })
@@ -268,6 +287,7 @@ const createRouter = () => {
             await axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/approved`, payment);
             res.send({ message: "Платеж одобрен, оплатить!", payment });
         } catch (error) {
+            logger.error('GET /payments/telegram/:id/approved '+error);
             res.status(404).send({ message: "Not found" });
         }
     });
@@ -282,6 +302,7 @@ const createRouter = () => {
             await axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/date`, payment);
             res.send({ message: "Платеж пeренесен на завтра", payment });
         } catch (error) {
+            logger.error('GET /payments/telegram/:id/date '+error);
             res.status(404).send({ message: "Not found" });
         }
     });

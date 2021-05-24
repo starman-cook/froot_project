@@ -7,7 +7,8 @@ const { nanoid } = require('nanoid');
 const path = require('path')
 const config = require('./config')
 const auth = require('./middleware/auth.js');
-const axios = require('axios')
+const axios = require('axios');
+const logger=config.log4jsApi.getLogger("api");
 
 
 const storage = multer.diskStorage({
@@ -42,6 +43,7 @@ router.post('/', auth, upload.single('file'), async (req, res) => {
         }
         res.send(event)
     } catch (err) {
+        logger.error('POST /calendarEvents '+err);
         res.status(500).send({error: err})
     }
 })
@@ -70,6 +72,7 @@ router.get('/:room/:date/monthly', auth, async (req, res) => {
         }
         res.send(monthBusy)
     } catch (err) {
+        logger.error('GET /calendarEvents/:room/:date/monthly '+err);
         res.status(500).send({error: err})
     }
 })
@@ -83,6 +86,7 @@ router.get('/:room/:date/daily', auth, async (req, res) => {
         const events = await CalendarEvent.find(filter).populate('user')
         res.send(events)
     } catch (err) {
+        logger.error('GET /calendarEvents/:room/:date/daily '+err);
         res.status(500).send({error: err})
     }
 })
@@ -100,6 +104,7 @@ router.delete('/:id', auth, async (req, res) => {
         await CalendarEvent.findByIdAndRemove(req.params.id)
         res.send({message: "Success"})
     } catch (err) {
+        logger.error('DELETE /calendarEvents/:id '+err);
         res.status(500).send({error: err})
     }
 })

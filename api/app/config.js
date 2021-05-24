@@ -1,6 +1,7 @@
 const { url } = require('inspector');
 const path = require('path');
 const rootPath = __dirname;
+const log4js = require("log4js");
 
 
 //docker
@@ -26,6 +27,10 @@ module.exports = {
         // url: 'mongodb://104.248.198.29',
     },
     //11 baseUrlForTelegram: 'http://'+process.env.BOT_HOST,  //docker
-    baseUrlForTelegram: process.env.BOT_HOST? 'http://'+process.env.BOT_HOST : 'http://localhost'
+    baseUrlForTelegram: process.env.BOT_HOST? 'http://'+process.env.BOT_HOST : 'http://localhost',
+    log4jsApi:log4js.configure({
+        appenders: { api: { type: "file", filename: "./logs/api.log" } },
+        categories: { default: { appenders: ["api"], level: "error" } }
+      })
 };
 

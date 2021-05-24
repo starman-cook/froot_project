@@ -5,6 +5,7 @@ const upload = require('./middleware/upload.js');
 const permit = require('./middleware/permit.js');
 const axios = require('axios');
 const config = require('./config');
+const logger=config.log4jsApi.getLogger("api");
 
 const moment = require('moment');
 const News = require('./models/News');
@@ -24,6 +25,7 @@ const createRouter = () => {
             await newsItem.save();
             res.send(newsItem);
         } catch (err) {
+            logger.error('POST /news '+err);
             res.status(400).send({ message: err });
         }
     });
@@ -32,6 +34,7 @@ const createRouter = () => {
             const news = await News.find().populate(["user", "contentManager"]);
             res.send(news);
         } catch (e) {
+            logger.error('GET /news '+e);
             res.status(500).send(e);
         }
     })
@@ -51,6 +54,7 @@ const createRouter = () => {
             await newsItem.save();
             res.send(newsItem);
         } catch (error) {
+            logger.error('GET /news/:id/:status '+error);
             res.status(404).send({ message: "Not found" });
         }
     })

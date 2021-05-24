@@ -26,6 +26,7 @@
     "dotenv": "^8.2.0",
     "exceljs": "^4.2.1",
     "express": "^4.17.1",
+    "log4js": "^6.3.0",
     "mockgoose": "^8.0.4",
     "moment": "^2.29.1",
     "mongoose": "^5.11.15",

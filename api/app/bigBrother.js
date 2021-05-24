@@ -4,7 +4,8 @@ const moment = require('moment')
 const BigBrother = require('./models/BigBrother');
 const config = require('./config');
 const multer = require('multer')
-const {nanoid} = require('nanoid')
+const {nanoid} = require('nanoid');
+const logger=config.log4jsApi.getLogger("api");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -33,6 +34,7 @@ const upload = multer({storage});
             const jobs = await BigBrother.find()
             res.send(jobs)
         } catch (err) {
+            logger.error('GET /bigBrother '+err);
             res.status(400).send({ message: err });
         }
     })
@@ -43,6 +45,7 @@ const upload = multer({storage});
             const jobs = await BigBrother.find({user: req.params.userId}).populate("User")
             res.send(jobs)
         } catch (err) {
+            logger.error('GET /bigBrother/:userId '+err);
             res.status(400).send({ message: err });
         }
     })
@@ -56,6 +59,7 @@ const upload = multer({storage});
                 res.send({message: "ok"})
             }
         } catch (err) {
+            logger.error('GET /bigBrother/lastJob '+err);
             res.status(400).send({ message: err });
         }
     })
@@ -65,6 +69,7 @@ const upload = multer({storage});
             await BigBrother.findByIdAndRemove(req.param.id)
             res.send({message: "ok"})
         } catch(err) {
+            logger.error('DELETE /bigBrother/:id '+err);
             res.status(400).send({ message: err });
         }
     })
@@ -92,6 +97,7 @@ const upload = multer({storage});
             }
             res.send({message: "success"});
         } catch (err) {
+            logger.error('POST /bigBrother '+err);
             res.status(400).send({ message: err });
         }
     });
