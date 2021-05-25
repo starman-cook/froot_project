@@ -5,6 +5,7 @@ import DayTiming from "../../components/DayTiming/DayTiming";
 import {fetchAllUsers} from "../../store/actions/usersActions";
 import {useDispatch, useSelector} from "react-redux";
 import {addNewRoom, deleteRoom, getAllRooms, getBusyMonth} from "../../store/actions/calendarAction";
+import { Fragment } from 'react';
 
 const Calendar = () => {
 
@@ -208,7 +209,6 @@ const Calendar = () => {
     }
     const roomNameInput = (event) => {
         setRoomName(event.target.value)
-        .log(roomName)
     }
 
     const oneCalendar = (
@@ -230,7 +230,7 @@ const Calendar = () => {
                 <button onClick={openCurrentMonth} className="CalendarOne__btn">Открыть текущий месяц</button>
                 { canAddRoom ? <div className="CalendarOne__addRoomBlock">
                     <input placeholder="Имя новой комнаты" value={roomName} onChange={(event) => {roomNameInput(event)}} type="text" name="roomName" className="CalendarOne__roomNameInput" />
-                    <button onClick={addNewRoomHandler} className="CalendarOne__btn" >Создать комнату комнату</button>
+                    <button onClick={addNewRoomHandler} className="CalendarOne__btn" >Создать комнату</button>
                 </div> : null}
                 <div className="CalendarOne__header">
 
@@ -251,8 +251,8 @@ const Calendar = () => {
                         {isModalMonth ? <div className={"CalendarOne__month-modal"}>{allMonths}</div> : null}
                     </div>
                 </div>
-
-                {tableHead}
+                {room ? <Fragment>
+                    {tableHead}
 
                 <div className="CalendarOne__table">
                     {tableBody.map((el, i) => {
@@ -285,6 +285,8 @@ const Calendar = () => {
                         }
                     })}
                 </div>
+                </Fragment>: <h4>Выберите комнату</h4>}
+                
             </div>
         </>
     );
