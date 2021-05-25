@@ -107,7 +107,7 @@ const Payments = () => {
     }
     dispatch(fetchSortedData(stateCopy));
   };
-  // --для модалки--
+  // --для фильтра--
   const [showModal, setShowModal] = useState({
     show: false
   });
@@ -119,11 +119,11 @@ const Payments = () => {
   }
   const body = (
     <form>
-      <div className="Payments__filter-input">
+      <div className="Payments__filter">
         <div className="Payments__filter-item">
           <h3 className="Payments__filter-title">По компании:</h3>
           <select
-            className="toClear"
+            className="Payments__filter-select"
             name="payer"
             value={state.payer}
             onChange={e => inputChangeHandler(e)}
@@ -133,25 +133,25 @@ const Payments = () => {
             <option value="Froot_Бизнес">Froot_Бизнес</option>
           </select>
         </div>
-        <div className="Payments__filter-item">
+        <div className="Payments__filter-item Payments__filter-date">
           <h3 className="Payments__filter-title">По дате:</h3>
           <span>с</span>
           <input
-            className="inputToClear"
+            className="Payments__filter-input"
             type="date"
             onChange={(e) => inputDateChangeHandler(e)}
             name="fromDate"
           />
           <span>до</span>
           <input
-            className="toClear"
+            className="Payments__filter-input"
             type="date"
             onChange={(e) => inputDateChangeHandler(e)}
             name="toDate"
           />
         </div>
         <div className="Payments__filter-item dropdown">
-          <h3 className="Payments__filter-title mb">По статусу:</h3>
+          <h3 className="Payments__filter-title">По статусу:</h3>
           <span id="dropdown" className="dropdown__title">Статусы платежей</span>
           <div className="dropdown__content">
             <div className="dropdown__content-item" onClick={e=>statusChangeHandler(e)}>Подтвержден</div>
@@ -175,7 +175,7 @@ const Payments = () => {
             <div className="Payments__content">
               <div className="Payments__header">
                 <h2 className="Payments__title">Все платежи</h2>
-                <div className="Payments__filter">
+                <div className="Payments__filter-btn">
                   <ButtonPink type='button' text='Фильтры' onClickHandler={openModal}/>
                   {showModal.show && <Modal body={body} name={'filter'} close={closeModal} />}
                 </div>

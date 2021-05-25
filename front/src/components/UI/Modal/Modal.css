@@ -1,6 +1,5 @@
 .Modal {
-    width: 70%;
-    max-height: 90%;
+    width: 100%;
     padding: 10px;
     z-index: 500;
     border: 1px solid #ccc;
@@ -17,22 +16,31 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    margin: 10px;
 }
 .Modal__img {
-    width: 90%;
+    width: 100%;
     display: block;
 }
-.filter {
-    left: 53%;
-    top: 85px;
-}
-@media screen and (max-width: 900px){
+
+@media screen and (min-width: 600px){
     .Modal, .Modal__img {
-        width: 100%;
+        max-width: 90%;
+    }
+    .filter {
+        left: 51%;
+        top: 30%;
     }
 }
-@media screen and (max-width: 600px){
-    .Modal, .Modal__img {
-        max-width: 100%;
+@media screen and (min-width: 1200px){
+    .Modal {
+        width: 75%;
+    }
+    .Modal__img {
+        width: 90%;
+    }
+    .filter {
+        left: 51%;
+        top: 30%;
     }
 }

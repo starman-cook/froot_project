@@ -7,10 +7,19 @@
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    min-width: 150px;
+    width: 100%;
+    margin: 10px 0;
+    box-sizing: border-box;
     height: 35px;
     border: 1px solid #ff067c;
 }
 .ButtonWhite:hover {
     box-shadow: 0 0 10px 1px #9d9ea0;
+}
+@media screen and (min-width:600px) {
+    .ButtonWhite {
+        min-width: 150px;
+        max-width: 250px;
+        margin: 10px;
+    }
 }

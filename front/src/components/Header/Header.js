@@ -95,13 +95,6 @@ const Header = ({ user }) => {
                 </NavLink>
                 </MenuItem>
               )}
-              {user.role.includes("viewAllPayments") && (
-                <MenuItem>
-                  <NavLink to="/" className="Header__link">
-                    Все платежи
-                </NavLink>
-                </MenuItem>
-              )}
               {user.role.includes("viewTodayPayments") &&
                 !user.role.includes("payPayment") &&
                 !user.role.includes("approvePayment") && (

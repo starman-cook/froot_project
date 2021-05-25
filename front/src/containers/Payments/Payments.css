@@ -25,25 +25,30 @@
 }
 
 /* filter */
-.Payments__filter {
+.Payments__filter-btn {
     text-align: right;
 }
-.Payments__filter-input {
+.Payments__filter {
     display: flex;
     justify-content: space-around;
     align-items: flex-start;
+    flex-wrap: wrap;
 }
 .Payments__filter-title {
     margin: 5px;
 }
-.mb {
-    margin-bottom: 14px;
-    width: 150px;
-}
 .Payments__filter-item {
     margin: 0 30px;
 }
-select, input {
+.Payments__filter-date {
+    order: 0;
+    width: 100%;
+}
+.Payments__filter-date span {
+    display: block;
+    margin: 5px;
+}
+.Payments__filter-select, .Payments__filter-input {
     height: 35px;
     box-sizing: border-box;
     padding: 5px;
@@ -51,24 +56,27 @@ select, input {
     font-size: 14px;
     border-radius: 0;
     border: 1px solid gray;
+    background-color: white;
+    width: 170px;
 }
 .dropdown {
     position: relative;
     display: inline-block;
+    width: 170px;
 }
 .dropdown__title {
+    display: block;
     padding: 8px 10px;
-    width: 150px;
     border: 1px solid gray;
     cursor: pointer;
 }
 .dropdown__content {
     display: none;
     position: absolute;
-    margin-top: 5px;
     list-style: none;
     background: white;
-    width: 144px;
+    width: 170px;
+    box-sizing: border-box;
     border: 1px solid gray;
     z-index: 1;
 }
@@ -95,5 +103,20 @@ select, input {
     .Payments__title {
         text-align: left;
         margin: 0;
+    }
+    .Payments__filter-date {
+        order: 1;
+    }
+    .Payments__filter-date span {
+        display: inline;
+    }
+}
+@media screen and (min-width:1400px) {
+    .Payments__filter {
+        flex-wrap: nowrap;
+    }
+    .Payments__filter-date {
+        order: 0;
+        width: auto;
     }
 }
