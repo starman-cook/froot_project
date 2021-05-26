@@ -28,6 +28,9 @@
 .Payments__filter-btn {
     text-align: right;
 }
+.Modal__container form {
+    width: 95%;
+}
 .Payments__filter {
     display: flex;
     justify-content: space-around;
@@ -39,14 +42,19 @@
 }
 .Payments__filter-item {
     margin: 0 30px;
+    width: 100%;
+}
+.Payments__filter-date-content {
+    display: flex;
+    flex-wrap: wrap;
 }
 .Payments__filter-date {
-    order: 0;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 .Payments__filter-date span {
     display: block;
-    margin: 5px;
+    margin: 0 5px 5px 5px;
 }
 .Payments__filter-select, .Payments__filter-input {
     height: 35px;
@@ -59,6 +67,13 @@
     background-color: white;
     width: 170px;
 }
+.Payments__filter-date-item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 0 auto;
+}
+/* filter by status */
 .dropdown {
     position: relative;
     display: inline-block;
@@ -89,6 +104,7 @@
 .dropdown__content-item:hover {
     background: #bbb9b9;
 }
+/* filter buttons */
 .Payments__filter-control {
     margin: 20px 0 10px;
 }
@@ -104,19 +120,19 @@
         text-align: left;
         margin: 0;
     }
-    .Payments__filter-date {
-        order: 1;
-    }
-    .Payments__filter-date span {
-        display: inline;
+    .Payments__filter-date-content {
+        margin: 0 auto;
     }
 }
-@media screen and (min-width:1400px) {
-    .Payments__filter {
-        flex-wrap: nowrap;
-    }
+@media screen and (min-width:1200px) {
     .Payments__filter-date {
-        order: 0;
+        width: auto;
+    }
+    .Payments__filter-date-item {
+        flex-direction: row;
+    }
+    .Payments__filter-item {
+        margin: 0 5px;
         width: auto;
     }
 }

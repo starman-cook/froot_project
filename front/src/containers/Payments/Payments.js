@@ -135,20 +135,26 @@ const Payments = () => {
         </div>
         <div className="Payments__filter-item Payments__filter-date">
           <h3 className="Payments__filter-title">По дате:</h3>
-          <span>с</span>
-          <input
-            className="Payments__filter-input"
-            type="date"
-            onChange={(e) => inputDateChangeHandler(e)}
-            name="fromDate"
-          />
-          <span>до</span>
-          <input
-            className="Payments__filter-input"
-            type="date"
-            onChange={(e) => inputDateChangeHandler(e)}
-            name="toDate"
-          />
+          <div className="Payments__filter-date-content">
+            <div className="Payments__filter-date-item">
+              <span>с</span>
+              <input
+                className="Payments__filter-input"
+                type="date"
+                onChange={(e) => inputDateChangeHandler(e)}
+                name="fromDate"
+              />
+            </div>
+            <div className="Payments__filter-date-item">
+              <span>до</span>
+              <input
+                className="Payments__filter-input"
+                type="date"
+                onChange={(e) => inputDateChangeHandler(e)}
+                name="toDate"
+              />
+            </div>
+          </div>
         </div>
         <div className="Payments__filter-item dropdown">
           <h3 className="Payments__filter-title">По статусу:</h3>
