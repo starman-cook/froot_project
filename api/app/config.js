@@ -29,7 +29,7 @@ module.exports = {
     //11 baseUrlForTelegram: 'http://'+process.env.BOT_HOST,  //docker
     baseUrlForTelegram: process.env.BOT_HOST? 'http://'+process.env.BOT_HOST : 'http://localhost',
     log4jsApi:log4js.configure({
-        appenders: { api: { type: "file", filename: "./logs/api.log" } },
+        appenders: { api: { type: "file", filename: "~/logs/api.log" } },
         categories: { default: { appenders: ["api"], level: "error" } }
       })
 };
