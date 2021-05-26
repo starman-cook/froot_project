@@ -16,14 +16,6 @@ const bigBrother = require('./app/bigBrother')
 const app = express();
 const port = process.env.PORT || 8000;
 
-// const corsOptions = {
-//     origin: 'http://104.248.198.29:3000',
-//     optionsSuccessStatus: 200
-// }
-
-// const bodyParser = require('body-parser');
-// app.use(bodyParser.json({ limit: '50mb' }));
-// app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 app.use(cors());
 app.use(express.json());
