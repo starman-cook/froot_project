@@ -17,18 +17,14 @@ import AddRole from "./containers/AddRole/AddRole";
 import RegistryForAccountant from "./containers/RegistryForAccountant/RegistryForAccountant";
 import RegistryForApprove from "./containers/RegistryForApprove/RegistryForApprove";
 import Calendar from "./containers/Calendar/Calendar";
-import ContentManagerForm from "./containers/ContentManagerForm/ContentManagerForm";
+import ContentManager from "./containers/ContentManager/ContentManager";
 import ContenLinksReport from "./containers/ContentLinksReport/ContentLinksReport";
-import BigBrother from "./components/BigBrother/BigBrother";
 
 const App = () => {
   const user = useSelector(state => state.users.user);
   return (
     <>
 
-      <Switch>
-        <Route path="/bigbrother" exact component={BigBrother} />
-        <Route>
           <Header user={user} />
           <main className="App__main">
             <Switch>
@@ -108,7 +104,7 @@ const App = () => {
                 redirectTo={"/"}
                 path="/content-manager"
                 exact
-                component={ContentManagerForm}
+                component={ContentManager}
               />
               <ProtectedRoute
                 isAllowed={user && user.role.includes('viewAllContentlinks')}
@@ -123,8 +119,6 @@ const App = () => {
               <Route component={() => (<div>404 PAGE NOT FOUND</div>)} />
             </Switch>
           </main>
-        </Route>
-      </Switch>
 
     </>
   );

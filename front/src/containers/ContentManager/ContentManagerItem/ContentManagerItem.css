@@ -1,0 +1,31 @@
+.ContentManagerItem {
+    border: 1px solid deeppink;
+    max-width: 500px;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 1px 1px 5px 1px black;
+    margin: 10px auto;
+    box-sizing: border-box;
+    padding: 10px;
+}
+.ContentManagerItem__name {
+    color: deeppink;
+    cursor: pointer;
+}
+.ContentManagerItem__timeBlock {}
+.ContentManagerItem__time {
+    font-style: italic;
+    font-size: 12px;
+}
+.ContentManagerItem__imageBlock {
+    cursor: pointer;
+}
+.ContentManagerItem__image {
+    width: 200px;
+    margin: 3px;
+    box-shadow: 1px 1px 5px 1px black;
+}
+.ContentManagerItem__merchant {
+    color: deeppink;
+}
+.ContentManagerItem__totalTime {}

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const moment = require('moment')
 const BigBrother = require('./models/BigBrother');
+const User = require('./models/User')
 const multer = require('multer');
 multer({
     limits: { fieldSize: 2 * 1024 * 1024 }
@@ -51,17 +52,16 @@ router.delete("/:id", async (req, res) => {
 })
 
 router.post('/', upload.none(), async (req, res) => {
-    console.log("BODY BITCH ********* ", req.body)
     try {
-
+        const user = await User.findById(req.body.user)
         const lastJob = await BigBrother.findOne({user: req.body.user, stopScreen: null})
         if (lastJob) {
 
             lastJob.stopScreen = req.body.image
             const duration = moment.duration(moment().valueOf() - lastJob.startTime)
             lastJob.totalTime = `${duration.hours()}:${duration.minutes()}:${duration.seconds()}`
-            lastJob.startTime = moment(lastJob.startTime, "x").format("DD-MM-YYYY_HH:mm:ss")
-            lastJob.stopTime = moment().format("DD-MM-YYYY_HH:mm:ss")
+            lastJob.startTime = moment(lastJob.startTime, "x").format("DD-MM-YYYY HH:mm:ss")
+            lastJob.stopTime = moment().format("DD-MM-YYYY HH:mm:ss")
 
             lastJob.save({ validateBeforeSave: false });
         }
@@ -71,6 +71,7 @@ router.post('/', upload.none(), async (req, res) => {
             bBrother.startTime = moment().valueOf()
             bBrother.merchant = req.body.merchant
             bBrother.user = req.body.user
+            bBrother.userName = `${user.name} ${user.surname}`
             bBrother.save({ validateBeforeSave: false });
         }
         res.send({message: "success"});

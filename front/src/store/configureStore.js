@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
   users: usersReducer,
   meetings:meetingReducer,
   calendarEvents: calendarReducer,
-  contentLinks:contentReducer,
+  contentManagers:contentReducer,
   news: newsReducer,
   router: connectRouter(history),
 });

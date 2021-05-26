@@ -12,7 +12,8 @@ const BigBrotherSchema = new Schema({
     totalTime: String,
     startScreen: String,
     stopScreen: String,
-    merchant: String
+    merchant: String,
+    userName: String
 });
 BigBrotherSchema.plugin(idvalidator);
 const BigBrother = mongoose.model('BigBrother', BigBrotherSchema);
