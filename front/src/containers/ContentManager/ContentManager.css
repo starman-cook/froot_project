@@ -1,3 +1,85 @@
-.ContentManager {}
-.ContentManager__title {}
-.ContentManager__block {}
+.ContentManager {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.ContentManager__title {
+    color: pink;
+    text-align: center;
+}
+.ContentManager__block {
+}
+
+.LayoutSearchResults__paginationBlock {
+    display: flex;
+    max-width: 500px;
+    margin: 50px auto 10px auto;
+
+}
+.LayoutSearchResults__arrowBtn {
+    width: 40px;
+    height: 30px;
+    border: 1px solid #BDBDBD;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.LayoutSearchResults__arrowBtn--left {
+    background: white url('../../assets/icons/ic-arrow-pagination-left-gray.svg')center no-repeat;
+}
+.LayoutSearchResults__arrowBtn--right {
+    background: white url('../../assets/icons/ic-arrow-pagination-right-gray.svg')center no-repeat;
+}
+.LayoutSearchResults__arrowBtn--left:hover {
+    background: #BDBDBD url('../../assets/icons/ic-arrow-pagination-left-white.svg')center no-repeat;
+}
+.LayoutSearchResults__arrowBtn--right:hover {
+    background: #BDBDBD url('../../assets/icons/ic-arrow-pagination-right-white.svg')center no-repeat;
+}
+.LayoutSearchResults__arrowBtn--left:active {
+    transform: scale(0.9);
+}
+.LayoutSearchResults__arrowBtn--right:active {
+    transform: scale(0.9);
+}
+.LayoutSearchResults__pagesNumbersBlock {
+    display: flex;
+    align-items: center;
+    margin-left: 30px;
+    width: 260px;
+}
+
+.PaginationNumber {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0.01em;
+    color: #4D525B;
+    cursor: pointer;
+    margin: 0 20px 0 0;
+    user-select: none;
+}
+.PaginationNumber--defaultActive {
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+.PaginationDots {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0.01em;
+    color: #4D525B;
+    margin: 0 20px 0 0;
+    user-select: none;
+}
+
+.ContentManager__input {
+    width: 250px;
+    display: block;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 50px auto 10px auto;
+    border: 1px solid #4e4e4e;
+    background: white;
+    border-radius: 5px;
+}

@@ -10,6 +10,14 @@
 }
 .ContentManagerItem__name {
     color: deeppink;
+}
+
+.ContentManagerItem__number {
+    color: white;
+    text-shadow: 1px 1px 3px black;
+}
+
+.ContentManagerItem__name--pointer {
     cursor: pointer;
 }
 .ContentManagerItem__timeBlock {}

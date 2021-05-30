@@ -1,7 +1,7 @@
 import {GET_CONTENT} from "../actions/contentActions";
 
 const initialState = {
-    content:[]
+    content: {}
 }
 
 

@@ -19,6 +19,7 @@ import RegistryForApprove from "./containers/RegistryForApprove/RegistryForAppro
 import Calendar from "./containers/Calendar/Calendar";
 import ContentManager from "./containers/ContentManager/ContentManager";
 import ContenLinksReport from "./containers/ContentLinksReport/ContentLinksReport";
+import AllContent from "./containers/ContentManager/ContentManager";
 
 const App = () => {
   const user = useSelector(state => state.users.user);
@@ -113,6 +114,7 @@ const App = () => {
                 exact
                 component={ContenLinksReport}
               />
+
               <Route path="/news" exact component={News} />
               <Route path="/register" exact component={Register} />
               <Route path="/login" exact component={Login} />

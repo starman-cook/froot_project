@@ -5,10 +5,10 @@ import axiosApi from "../../axiosApi";
 export const GET_CONTENT = 'GET_CONTENT'
 export const getContent = (value) => ({type: GET_CONTENT, value})
 
-export const getAllContent = () => {
+export const getAllContent = (page) => {
     return async dispatch => {
         try {
-            const response = await axiosApi.get('/bigBrother')
+            const response = await axiosApi.get(`/bigBrother/${page}`)
             dispatch(getContent(response.data))
             console.log("CONTENT RESPONSE *********  ",response.data)
         } catch(err) {
@@ -18,10 +18,10 @@ export const getAllContent = () => {
 }
 
 
-export const getContentByUser = (id) => {
+export const getContentByUser = (id, page) => {
     return async dispatch => {
         try {
-            const response = await axiosApi.get(`/bigBrother/${id}`)
+            const response = await axiosApi.get(`/bigBrother/${id}/${page}`)
             dispatch(getContent(response.data))
             console.log("CONTENT RESPONSE BY USER *********  ",response.data)
         } catch(err) {

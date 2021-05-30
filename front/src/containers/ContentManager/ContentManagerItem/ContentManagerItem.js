@@ -19,7 +19,8 @@ const ContentManagerItem = (props) => {
                     merchant={props.merchant}
                 /> : null}
                 <div className={"ContentManagerItem"}>
-                    <h3 onClick={props.getByName} className={"ContentManagerItem__name"}>{props.userName}</h3>
+                    <p className={"ContentManagerItem__number"}>{props.number}</p>
+                    <h3 onClick={props.getByName} className={props.getByName ? "ContentManagerItem__name ContentManagerItem__name--pointer" : "ContentManagerItem__name"}>{props.userName}</h3>
                     <div className={"ContentManagerItem__timeBlock"}>
                         {props.stopTime ? <p className={"ContentManagerItem__time"}>Начало: {props.startTime}</p> :<p className={"ContentManagerItem__time"}>{moment(props.startTime, "x").format("DD-MM-YYYY HH:mm:ss")}</p>}
                         {props.stopTime ? <p className={"ContentManagerItem__time"}>Конец: {props.stopTime}</p> : null}

@@ -4,32 +4,37 @@ const moment = require('moment')
 const BigBrother = require('./models/BigBrother');
 const User = require('./models/User')
 const multer = require('multer');
+const auth = require('./middleware/auth')
+const permit = require('./middleware/permit')
 multer({
     limits: { fieldSize: 2 * 1024 * 1024 }
 })
 const upload = multer();
 
-router.get('/', async(req, res) => {
+router.get('/:page', [auth, permit('viewAllContentlinks')], async(req, res) => {
     try {
-        const jobs = await BigBrother.find()
-        res.send(jobs)
+        // db.collection.find().skip(20).limit(10)
+
+        const jobs = await BigBrother.find().skip((req.params.page - 1) * 10).limit(req.params.page * 10)
+        const count = await BigBrother.count()
+        res.send({jobs: jobs, count: count})
     } catch (err) {
         res.status(400).send({ message: err });
     }
 })
 
-router.get('/:userId', async(req, res) => {
+router.get('/:userId/:page', [auth, permit('viewOwnContentlinks')], async(req, res) => {
     try {
         console.log(req.params.userId)
-        const jobs = await BigBrother.find({user: req.params.userId}).populate("User")
-        res.send(jobs)
+        const jobs = await BigBrother.find({user: req.params.userId}).populate("User").skip((req.params.page - 1) * 10).limit(req.params.page * 10)
+        const count = await BigBrother.count()
+        res.send({jobs: jobs, count: count})
     } catch (err) {
         res.status(400).send({ message: err });
     }
 })
 
 router.get('/:userId/lastJob', async(req, res) => {
-    console.log("LAST DAMNED *********** ",req.body)
     try {
         const lastJob = await BigBrother.findOne({user: req.params.userId, stopScreen: null})
         if (lastJob) {
