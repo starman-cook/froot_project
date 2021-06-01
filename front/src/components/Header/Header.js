@@ -140,6 +140,11 @@ const Header = ({ user }) => {
             Новости
           </NavLink>
         )}
+        {user && (
+            <NavLink to="/myEvents" className="Header__link">
+              Мои события
+            </NavLink>
+        )}
 
       </menu>
       <button className={windowWidth > 1200 ? 'Header__menu--none' : "UserMenu__btn Header__burger"} onClick={accauntClick}>Профиль</button>

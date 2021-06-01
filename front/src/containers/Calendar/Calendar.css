@@ -268,15 +268,21 @@
 @media (max-width: 508px) {
     .CalendarOne__column {
         width: 11%;
+        font-size: 15px;
     }
 }
 @media (max-width: 374px) {
     .CalendarOne__column {
-        width: 10%;
+        width: 9%;
+        font-size: 12px;
+    }
+    .CalendarOne__column--active {
+        border: 1px dotted #4e4e4e;
+        border-radius: 10px;
     }
 }
 @media (max-width: 304px) {
     .CalendarOne__column {
-        width: 9%;
+        width: 8%;
     }
 }

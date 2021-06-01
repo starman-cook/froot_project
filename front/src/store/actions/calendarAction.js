@@ -3,8 +3,9 @@ import axios from "../../axiosApi";
 export const GET_ALL_CALENDAR_EVENTS = 'GET_ALL_CALENDAR_EVENTS'
 export const GET_BUSY_MONTH = 'GET_BUSY_MONTH'
 export const GET_ALL_ROOMS = 'GET_ALL_ROOMS'
+export const GET_USER_EVENTS = 'GET_USER_EVENTS'
 
-
+export const getUserEventsSuccess = (value) => ({type: GET_USER_EVENTS, value})
 export const getAllEventsSuccess = (value) => ({type: GET_ALL_CALENDAR_EVENTS, value})
 export const getBusyMonthSuccess = (value) => ({type: GET_BUSY_MONTH, value})
 export const getAllRoomsSuccess = (value) => ({type: GET_ALL_ROOMS, value})
@@ -14,6 +15,17 @@ export const getAllEvents = (room, fullDate) => {
         try {
             const response = await axios.get(`/calendarEvents/${room}/${fullDate}/daily`)
             dispatch(getAllEventsSuccess(response.data))
+        } catch(err) {
+            console.log(err)
+        }
+    }
+}
+
+export const getUserCalendarEvents = (userId) => {
+    return async dispatch => {
+        try {
+            const response = await axios.get(`/calendarEvents/${userId}/myEvents`)
+            dispatch(getUserEventsSuccess(response.data))
         } catch(err) {
             console.log(err)
         }

@@ -1,0 +1,64 @@
+.MyEvents_CalendarEvents {
+    max-width: 1200px;
+    margin: 50px auto 0 auto;
+}
+.MyEvents_CalendarEvents__item {
+    margin: 10px auto;
+    border: 1px solid deeppink;
+    border-radius: 20px;
+    max-width: 500px;
+    box-sizing: border-box;
+    padding: 10px;
+    background: white;
+    box-shadow: 1px 1px 3px 1px black;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.MyEvents_CalendarEvents__title {
+    font-size: 18px;
+    color: deeppink;
+    font-weight: bold;
+}
+.MyEvents_CalendarEvents__text {
+    margin: 10px 0;
+}
+.MyEvents_CalendarEvents__link {
+    text-decoration: none;
+    display: block;
+    padding: 5px;
+    background: lightblue;
+    border-radius: 10px;
+    color: white;
+}
+.MyEvents_CalendarEvents__link:hover {
+    background: #8080c7;
+}
+.MyEvents_CalendarEvents__participantsBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.MyEvents_CalendarEvents__participantItem {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid deeppink;
+    box-sizing: border-box;
+    padding: 5px;
+    border-radius: 10px;
+    color: deeppink;
+    margin: 3px 0;
+}
+.MyEvents_CalendarEvents__btnBlock {
+    display: flex;
+    margin: 10px 0;
+}
+.MyEvents_CalendarEvents__btn {
+    padding: 5px;
+    background: deeppink;
+    margin: 5px;
+    border-radius: 20px;
+    text-shadow: 0 0 3px white;
+    cursor: pointer;
+    user-select: none;
+}

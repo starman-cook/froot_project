@@ -9,7 +9,7 @@ const config = require('./config')
 const auth = require('./middleware/auth.js');
 const axios = require('axios');
 const logger=config.log4jsApi.getLogger("api");
-
+const moment = require('moment')
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -83,7 +83,7 @@ router.get('/:room/:date/daily', auth, async (req, res) => {
             room: req.params.room,
             date: req.params.date
         }
-        const events = await CalendarEvent.find(filter).populate('user')
+        const events = await CalendarEvent.find(filter)
         res.send(events)
     } catch (err) {
         logger.error('GET /calendarEvents/:room/:date/daily '+err);
@@ -111,38 +111,53 @@ router.delete('/:id', auth, async (req, res) => {
 
 
 // не используется
-// router.get('/:id/accept', auth, async (req, res) => {
-//     try {
-//         const meeting = await CalendarEvent.findById(req.params.id);
-//         for (let i = 0; i < meeting.participants.length; i++) {
-//             if (req.user._id.toString() === meeting.participants[i].userId) {
-//                 meeting.participants[i].accepted = true;
-//             };
-//         };
-//         await meeting.markModified('participants');
-//         await meeting.save();
+router.get('/:id/accept', auth, async (req, res) => {
+    try {
+        const meeting = await CalendarEvent.findById(req.params.id);
+        for (let i = 0; i < meeting.participants.length; i++) {
+            if (req.user._id.toString() === meeting.participants[i].userId) {
+                meeting.participants[i].accepted = true;
+            };
+        };
+        await meeting.markModified('participants');
+        await meeting.save();
+        res.send(meeting);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
 
-//         // console.log("*************************************************** ",meeting);
-//         res.send(meeting);
-//     } catch (error) {
-//         res.status(500).send(error);
-//     }
-// });
+router.get('/:id/reject', auth, async (req, res) => {
+    try {
+        const meeting = await CalendarEvent.findById(req.params.id);
+        for (let i = 0; i < meeting.participants.length; i++) {
+            if (req.user._id.toString() === meeting.participants[i].userId) {
+                meeting.participants[i].accepted = false;
+            };
+        };
+        await meeting.markModified('participants');
+        await meeting.save();
+        res.send(meeting);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
 
-// router.get('/:id/reject', auth, async (req, res) => {
-//     try {
-//         const meeting = await CalendarEvent.findById(req.params.id);
-//         for (let i = 0; i < meeting.participants.length; i++) {
-//             if (req.user._id.toString() === meeting.participants[i].userId) {
-//                 meeting.participants[i].accepted = false;
-//             };
-//         };
-//         await meeting.save();
-//         // console.log(meeting);
-//         res.send(meeting);
-//     } catch (error) {
-//         res.status(500).send(error);
-//     }
-// });
+router.get("/:userId/myEvents", auth, async(req, res) => {
+    try {
+        await CalendarEvent.find({"participants.userId": req.params.userId}, (err, data) => {
+            const arr = []
+            for (let i = 0; i < data.length; i++) {
+                if (moment(data[i].date, "DDMMYYYY").valueOf() < (moment().valueOf()) - 1000 * 60 * 60 * 24)  {
+                    continue
+                }
+                    arr.push(data[i])
+            }
+            res.send(arr);
+        })
+    } catch(error) {
+        res.status(500).send(error);
+    }
+})
 
 module.exports = router

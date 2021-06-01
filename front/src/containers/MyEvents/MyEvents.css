@@ -1,0 +1,31 @@
+.MyEvents {
+    max-width: 1200px;
+    margin: 50px auto 0 auto;
+}
+.MyEvents__title {
+    color: deeppink;
+    text-shadow: 1px 1px 2px black;
+}
+.MyEvents__menuBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.MyEvents__link {
+    font-size: 18px;
+    text-decoration: none;
+    color: black;
+    text-shadow: 0 0 5px white;
+    /*display: flex;*/
+    padding: 10px;
+    background: deeppink;
+    border-radius: 20px;
+    margin: 10px 0;
+    box-shadow: 1px 1px 4px 1px black, inset 1px 1px 3px 1px pink;
+}
+.MyEvents__link:hover {
+    background: black;
+    color: white;
+    box-shadow: 1px 1px 4px 1px black, inset 1px 1px 3px 1px gray;
+    text-shadow: none;
+}

@@ -20,6 +20,10 @@ import Calendar from "./containers/Calendar/Calendar";
 import ContentManager from "./containers/ContentManager/ContentManager";
 import ContenLinksReport from "./containers/ContentLinksReport/ContentLinksReport";
 import AllContent from "./containers/ContentManager/ContentManager";
+import MyEvents from "./containers/MyEvents/MyEvents";
+import MyEvents_Applications from "./containers/MyEvents/MyEvents_Applications/MyEvents_Applications";
+import MyEvents_CalendarEvents from "./containers/MyEvents/MyEvents_CalendarEvents/MyEvents_CalendarEvents";
+import MyEvents_Instructions from "./containers/MyEvents/MyEvents_Instructions/MyEvents_Instructions";
 
 const App = () => {
   const user = useSelector(state => state.users.user);
@@ -113,6 +117,35 @@ const App = () => {
                 path="/content-report"
                 exact
                 component={ContenLinksReport}
+              />
+              <ProtectedRoute
+                  isAllowed={user}
+                  redirectTo={"/"}
+                  path="/myEvents"
+                  exact
+                  component={MyEvents}
+              />
+
+              <ProtectedRoute
+                  isAllowed={user}
+                  redirectTo={"/"}
+                  path="/myEvents_applications"
+                  exact
+                  component={MyEvents_Applications}
+              />
+              <ProtectedRoute
+                  isAllowed={user}
+                  redirectTo={"/"}
+                  path="/myEvents_calendarEvents"
+                  exact
+                  component={MyEvents_CalendarEvents}
+              />
+              <ProtectedRoute
+                  isAllowed={user}
+                  redirectTo={"/"}
+                  path="/myEvents_instructions"
+                  exact
+                  component={MyEvents_Instructions}
               />
 
               <Route path="/news" exact component={News} />

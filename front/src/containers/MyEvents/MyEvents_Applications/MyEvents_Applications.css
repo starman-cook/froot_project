@@ -1,0 +1,36 @@
+.MyEvents_Applications {
+    margin: 50px auto 0 auto;
+}
+
+.MyEvents_Applications__item {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid deeppink;
+    margin: 10px auto;
+    max-width: 500px;
+    align-items: center;
+    border-radius: 20px;
+    padding: 10px;
+    box-sizing: border-box;
+    background: white;
+    box-shadow: 1px 1px 3px 1px black;
+}
+.MyEvents_Applications__textBlock {}
+.MyEvents_Applications__text {}
+.MyEvents_Applications__image {
+    width: 200px;
+    box-shadow: 1px 1px 3px 1px black;
+}
+.MyEvents_Applications__btnBlock {
+    display: flex;
+    flex-wrap: wrap;
+}
+.MyEvents_Applications__btn {
+    margin: 10px 20px;
+    color: deeppink;
+    font-weight: bold;
+    cursor: pointer;
+}
+.MyEvents_Applications__btn:hover {
+    color: black;
+}
