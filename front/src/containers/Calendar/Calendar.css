@@ -38,6 +38,7 @@
 .CalendarOne__table {
     display: flex;
     flex-wrap: wrap;
+    width: 100%;
 }
 .CalendarOne__column {
     font-style: normal;
@@ -49,8 +50,13 @@
     color: #4F4F4F;
     padding: 10px 5px;
     margin: 10px 0;
-    width: 110px;
+    width: 13%;
     user-select: none;
+}
+.CalendarOne__column--inactive {
+    background: gray!important;
+    padding: 10px 5px;
+    border-radius: 10px;
 }
 .CalendarOne__column--active {
     cursor: pointer;
@@ -64,6 +70,7 @@
 .CalendarOne__weekdays-block {
     display: flex;
     align-items: center;
+    width: 100%;
 }
 .CalendarOne__weekdays {
     font-style: normal;
@@ -74,7 +81,7 @@
     text-transform: capitalize;
     color: #BDBDBD;
     user-select: none;
-    width: 110px;
+    width: 13%;
     padding: 0 5px;
 }
 .CalendarOne__arrow {
@@ -238,6 +245,8 @@
     align-items: center;
 }
 
+
+
 @media (max-width: 900px) {
     .CalendarOne__weekdays-block {
         display: none;
@@ -251,8 +260,23 @@
         margin: 0;
     }
 }
-/* @media (min-width: 1200px) {
-    .CalendarOne {
-        margin: 10px auto;
+@media (max-width: 844px) {
+    .CalendarOne__column {
+        width: 12%;
     }
-} */
+}
+@media (max-width: 508px) {
+    .CalendarOne__column {
+        width: 11%;
+    }
+}
+@media (max-width: 374px) {
+    .CalendarOne__column {
+        width: 10%;
+    }
+}
+@media (max-width: 304px) {
+    .CalendarOne__column {
+        width: 9%;
+    }
+}

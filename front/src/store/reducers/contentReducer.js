@@ -1,12 +1,21 @@
-import {GET_CONTENT} from "../actions/contentActions";
+import {GET_CONTENT, SET_ACTIVE_PAGE, SET_LOADER, SET_WORKER} from "../actions/contentActions";
 
 const initialState = {
-    content: {}
+    content: {},
+    activePage: 1,
+    loader: false,
+    worker: null
 }
 
 
 const contentReducer = (state = initialState, action) => {
     switch (action.type) {
+        case SET_WORKER:
+            return {...state, worker: action.value}
+        case SET_LOADER:
+            return {...state, loader: action.value}
+        case SET_ACTIVE_PAGE:
+            return {...state, activePage: action.value}
         case GET_CONTENT:
             return {...state, content: action.value}
         default:

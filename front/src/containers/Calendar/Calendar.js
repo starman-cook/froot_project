@@ -112,6 +112,8 @@ const Calendar = () => {
     let tableBody = [];
     let firstDayOfTheMonth = moment().set('year', year).set('month', month).startOf('month').weekday();
     const pickTheDay = (event) => {
+        console.log(event.target.className)
+        if (event.target.className === "CalendarOne__column CalendarOne__column--inactive") return
         setDay(event.target.textContent)
         openDayTiming()
     }
@@ -192,6 +194,7 @@ const Calendar = () => {
     useEffect(() => {
         dispatch(getAllRooms())
         dispatch(fetchAllUsers())
+        if (rooms.length) setRoom(rooms[0].room)
     }, [])
     
     useEffect(() => {
@@ -266,6 +269,9 @@ const Calendar = () => {
                             })
                         }
                         if (el) {
+                            const today = moment()
+                            const str = `${el}-${month + 1}-${year}`
+                            const otherDate = moment(str, `DD-MM-YYYY`)
                             return (<div style={business < 11 && business > 0 ? {
                                 background: `rgb(0, 255, 0)`,
                                 borderRadius: "10px"
@@ -279,14 +285,15 @@ const Calendar = () => {
                                          key={i}
                                          onClick={(event) => {
                                              pickTheDay(event)
-                                         }} className="CalendarOne__column CalendarOne__column--active">{el}</div>)
+                                         }} className={today.valueOf()-1000 * 60 * 60 * 24 > otherDate.valueOf() ? "CalendarOne__column CalendarOne__column--inactive" : "CalendarOne__column CalendarOne__column--active"}>{el}</div>)
                         } else {
+
                             return (<div key={i} className="CalendarOne__column">{el}</div>)
                         }
                     })}
                 </div>
                 </Fragment>: <h4>Выберите комнату</h4>}
-                
+
             </div>
         </>
     );

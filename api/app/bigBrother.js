@@ -17,7 +17,7 @@ router.get('/:page', [auth, permit('viewAllContentlinks')], async(req, res) => {
 
         const jobs = await BigBrother.find().skip((req.params.page - 1) * 10).limit(req.params.page * 10)
         const count = await BigBrother.count()
-        res.send({jobs: jobs, count: count})
+        res.send({jobs: jobs.reverse(), count: count})
     } catch (err) {
         res.status(400).send({ message: err });
     }
@@ -27,7 +27,7 @@ router.get('/:userId/:page', [auth, permit('viewOwnContentlinks')], async(req, r
     try {
         console.log(req.params.userId)
         const jobs = await BigBrother.find({user: req.params.userId}).populate("User").skip((req.params.page - 1) * 10).limit(req.params.page * 10)
-        const count = await BigBrother.count()
+        const count = await BigBrother.find({user: req.params.userId}).populate("User").count()
         res.send({jobs: jobs, count: count})
     } catch (err) {
         res.status(400).send({ message: err });

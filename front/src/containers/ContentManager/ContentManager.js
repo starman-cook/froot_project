@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './ContentManager.css';
 import {useDispatch, useSelector} from "react-redux";
-import {getAllContent, getContentByUser} from "../../store/actions/contentActions";
+import {getAllContent, getContentByUser, setActivePage, setLoader, setWorker} from "../../store/actions/contentActions";
 import ContentManagerItem from "./ContentManagerItem/ContentManagerItem";
 import axiosApi from "../../axiosApi";
 import WithLoader from '../../hoc/WithLoader/WithLoader'
@@ -9,25 +9,55 @@ import {fetchAllUsers} from "../../store/actions/usersActions";
 
 const ContentManager=()=>{
     const dispatch = useDispatch()
-    const content = useSelector(state => state.contentManagers.content)
+    let content = useSelector(state => state.contentManagers.content)
     const count = useSelector(state => state.contentManagers.content.count)
     let pagesNumbers = Math.ceil(count / 10); // получать количество страниц для пагинации и кидать число в цикл, чтобы получить массив, нужен для отрисовки
     const user = useSelector(state => state.users.user)
-    const [activePage, setActivePage] = useState(1)
+    // const [loader, setLoader] = useState(false)
+    const worker = useSelector(state => state.contentManagers.worker)
+    const loader = useSelector(state => state.contentManagers.loader)
     const allWorkers = useSelector(state => state.users.users)
-
+    const activePage = useSelector(state => state.contentManagers.activePage)
     const getContentByName = (id) => {
         dispatch(getContentByUser(id, activePage))
     }
     const chooseWorker = (event) => {
+        dispatch(setLoader(true))
         const value = JSON.parse(event.target.value)
         dispatch(getContentByUser(value._id, activePage))
+        dispatch(setWorker(value._id))
     }
     let allPages;
     const choosePage = (event) => {
-        setActivePage(parseInt(event.target.textContent));
+        dispatch(setActivePage(parseInt(event.target.textContent)));
         countPagination();
     }
+    useEffect(() => {
+        dispatch(setLoader(true))
+        if (worker) {
+            dispatch(getContentByUser(worker, activePage))
+        }
+        else if (user.role.includes("viewAllContentlinks")) {
+            dispatch(getAllContent(activePage))
+            dispatch(fetchAllUsers())
+        } else if (user.role.includes("viewOwnContentlinks")) {
+            dispatch(getContentByUser(user._id, activePage))
+        }
+    }, [activePage])
+
+    useEffect(() => {
+        dispatch(setWorker(null))
+        dispatch(setLoader(true))
+        if (worker) {
+            dispatch(getContentByUser(worker, activePage))
+        }
+        else if (user.role.includes("viewAllContentlinks")) {
+            dispatch(getAllContent(activePage))
+            dispatch(fetchAllUsers())
+        } else if (user.role.includes("viewOwnContentlinks")) {
+            dispatch(getContentByUser(user._id, activePage))
+        }
+    }, [])
 
     const countPagination = () => {
         // Отрисовка пагинации
@@ -143,12 +173,12 @@ const ContentManager=()=>{
 
     const paginationRight = () => {
         if (activePage !== pagesNumbers) {
-            setActivePage(activePage + 1);
+            dispatch(setActivePage(activePage + 1));
         }
     };
     const paginationLeft = () => {
         if (activePage !== 1) {
-            setActivePage(activePage - 1);
+            dispatch(setActivePage(activePage - 1));
         }
     };
 
@@ -157,23 +187,14 @@ const ContentManager=()=>{
         if (el[0]) {
             colorActivePage();
         }
-    }, [activePage]);
-
-    useEffect(() => {
-        if (user.role.includes("viewAllContentlinks")) {
-            dispatch(getAllContent(activePage))
-            dispatch(fetchAllUsers())
-        } else if (user.role.includes("viewOwnContentlinks")) {
-            dispatch(getContentByUser(user._id, activePage))
-        }
-    }, [])
+    }, [activePage])
 
     let allContents
     if (content.jobs) {
-        allContents = content.jobs.reverse().map((el, i) => {
-            return <ContentManagerItem
+        allContents = content.jobs.map((el, i) => {
+             return <ContentManagerItem
                 key={i}
-                number={content.jobs.length - i}
+                number={count - (i + (activePage - 1) * 10)}
                 userName={el.userName}
                 startTime={el.startTime}
                 stopTime={el.stopTime ? el.stopTime : null}
@@ -218,10 +239,11 @@ const ContentManager=()=>{
                     : null}
                 <h1 className={"ContentManager__title"}>Froot.kz Screenshot Watcher</h1>
                 <div className={"ContentManager__block"}>
-                    {allContents}
+                    {/*{!!loader ? <div><div className='Loader_BG' /><div className={"Loader"} /></div> : allContents}*/}
+                    {!!loader ? <div><div className={"Loader"} /></div> : allContents}
                 </div>
             </div>
         </>
     )
 };
-export default WithLoader(ContentManager, axiosApi);
+export default ContentManager;

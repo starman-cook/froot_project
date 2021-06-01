@@ -1,15 +1,25 @@
 // import { push } from "connected-react-router";
 import axiosApi from "../../axiosApi";
 
-
+export const SET_ACTIVE_PAGE = 'SET_ACTIVE_PAGE'
 export const GET_CONTENT = 'GET_CONTENT'
+export const SET_LOADER = 'SET_LOADER'
+export const SET_WORKER = 'SET_WORKER'
+
+export const setWorker = (value) => ({type: SET_WORKER, value})
+
+export const setLoader = (value) => ({type: SET_LOADER, value})
+
+export const setActivePage = (value) => ({type: SET_ACTIVE_PAGE, value})
+
 export const getContent = (value) => ({type: GET_CONTENT, value})
 
 export const getAllContent = (page) => {
     return async dispatch => {
         try {
             const response = await axiosApi.get(`/bigBrother/${page}`)
-            dispatch(getContent(response.data))
+            await dispatch(getContent(response.data))
+            dispatch(setLoader(false))
             console.log("CONTENT RESPONSE *********  ",response.data)
         } catch(err) {
             console.log(err)
@@ -22,7 +32,8 @@ export const getContentByUser = (id, page) => {
     return async dispatch => {
         try {
             const response = await axiosApi.get(`/bigBrother/${id}/${page}`)
-            dispatch(getContent(response.data))
+            await dispatch(getContent(response.data))
+            dispatch(setLoader(false))
             console.log("CONTENT RESPONSE BY USER *********  ",response.data)
         } catch(err) {
             console.log(err)
