@@ -56,7 +56,7 @@ const Login = () => {
                     type="password"
                 />
                 <div className="flex-center">
-                    <button className="Login__btn" type="submit">Войти</button>
+                    <button className="Login__btn" type="submit" id="login">Войти</button>
                 </div>
                 <div className='flex-end'>У вас еще нет аккаунта? <NavLink className='Login__navlink' to='/register'>Регистрация</NavLink></div>
             </form>
