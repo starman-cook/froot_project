@@ -11,9 +11,9 @@ multer({
 })
 const upload = multer();
 
-router.get('/all/:page', [auth, permit('viewAllContentlinks')], async(req, res) => {
+router.get('/', [auth, permit('viewAllContentlinks')], async(req, res) => {
     try {
-        let jobs = await BigBrother.find().sort({created_add: -1}).skip((req.params.page - 1) * 10).limit(10)
+        let jobs = await BigBrother.find().sort({created_add: -1}).skip((req.query.page - 1) * 10).limit(10)
         const count = await BigBrother.countDocuments()
         res.send({jobs: jobs, count: count})
     } catch (err) {
@@ -21,15 +21,36 @@ router.get('/all/:page', [auth, permit('viewAllContentlinks')], async(req, res) 
     }
 })
 
-router.get('/single/:userId/:page', [auth, permit('viewAllContentlinks', 'viewOwnContentlinks')], async(req, res) => {
+router.get('/single', [auth, permit('viewAllContentlinks', 'viewOwnContentlinks')], async(req, res) => {
     try {
-        const jobs = await BigBrother.find({user: req.params.userId}).populate("User").sort({created_add: -1}).skip((req.params.page - 1) * 10).limit(req.params.page * 10)
-        const count = await BigBrother.find({user: req.params.userId}).populate("User").countDocuments()
+        const jobs = await BigBrother.find({user: req.query.userId}).populate("User").sort({created_add: -1}).skip((req.query.page - 1) * 10).limit(10)
+        const count = await BigBrother.find({user: req.query.userId}).populate("User").countDocuments()
         res.send({jobs: jobs, count: count})
     } catch (err) {
         res.status(400).send({ message: err });
     }
 })
+
+// router.get('/all/:page', [auth, permit('viewAllContentlinks')], async(req, res) => {
+//     try {
+//         let jobs = await BigBrother.find().sort({created_add: -1}).skip((req.params.page - 1) * 10).limit(10)
+//         const count = await BigBrother.countDocuments()
+//         res.send({jobs: jobs, count: count})
+//     } catch (err) {
+//         res.status(400).send({ message: err });
+//     }
+// })
+//
+// router.get('/single/:userId/:page', [auth, permit('viewAllContentlinks', 'viewOwnContentlinks')], async(req, res) => {
+//     try {
+//         const jobs = await BigBrother.find({user: req.params.userId}).populate("User").sort({created_add: -1}).skip((req.params.page - 1) * 10).limit(10)
+//         const count = await BigBrother.find({user: req.params.userId}).populate("User").countDocuments()
+//         res.send({jobs: jobs, count: count})
+//     } catch (err) {
+//         res.status(400).send({ message: err });
+//     }
+// })
+
 
 router.get('/:userId/lastJob', async(req, res) => {
     try {
