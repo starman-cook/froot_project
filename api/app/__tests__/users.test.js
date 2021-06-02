@@ -78,21 +78,21 @@ describe ('route-users', () => {
         expect(String(res.body._id)).toBe(String(testUser._id))
         expect(res.body.role.length).toBe(2)
     })       
-    test ('Delete user by id', async () => {
-        const deleteUser = await User.create ({
-            workEmail: 'deleted_user@user.com',
-            surname: 'Deleted',
-            name: 'User',
-            patronymic: 'U',
-            position: 'User',
-            telegramName: '@User',
-            phone: '+7 777 777 77 77',
-            password: '12345a'
-        })
-        const res = await request(server).delete('/users/'+ deleteUser._id + '/delete').set({'Authorization': token})
-        expect(res.statusCode).toBe(200)
-        expect(res.body.message).toBe('user deleted!')
-    }) 
+    // test ('Delete user by id', async () => {
+    //     const deleteUser = await User.create ({
+    //         workEmail: 'deleted_user@user.com',
+    //         surname: 'Deleted',
+    //         name: 'User',
+    //         patronymic: 'U',
+    //         position: 'User',
+    //         telegramName: '@User',
+    //         phone: '+7 777 777 77 77',
+    //         password: '12345a'
+    //     })
+    //     const res = await request(server).delete('/users/'+ deleteUser._id + '/delete').set({'Authorization': token})
+    //     expect(res.statusCode).toBe(200)
+    //     expect(res.body.message).toBe('user deleted!')
+    // }) 
     test('Login user ', async () => {
         const loginUser = {
             workEmail: 'test_user@user.com',
