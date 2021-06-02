@@ -1,5 +1,5 @@
 .ContentManager {
-    max-width: 1000px;
+    max-width: 1500px;
     margin: 0 auto;
 }
 .ContentManager__title {
@@ -104,4 +104,23 @@
     left: 0;
     right: 0;
     background: rgba(20,20,20, 0.5);
+}
+
+.ContentManager__showAllBtn {
+    display: block;
+    margin: 10px auto;
+    width: 150px;
+    text-align: center;
+    background: deeppink;
+    color: white;
+    padding: 5px;
+    border-radius: 20px;
+    user-select: none;
+    cursor: pointer;
+}
+.ContentManager__showAllBtn:hover {
+    background: #c7006e;
+}
+.ContentManager__showAllBtn:active {
+    transform: scale(0.99);
 }

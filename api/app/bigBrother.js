@@ -11,23 +11,20 @@ multer({
 })
 const upload = multer();
 
-router.get('/:page', [auth, permit('viewAllContentlinks')], async(req, res) => {
+router.get('/:page/surf', [auth, permit('viewAllContentlinks')], async(req, res) => {
     try {
-        // db.collection.find().skip(20).limit(10)
-
-        const jobs = await BigBrother.find().skip((req.params.page - 1) * 10).limit(req.params.page * 10)
-        const count = await BigBrother.count()
-        res.send({jobs: jobs.reverse(), count: count})
+        let jobs = await BigBrother.find().sort({created_add: -1}).skip((req.params.page - 1) * 10).limit(10)
+        const count = await BigBrother.countDocuments()
+        res.send({jobs: jobs, count: count})
     } catch (err) {
         res.status(400).send({ message: err });
     }
 })
 
-router.get('/:userId/:page', [auth, permit('viewOwnContentlinks')], async(req, res) => {
+router.get('/:userId/:page/surf', [auth, permit('viewAllContentlinks', 'viewOwnContentlinks')], async(req, res) => {
     try {
-        console.log(req.params.userId)
-        const jobs = await BigBrother.find({user: req.params.userId}).populate("User").skip((req.params.page - 1) * 10).limit(req.params.page * 10)
-        const count = await BigBrother.find({user: req.params.userId}).populate("User").count()
+        const jobs = await BigBrother.find({user: req.params.userId}).populate("User").sort({created_add: -1}).skip((req.params.page - 1) * 10).limit(req.params.page * 10)
+        const count = await BigBrother.find({user: req.params.userId}).populate("User").countDocuments()
         res.send({jobs: jobs, count: count})
     } catch (err) {
         res.status(400).send({ message: err });
