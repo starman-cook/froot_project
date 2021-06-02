@@ -15,6 +15,7 @@ export const getAllEvents = (room, fullDate) => {
         try {
             const response = await axios.get(`/calendarEvents/${room}/${fullDate}/daily`)
             dispatch(getAllEventsSuccess(response.data))
+            console.log("WAITING FUCKING USER ************** ",response.data)
         } catch(err) {
             console.log(err)
         }

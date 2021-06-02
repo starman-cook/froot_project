@@ -31,16 +31,17 @@ router.post('/', auth, upload.single('file'), async (req, res) => {
             event.file = req.file.filename;
         };
 
+        event.user = req.user
         await event.save()
-        const user = await User.findById(req.body.user)
-        try{
-            event.user = user
-            if (process.env.NODE_ENV !== 'test') { 
-                axios.post(config.baseUrlForTelegram + ':8001/telegram/calendarEvents', event);
+
+        try {
+            if (process.env.NODE_ENV !== 'test') {
+                await axios.post(config.baseUrlForTelegram + ':8001/telegram/calendarEvents', event);
             }
         } catch (err) {
             console.log(err)
         }
+
         res.send(event)
     } catch (err) {
         logger.error('POST /calendarEvents '+err);
@@ -83,7 +84,7 @@ router.get('/:room/:date/daily', auth, async (req, res) => {
             room: req.params.room,
             date: req.params.date
         }
-        const events = await CalendarEvent.find(filter)
+        const events = await CalendarEvent.find(filter).populate('user')
         res.send(events)
     } catch (err) {
         logger.error('GET /calendarEvents/:room/:date/daily '+err);

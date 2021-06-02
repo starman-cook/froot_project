@@ -108,6 +108,14 @@
 .Payments__filter-control {
     margin: 20px 0 10px;
 }
+.button {
+    display: inline-block;
+    padding: 5px;
+    border-radius: 10px;
+    background: lightgreen;
+    margin:2px 0 4px 0;
+    cursor: pointer;
+}
 
 @media screen and (min-width:600px) {
     .Payments {
