@@ -62,12 +62,14 @@ const createRouter = () => {
             payment.user = req.user._id
             if (payment.repeatability) payment.repeatabilityId = payment._id;
             await payment.save();
-            try {
-                if (process.env.NODE_ENV !== 'test') {
+            if (process.env.NODE_ENV !== 'test') {
+                try {
+
                     await axios.post(config.baseUrlForTelegram + ':8001/telegram', payment);
-                }
+
             } catch (err) {
                 console.log(err)
+            }
             }
 
             res.send(payment);
@@ -104,13 +106,14 @@ const createRouter = () => {
         payment.approved = true;
         try {
             await payment.save();
-            try {
-                if (process.env.NODE_ENV !== 'test') {
+            if (process.env.NODE_ENV !== 'test') {
+                try {
+
                     await axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/approved`, payment);
-                }
+
             } catch (err) {
                 console.log(err)
-            }
+            }  }
 
             res.send(payment);
         } catch (e) {
@@ -128,14 +131,15 @@ const createRouter = () => {
         };
         try {
             await payment.save();
-            try {
-                if (process.env.NODE_ENV !== 'test') {
+            if (process.env.NODE_ENV !== 'test') {
+                try {
+
                     await axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/approved/cancel`, payment);
-                }
+
             } catch (err) {
                 console.log(err)
             }
-
+        }
             res.send(payment);
         } catch (e) {
             logger.error('GET /payments/:id/approved/cancel '+e);
@@ -152,12 +156,14 @@ const createRouter = () => {
         }
         try {
             await payment.save();
-            try {
-                if (process.env.NODE_ENV !== 'test') {
+            if (process.env.NODE_ENV !== 'test') {
+                try {
+
                     await axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/paid`, payment);
-                }
+
             } catch (err) {
                 console.log(err)
+            }
             }
 
             res.send(payment);
@@ -172,8 +178,14 @@ const createRouter = () => {
         payment.paided = false;
         try {
             await payment.save();
-            if (process.env.NODE_ENV !== 'test') { 
-                axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/paid/cancel`, payment);
+            if (process.env.NODE_ENV !== 'test') {
+                try {
+
+                    await axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/paid/cancel`, payment);
+
+            } catch (err) {
+                // console.log(err)
+            }
             }
             res.send(payment);
         } catch (e) {

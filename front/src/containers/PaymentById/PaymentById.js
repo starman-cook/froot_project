@@ -21,13 +21,13 @@ const PaymentById = () => {
     }, [dispatch]);
     return (
         <div className="PaymentById">
-            <div className="flex-space">
+            <div className="PaymentById__header">
                 <h2 className="PaymentById__title">Платеж ID: {id}</h2>
                 <NavLink to={`/payments/${id}/edit`}>
                     <button className="Payment__btn" >Редактировать</button>
                 </NavLink>
             </div>
-            <div className="PaymentById__content flex-space">
+            <div className="PaymentById__content">
                 <div>
                     <p><b>Дата платежа:</b> {payment.dateOfPayment}</p>
                     <p><b>Компания-плательщик:</b> {payment.payer}</p>
@@ -45,7 +45,7 @@ const PaymentById = () => {
                 </div>
                 <div className="flex-column">
                     <h4>Счет:</h4> 
-                        {payment.image? <img src={apiURL + "/uploads/" + payment.image} alt={payment.image}/>: <p>Счет отсутствует</p>}
+                        {payment.image? <img className={"PaymentById__image"} src={apiURL + "/uploads/" + payment.image} alt={payment.image}/>: <p>Счет отсутствует</p>}
                     
                 </div>
             </div>

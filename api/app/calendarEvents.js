@@ -33,15 +33,15 @@ router.post('/', auth, upload.single('file'), async (req, res) => {
 
         event.user = req.user._id
         await event.save()
-
+        if (process.env.NODE_ENV !== 'test') {
         try {
-            if (process.env.NODE_ENV !== 'test') {
+
                 await axios.post(config.baseUrlForTelegram + ':8001/telegram/calendarEvents', event);
-            }
+
         } catch (err) {
             console.log(err)
         }
-
+    }
         res.send(event)
     } catch (err) {
         logger.error('POST /calendarEvents '+err);
@@ -95,12 +95,14 @@ router.get('/:room/:date/daily', auth, async (req, res) => {
 router.delete('/:id', auth, async (req, res) => {
     try {
         const event = await CalendarEvent.findById(req.params.id)
-        try{
-            if (process.env.NODE_ENV !== 'test') { 
+        if (process.env.NODE_ENV !== 'test') {
+            try{
+
                 await axios.post(config.baseUrlForTelegram + ':8001/telegram/delete/calendarEvents', event);
-            }
+
         } catch (err) {
             console.log(err)
+        }
         }
         await CalendarEvent.findByIdAndRemove(req.params.id)
         res.send({message: "Success"})

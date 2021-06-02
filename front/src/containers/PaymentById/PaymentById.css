@@ -1,13 +1,36 @@
 .PaymentById {
-    margin: 10px 20px;
+    margin: 50px 20px 10px 20px;
 }
 .PaymentById__title {
     border-bottom: 2px solid black;
 }
 .PaymentById__content {
+    display: flex;
     align-items: start;
+    flex-direction: column;
 }
 .flex-column {
     display: flex;
     flex-direction: column;
+}
+
+.PaymentById__image {
+    width: 100%;
+}
+.PaymentById__header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+
+@media (max-width: 550px) {
+    .PaymentById__title {
+        font-size: 18px;
+    }
+}
+@media (max-width: 365px) {
+    .PaymentById__title {
+        font-size: 12px;
+    }
 }
