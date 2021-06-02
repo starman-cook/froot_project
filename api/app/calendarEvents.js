@@ -31,7 +31,7 @@ router.post('/', auth, upload.single('file'), async (req, res) => {
             event.file = req.file.filename;
         };
 
-        event.user = req.user
+        event.user = req.user._id
         await event.save()
 
         try {
@@ -97,7 +97,7 @@ router.delete('/:id', auth, async (req, res) => {
         const event = await CalendarEvent.findById(req.params.id)
         try{
             if (process.env.NODE_ENV !== 'test') { 
-                axios.post(config.baseUrlForTelegram + ':8001/telegram/delete/calendarEvents', event);
+                await axios.post(config.baseUrlForTelegram + ':8001/telegram/delete/calendarEvents', event);
             }
         } catch (err) {
             console.log(err)
