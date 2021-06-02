@@ -70,7 +70,7 @@ const UserSchema = new Schema({
     },
     role: {
         type: [String],
-        // required: true,
+        required: true,
         enum: ['viewAllPayments', 'addPayment', 'editPayment', 'approvePayment', 'payPayment', 'postponePayment', 'viewToBePaid', 'viewTodayPayments', 'cancelApprovedPayment', 'cancelPayedPayment', 'deletePayment', 'stopRepeatabilityPayment', 'authorizeUser', 'editUser', 'deleteUser', 'viewUsers', 'bookMeetingRoom', 'editBookedMeetingRoom', 'deleteBookedMeetingRoom', 'viewBookingsMeetingRoom', 'addNewMeetingRoom', 'deleteMeetingRoom',  'addContentlink', 'viewOwnContentlinks', 'viewAllContentlinks', 'addNews', 'viewAllNews', 'changeStatusNews']
     },
     token: {
