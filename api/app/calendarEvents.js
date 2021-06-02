@@ -36,7 +36,7 @@ router.post('/', auth, upload.single('file'), async (req, res) => {
         if (process.env.NODE_ENV !== 'test') {
         try {
 
-                await axios.post(config.baseUrlForTelegram + ':8001/telegram/calendarEvents', event);
+                 axios.post(config.baseUrlForTelegram + ':8001/telegram/calendarEvents', event);
 
         } catch (err) {
             console.log(err)
@@ -98,7 +98,7 @@ router.delete('/:id', auth, async (req, res) => {
         if (process.env.NODE_ENV !== 'test') {
             try{
 
-                await axios.post(config.baseUrlForTelegram + ':8001/telegram/delete/calendarEvents', event);
+                 axios.post(config.baseUrlForTelegram + ':8001/telegram/delete/calendarEvents', event);
 
         } catch (err) {
             console.log(err)

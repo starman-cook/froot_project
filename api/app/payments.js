@@ -65,7 +65,7 @@ const createRouter = () => {
             if (process.env.NODE_ENV !== 'test') {
                 try {
 
-                    await axios.post(config.baseUrlForTelegram + ':8001/telegram', payment);
+                    axios.post(config.baseUrlForTelegram + ':8001/telegram', payment);
 
             } catch (err) {
                 console.log(err)
@@ -109,7 +109,7 @@ const createRouter = () => {
             if (process.env.NODE_ENV !== 'test') {
                 try {
 
-                    await axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/approved`, payment);
+                     axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/approved`, payment);
 
             } catch (err) {
                 console.log(err)
@@ -134,7 +134,7 @@ const createRouter = () => {
             if (process.env.NODE_ENV !== 'test') {
                 try {
 
-                    await axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/approved/cancel`, payment);
+                     axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/approved/cancel`, payment);
 
             } catch (err) {
                 console.log(err)
@@ -159,7 +159,7 @@ const createRouter = () => {
             if (process.env.NODE_ENV !== 'test') {
                 try {
 
-                    await axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/paid`, payment);
+                     axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/paid`, payment);
 
             } catch (err) {
                 console.log(err)
@@ -181,7 +181,7 @@ const createRouter = () => {
             if (process.env.NODE_ENV !== 'test') {
                 try {
 
-                    await axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/paid/cancel`, payment);
+                     axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/paid/cancel`, payment);
 
             } catch (err) {
                 // console.log(err)
@@ -223,7 +223,7 @@ const createRouter = () => {
         };
         try {
             const payments = await Payment.find(filter).populate('user', 'surname name workEmail');
-            if (process.env.NODE_ENV !== 'test') { 
+            if (process.env.NODE_ENV !== 'test') {
                 await helpers.checkRepeatability(payments)
                 await helpers.buildExcelFile(payments)
             }
