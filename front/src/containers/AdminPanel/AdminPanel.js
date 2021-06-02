@@ -13,16 +13,9 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import AdminForm from '../../components/UI/Forms/AdminForm/AdminForm';
 
-const useStyles = makeStyles((theme) => ({
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-        maxWidth: 300,
-    },
-}));
+
 
 const AdminPanel = () => {
-    const classes = useStyles();
     const users = useSelector(state => state.users.users);
 
     const filterItems = {
@@ -70,7 +63,8 @@ const AdminPanel = () => {
         <Fragment>
             <h1>Сотрудники</h1>
             {users &&
-                <FormControl variant="outlined" className={classes.formControl}>
+                <FormControl variant="outlined" >
+                    <div classname='tac'>
                     <InputLabel id="demo-mutiple-name-label">Фильтр</InputLabel>
                     <Select
                         labelId="demo-mutiple-name-label"
@@ -85,6 +79,7 @@ const AdminPanel = () => {
                             </MenuItem>
                         ))}
                     </Select>
+                    </div>
                     <hr></hr>
                     {filterItems[filter] !== 'all' ?
                         (<div>
@@ -96,7 +91,7 @@ const AdminPanel = () => {
                                 }
                                 options={users}
                             />
-                            <div style={{ borderBottom: '1px solid black' }} className='fontSans'>
+                            { <div style={{ borderBottom: '1px solid black' }}>
                                 <p><b>Имя:</b> {value.name}</p>
                                 <p><b>Фамилия:</b> {value.surname}</p>
                                 <p><b>Отчество:</b> {value.patronymic}</p>
@@ -108,11 +103,11 @@ const AdminPanel = () => {
                                 <NavLink className='AdminPanel__navlink' to={'/users/' + value._id + '/edit'}>Редактировать</NavLink>
                                 <NavLink className='AdminPanel__navlink' to={'/users/' + value._id + '/role'}>Редактировать права</NavLink>
                                 <button className='AdminPanel__navlink' onClick={() => deleteUserById(value._id)}>Удалить</button>
-                            </div>
+                            </div>}
                         </div>) :
-                        (users.map((user, index) => {
+                        (<div className='flexs'>{users.map((user, index) => {
                             return (
-                                <div style={{ borderBottom: '1px solid black' }} key={index} className='fontSans'>
+                                <div className='border' style={{ borderBottom: '1px solid black' }} key={index}>
                                     <p><b>Имя:</b> {user.name}</p>
                                     <p><b>Фамилия:</b> {user.surname}</p>
                                     <p><b>Отчество:</b> {user.patronymic}</p>
@@ -125,7 +120,7 @@ const AdminPanel = () => {
                                     <button className='AdminPanel__navlink' onClick={() => deleteUserById(user._id)}>Удалить</button>
                                 </div>
                             )
-                        }))
+                        })}</div>)
                     }
 
                 </FormControl>

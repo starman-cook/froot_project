@@ -192,7 +192,7 @@ const Payments = () => {
           statusDateChange = {statusChangeHandler}
           />
           </Fragment>
-        ): <UsersPermission/>}
+        ): (<UsersPermission/>)}
         
       </div> }
     </Fragment>

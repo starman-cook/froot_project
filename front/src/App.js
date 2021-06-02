@@ -34,9 +34,7 @@ const App = () => {
           <main className="App__main">
             <Switch>
               <ProtectedRoute
-                isAllowed={
-                  user && user.role.includes("viewAllPayments")
-                }
+                isAllowed={user}
                 redirectTo={'/login'}
                 path="/"
                 exact
