@@ -59,7 +59,7 @@ const createRouter = () => {
             const momentObj = moment(payment.dateOfPayment, 'YYYY-MM-DD')
             payment.dateOfNotification = momentObj.subtract(payment.noticePeriod, 'days').format('YYYY-MM-DD')
 
-            payment.user = req.user
+            payment.user = req.user._id
             if (payment.repeatability) payment.repeatabilityId = payment._id;
             await payment.save();
             try {
