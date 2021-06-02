@@ -17,7 +17,7 @@ export const getContent = (value) => ({type: GET_CONTENT, value})
 export const getAllContent = (page) => {
     return async dispatch => {
         try {
-            const response = await axiosApi.get(`/bigBrother?page=${page}`)
+            const response = await axiosApi.get(`/bigBrother/all?page=${page}`)
             await dispatch(getContent(response.data))
             dispatch(setLoader(false))
             console.log("CONTENT RESPONSE *********  ",response.data)

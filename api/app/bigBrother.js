@@ -11,7 +11,7 @@ multer({
 })
 const upload = multer();
 
-router.get('/', [auth, permit('viewAllContentlinks')], async(req, res) => {
+router.get('/all', [auth, permit('viewAllContentlinks')], async(req, res) => {
     try {
         let jobs = await BigBrother.find().sort({created_add: -1}).skip((req.query.page - 1) * 10).limit(10)
         const count = await BigBrother.countDocuments()
