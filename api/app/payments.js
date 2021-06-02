@@ -63,13 +63,7 @@ const createRouter = () => {
             if (payment.repeatability) payment.repeatabilityId = payment._id;
             await payment.save();
             if (process.env.NODE_ENV !== 'test') {
-                try {
-
                     axios.post(config.baseUrlForTelegram + ':8001/telegram', payment);
-
-            } catch (err) {
-                console.log(err)
-            }
             }
 
             res.send(payment);
@@ -107,13 +101,8 @@ const createRouter = () => {
         try {
             await payment.save();
             if (process.env.NODE_ENV !== 'test') {
-                try {
-
                      axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/approved`, payment);
-
-            } catch (err) {
-                console.log(err)
-            }  }
+            }
 
             res.send(payment);
         } catch (e) {
@@ -132,13 +121,7 @@ const createRouter = () => {
         try {
             await payment.save();
             if (process.env.NODE_ENV !== 'test') {
-                try {
-
                      axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/approved/cancel`, payment);
-
-            } catch (err) {
-                console.log(err)
-            }
         }
             res.send(payment);
         } catch (e) {
@@ -157,13 +140,7 @@ const createRouter = () => {
         try {
             await payment.save();
             if (process.env.NODE_ENV !== 'test') {
-                try {
-
                      axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/paid`, payment);
-
-            } catch (err) {
-                console.log(err)
-            }
             }
 
             res.send(payment);
@@ -179,13 +156,7 @@ const createRouter = () => {
         try {
             await payment.save();
             if (process.env.NODE_ENV !== 'test') {
-                try {
-
                      axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/paid/cancel`, payment);
-
-            } catch (err) {
-                // console.log(err)
-            }
             }
             res.send(payment);
         } catch (e) {
