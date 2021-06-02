@@ -11,7 +11,7 @@ multer({
 })
 const upload = multer();
 
-router.get('/:page/surf', [auth, permit('viewAllContentlinks')], async(req, res) => {
+router.get('/all/:page', [auth, permit('viewAllContentlinks')], async(req, res) => {
     try {
         let jobs = await BigBrother.find().sort({created_add: -1}).skip((req.params.page - 1) * 10).limit(10)
         const count = await BigBrother.countDocuments()
@@ -21,7 +21,7 @@ router.get('/:page/surf', [auth, permit('viewAllContentlinks')], async(req, res)
     }
 })
 
-router.get('/:userId/:page/surf', [auth, permit('viewAllContentlinks', 'viewOwnContentlinks')], async(req, res) => {
+router.get('/single/:userId/:page', [auth, permit('viewAllContentlinks', 'viewOwnContentlinks')], async(req, res) => {
     try {
         const jobs = await BigBrother.find({user: req.params.userId}).populate("User").sort({created_add: -1}).skip((req.params.page - 1) * 10).limit(req.params.page * 10)
         const count = await BigBrother.find({user: req.params.userId}).populate("User").countDocuments()

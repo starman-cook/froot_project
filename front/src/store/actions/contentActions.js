@@ -17,7 +17,7 @@ export const getContent = (value) => ({type: GET_CONTENT, value})
 export const getAllContent = (page) => {
     return async dispatch => {
         try {
-            const response = await axiosApi.get(`/bigBrother/${page}/surf`)
+            const response = await axiosApi.get(`/bigBrother/all/${page}`)
             await dispatch(getContent(response.data))
             dispatch(setLoader(false))
             console.log("CONTENT RESPONSE *********  ",response.data)
@@ -31,7 +31,7 @@ export const getAllContent = (page) => {
 export const getContentByUser = (id, page) => {
     return async dispatch => {
         try {
-            const response = await axiosApi.get(`/bigBrother/${id}/${page}/surf`)
+            const response = await axiosApi.get(`/bigBrother/single/${id}/${page}`)
             await dispatch(getContent(response.data))
             dispatch(setLoader(false))
             console.log("CONTENT RESPONSE BY USER *********  ",response.data)
