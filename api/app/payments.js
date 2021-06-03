@@ -233,6 +233,25 @@ const createRouter = () => {
             res.status(500).send(e);
         }
     });
+    router.get('/due/today/telegram', [auth, permit('viewTodayPayments')], async (req, res) => {
+        let filter = {
+            dateOfPayment: {
+                $lte: moment().format('YYYY-MM-DD')
+            },
+            paided: false,
+            approved: false
+        };
+        try {
+            const payments = await Payment.find(filter).populate('user', 'surname name workEmail');
+            if (process.env.NODE_ENV !== 'test') {
+                await helpers.checkRepeatability(payments)
+            }
+            res.send(payments);
+        } catch (e) {
+            logger.error('GET /payments/due/today/telegram '+e);
+            res.status(500).send(e);
+        }
+    });
 
     router.get('/files/today', [auth, permit('payPayment')], async (req, res) => {
         let filter = {
@@ -289,26 +308,26 @@ const createRouter = () => {
     //     }
     // });
     // не используется
-    // router.get('/due/to-be-paid', [auth, permit('viewToBePaid')], async (req, res) => {
-    //     let filter = { paided: false, approved: true };
-    //     try {
-    //         const payments = await Payment.find(filter).populate('user', 'surname name workEmail');
-    //         await helpers.buildExcelFile(payments)
-    //         res.send(payments);
-    //     } catch (e) {
-    //         res.status(500).send(e);
-    //     }
-    // });
+    router.get('/due/to-be-paid', [auth, permit('viewToBePaid')], async (req, res) => {
+        let filter = { paided: false, approved: true };
+        try {
+            const payments = await Payment.find(filter).populate('user', 'surname name workEmail');
+            await helpers.buildExcelFile(payments)
+            res.send(payments);
+        } catch (e) {
+            res.status(500).send(e);
+        }
+    });
     // не используется
-    // router.delete('/:id/delete', [auth, permit('deletePayment')], async (req, res) => {
-    //     const payment = await Payment.findById(req.params.id);
-    //     try {
-    //         payment.deleteOne();
-    //     } catch (error) {
-    //         res.send(error);
-    //     }
-    //     res.send({ message: 'payment deleted!', _id: payment._id });
-    // });
+    router.delete('/:id/delete', [auth, permit('deletePayment')], async (req, res) => {
+        try {
+            const payment = await Payment.findById(req.params.id);
+            payment.deleteOne();
+            res.send({ message: 'payment deleted!', _id: payment._id });
+        } catch (error) {
+            res.send(error);
+        }
+    });
 
     // нет тестов
     router.get('/telegram/:id/approved', [auth, permit('approvePayment')], async (req, res) => {
@@ -331,8 +350,8 @@ const createRouter = () => {
     router.get('/telegram/:id/date', [auth, permit('postponePayment')], async (req, res) => {
         try {
             const payment = await Payment.findById(req.params.id)
-            const momentObj = moment(payment.dateOfPayment, 'YYYY-MM-DD')
-            const tomorrow = momentObj.add(1, 'days').format('YYYY-MM-DD')
+            // const momentObj = moment(payment.dateOfPayment, 'YYYY-MM-DD')
+            const tomorrow = moment().add(1, 'days').format('YYYY-MM-DD')
             payment.dateOfPayment = tomorrow
             await payment.save();
             try {

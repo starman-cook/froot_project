@@ -62,7 +62,7 @@
     cursor: pointer;
 }
 .CalendarOne__column--active:hover {
-    background: #4FC6E0;
+    background: deeppink !important;
     border-radius: 10px;
     color: white;
 }
@@ -127,7 +127,7 @@
     border-radius: 20px;
 }
 .CalendarOne__today {
-    color: #4e4e4e;
+    color: deeppink;
 }
 .CalendarOne__btn {
     padding: 10px;

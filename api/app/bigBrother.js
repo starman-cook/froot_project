@@ -1,3 +1,4 @@
+
 const express = require('express');
 const router = express.Router();
 const moment = require('moment')
@@ -6,6 +7,7 @@ const User = require('./models/User')
 const multer = require('multer');
 const auth = require('./middleware/auth')
 const permit = require('./middleware/permit')
+const helpers = require('./helpers');
 multer({
     limits: { fieldSize: 2 * 1024 * 1024 }
 })
@@ -30,26 +32,6 @@ router.get('/single', [auth, permit('viewAllContentlinks', 'viewOwnContentlinks'
         res.status(400).send({ message: err });
     }
 })
-
-// router.get('/all/:page', [auth, permit('viewAllContentlinks')], async(req, res) => {
-//     try {
-//         let jobs = await BigBrother.find().sort({created_add: -1}).skip((req.params.page - 1) * 10).limit(10)
-//         const count = await BigBrother.countDocuments()
-//         res.send({jobs: jobs, count: count})
-//     } catch (err) {
-//         res.status(400).send({ message: err });
-//     }
-// })
-//
-// router.get('/single/:userId/:page', [auth, permit('viewAllContentlinks', 'viewOwnContentlinks')], async(req, res) => {
-//     try {
-//         const jobs = await BigBrother.find({user: req.params.userId}).populate("User").sort({created_add: -1}).skip((req.params.page - 1) * 10).limit(10)
-//         const count = await BigBrother.find({user: req.params.userId}).populate("User").countDocuments()
-//         res.send({jobs: jobs, count: count})
-//     } catch (err) {
-//         res.status(400).send({ message: err });
-//     }
-// })
 
 
 router.get('/:userId/lastJob', async(req, res) => {
@@ -102,5 +84,25 @@ router.post('/', upload.none(), async (req, res) => {
         res.status(400).send({ message: "err" });
     }
 });
+
+router.get('/excel', [auth, permit('viewAllContentlinks')], async (req, res) => {
+        const filter = {
+            create_add: {
+                $gte: moment().subtract(30, 'day').format('DD-MM-YYYY')
+            }
+        };
+        try {
+            const contentLinks = await BigBrother.find(filter).populate('user', 'surname name workEmail');
+
+            if (process.env.NODE_ENV !== 'test') {
+            const contentLinksByUsers = await helpers.buildContentlinksReportExcelFile(contentLinks);
+            res.send(contentLinksByUsers);
+            }else{
+                res.send(contentLinks)
+            }
+        } catch (error) {
+            res.status(500).send(error);
+        }
+    });
 
 module.exports = router;

@@ -5,7 +5,7 @@ const payments = require('./app/payments');
 const meetings = require('./app/meetings');
 const news = require('./app/news');
 const calendarEvents = require('./app/calendarEvent');
-const contentlinks = require('./app/contentlinks');
+// const contentlinks = require('./app/contentlinks');
 const cors = require('cors');
 const config = require('./app/config');
 const User = require('./app/models/User');
@@ -32,7 +32,7 @@ const run = async () => {
     app.use('/bigBrother', bigBrother);
     app.use('/calendarEvents', calendarEvents)
     app.use('/rooms', rooms)
-    app.use('/contentlinks', contentlinks());
+    // app.use('/contentlinks', contentlinks());
     app.use('/news', news());
 
     app.listen(port, () => {

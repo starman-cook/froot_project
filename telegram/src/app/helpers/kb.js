@@ -6,11 +6,12 @@ exports.kb = {
         getPayments: 'Показать реестр на сегодня',
         close: 'Закрыть меню',
         myPage: 'Моя учётка',
-        getToBePaid: 'Заявки к оплате'
+        getToBePaid: 'Заявки к оплате',
+        seeEvents: 'Посмотреть предстоящие встречи'
     },
     loginPage: {
         login: 'Залогиниться (инструкция)',
-        logout: 'Удалить юзера',
+        logout: 'Logout',
         info: 'Мои данные',
     },
     goBack: 'Вернуться',

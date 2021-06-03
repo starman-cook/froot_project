@@ -94,6 +94,56 @@
     display: block;
 }
 
+.DayTiming__modalInfo__author {
+    color: deeppink;
+
+}
+.DayTiming__modalInfo__subject {
+    font-size: 18px;
+}
+.DayTiming__modalInfo__btnBlock {
+    display: flex;
+    margin: 30px 0;
+}
+.DayTiming__modalInfo__btn {
+    background: deeppink;
+    border: none;
+    border-radius: 20px;
+    margin-right: 10px;
+    padding: 5px;
+    cursor: pointer;
+    color: white;
+}
+.DayTiming__modalInfo__btn:hover {
+    background: #a00d5e;
+}
+.DayTiming__modalInfo__btn:active {
+    transform: scale(0.99);
+}
+.DayTiming__modalInfo__details {
+    font-size: 14px;
+    margin-bottom: 30px;
+    display: block;
+    padding-bottom: 5px;
+    border-bottom: 1px solid deeppink;
+}
+.DayTiming__modalInfo__participantsTitle {
+    color: deeppink;
+    font-weight: bold;
+}
+.DayTiming__modalInfo__participantsBlock {
+    display: flex;
+    align-items: center;
+}
+.DayTiming__modalInfo__participantsName {
+    font-weight: bold;
+    margin-right: 10px;
+}
+.DayTiming__modalInfo__participantsStatus {
+    font-style: italic;
+    font-size: 12px;
+}
+
 @media (max-width: 700px) {
     .DayTiming__modalInfo-bottom {
         width: 200px;

@@ -130,7 +130,7 @@ const DayTiming = (props) => {
     if (activeTimes) {
         timeTable = (
             <div>
-                <h2>Расписание резервов на {month} {day}, {year}</h2>
+                <h2 className="DayTiming__table__title">Расписание резервов на {month} {day}, {year}</h2>
 
                 <div className="DayTiming__table-wrapper">
                     {timePeriods.map((el, i) => {
@@ -140,10 +140,10 @@ const DayTiming = (props) => {
                         if (index > -1) {
                             isOwner = user._id === activeTimes[index].user._id
                             participants = activeTimes[index].participants.map((el, i) => {
-                                return <>
-                                        <p key={i}>{el.name}</p>
-                                        {el.accepted === null ? <p>Еще не подтвердил</p> : el.accepted ? <p>Подтвердил</p> : <p>Отклонил</p>}
-                                    </>
+                                return <div className={"DayTiming__modalInfo__participantsBlock"}>
+                                        <p className={"DayTiming__modalInfo__participantsName"} key={i}>{el.name}</p>
+                                    <p className={"DayTiming__modalInfo__participantsStatus"}>{el.accepted === null ? "Еще не подтвердил" : el.accepted ? "Подтвердил" : "Отклонил"}</p>
+                                    </div>
                             })
                         }
 
@@ -276,7 +276,7 @@ const DayTiming = (props) => {
                     submitEvent(event)
                 }}>
                     <div className='DayTiming__footer--form'>
-                        <p className='DayTiming__form--text'>Название</p>
+                        <p className='DayTiming__form--text'>Тема встречи</p>
                         <input onChange={(event) => {
                             inputRestOfState(event)
                         }} name="title" required className='DayTiming__footer--input' type="text"/>

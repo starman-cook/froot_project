@@ -1,15 +1,18 @@
-import {GET_CONTENT, SET_ACTIVE_PAGE, SET_LOADER, SET_WORKER} from "../actions/contentActions";
+import {FETCH_CONTENT_REPORTS, GET_CONTENT, SET_ACTIVE_PAGE, SET_LOADER, SET_WORKER} from "../actions/contentActions";
 
 const initialState = {
     content: {},
     activePage: 1,
     loader: false,
-    worker: null
+    worker: null,
+    excel: null
 }
 
 
 const contentReducer = (state = initialState, action) => {
     switch (action.type) {
+        case FETCH_CONTENT_REPORTS:
+            return {...state, excel: action.value}
         case SET_WORKER:
             return {...state, worker: action.value}
         case SET_LOADER:

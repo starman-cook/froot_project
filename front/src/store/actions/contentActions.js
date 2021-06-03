@@ -6,6 +6,10 @@ export const GET_CONTENT = 'GET_CONTENT'
 export const SET_LOADER = 'SET_LOADER'
 export const SET_WORKER = 'SET_WORKER'
 
+export const FETCH_CONTENT_REPORTS='FETCH_CONTENT_REPORTS';
+export const fetchContentReportsSuccess= (value) => ({type:FETCH_CONTENT_REPORTS, value});
+
+
 export const setWorker = (value) => ({type: SET_WORKER, value})
 
 export const setLoader = (value) => ({type: SET_LOADER, value})
@@ -42,8 +46,26 @@ export const getContentByUser = (id, page) => {
 }
 
 
-
-
+// Excel
+export const fetchContentReports=()=>{
+    return async dispatch=>{
+        try{
+            const resp=await axiosApi.get('/bigBrother/excel');
+            // const array=[];
+            // for (let i in resp.data){
+            //     const newReport={
+            //         _id:Object.keys(resp.data).find(key =>resp.data[key] === resp.data[i]),
+            //         options:resp.data[i]
+            //     }
+            //     array.push(newReport)
+            // }
+            dispatch(fetchContentReportsSuccess(resp.data));
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
+}
 
 
 
@@ -83,12 +105,11 @@ export const getContentByUser = (id, page) => {
 //
 // export const SET_NEW_LINK_FOR_COUNT='SET_NEW_LINK_FOR_COUNT';
 //
-// export const FETCH_CONTENT_REPORTS='FETCH_CONTENT_REPORTS';
 //
 // export const SET_NEW_MERCHENT_FOR_CONTENTLINKS='SET_NEW_MERCHENT_FOR_CONTENTLINKS';
 //
 // export const fetchContentLinksSuccess=value=>({type:FETCH_CONTENT_LINKS_FOR_TODAY,value});
-// export const fetchContentLinksFail=error=>({type:FETCH_CONTENT_LINKS_ERRORS,error});
+// export const fetchContentLinksFail= (error) =>({type:FETCH_CONTENT_LINKS_ERRORS,error});
 //
 // export const fetchContentLinks=()=>{
 //     return async dispatch=>{
@@ -122,26 +143,7 @@ export const getContentByUser = (id, page) => {
 //
 // export const setNewLinkForCount=value=>({type:SET_NEW_LINK_FOR_COUNT,value});
 //
-// export const fetchContentReportsSuccess=value=>({type:FETCH_CONTENT_REPORTS,value});
 //
-// export const fetchContentReports=()=>{
-//     return async dispatch=>{
-//         try{
-//             const resp=await axiosApi.get('/contentlinks/all');
-//             // const array=[];
-//             // for (let i in resp.data){
-//             //     const newReport={
-//             //         _id:Object.keys(resp.data).find(key =>resp.data[key] === resp.data[i]),
-//             //         options:resp.data[i]
-//             //     }
-//             //     array.push(newReport)
-//             // }
-//             dispatch(fetchContentReportsSuccess(resp.data));
-//         }
-//         catch(e){
-//             dispatch(fetchContentLinksFail(e));
-//         }
-//     }
-// }
+
 //
 // export const setNewMerchentForContent=value=>({type:SET_NEW_MERCHENT_FOR_CONTENTLINKS,value});

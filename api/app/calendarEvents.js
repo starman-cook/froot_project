@@ -36,7 +36,7 @@ router.post('/', auth, upload.single('file'), async (req, res) => {
         if (process.env.NODE_ENV !== 'test') {
         try {
 
-                await axios.post(config.baseUrlForTelegram + ':8001/telegram/calendarEvents', event);
+                await axios.post(config.baseUrlForTelegram + ':8001/telegram/calendarEvents', {event: event, creator: req.user});
 
         } catch (err) {
             console.log(err)
@@ -148,13 +148,14 @@ router.get('/:id/reject', auth, async (req, res) => {
 
 router.get("/:userId/myEvents", auth, async(req, res) => {
     try {
-        await CalendarEvent.find({"participants.userId": req.params.userId}, (err, data) => {
+        await CalendarEvent.find({"participants.userId": req.params.userId}, async(err, data) => {
             const arr = []
             for (let i = 0; i < data.length; i++) {
                 if (moment(data[i].date, "DDMMYYYY").valueOf() < (moment().valueOf()) - 1000 * 60 * 60 * 24)  {
                     continue
                 }
-                    arr.push(data[i])
+                 data[i].user = await User.findById(data[i].user)
+                 arr.push(data[i])
             }
             res.send(arr);
         })

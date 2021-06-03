@@ -62,3 +62,9 @@
     cursor: pointer;
     user-select: none;
 }
+.MyEvents_CalendarEvents__btn:hover {
+    background: #971a5e;
+}
+.MyEvents_CalendarEvents__btn:active {
+    transform: scale(0.99);
+}

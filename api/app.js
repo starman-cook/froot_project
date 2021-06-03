@@ -3,7 +3,7 @@ const users = require('./app/users');
 const payments = require('./app/payments');
 const news = require('./app/news');
 const calendarEvents = require('./app/calendarEvents');
-const contentlinks = require('./app/contentlinks');
+// const contentlinks = require('./app/contentlinks');
 const cors = require('cors');
 const rooms = require('./app/rooms')
 const bigBrother = require('./app/bigBrother')
@@ -29,7 +29,7 @@ app.use('/users', users());
 app.use('/bigBrother', bigBrother);
 app.use('/calendarEvents', calendarEvents)
 app.use('/rooms', rooms)
-app.use('/contentlinks', contentlinks());
+// app.use('/contentlinks', contentlinks());
 app.use('/news', news());
 
 module.exports = { app, port };

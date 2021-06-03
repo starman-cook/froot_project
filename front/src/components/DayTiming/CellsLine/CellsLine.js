@@ -21,12 +21,15 @@ const cellsLine = (props) => {
 
             {props.isActiveTime ?
                 <div className={props.isBottom ? 'DayTiming__modalInfo-bottom' : 'DayTiming__modalInfo'}>
-                    <h3>{props.creator}</h3>
-                    <h3>{props.titleInModal}</h3>
-                    {props.isOwner ? <button onClick={props.deleteReserve}>Удалить</button> : null}
-                    {props.hasFile ? <button onClick={props.getFile}>Скачать файл</button> : null}
-                    <p>{props.details}</p>
+                    <p className={"DayTiming__modalInfo__author"}><b>Создал встречу:</b> {props.creator}</p>
+                    <p className={"DayTiming__modalInfo__subject"}><b>Тема встречи:</b> {props.titleInModal}</p>
+                    <div className={"DayTiming__modalInfo__btnBlock"}>
+                        {props.isOwner ? <button className={"DayTiming__modalInfo__btn"} onClick={props.deleteReserve}>Удалить</button> : null}
+                        {props.hasFile ? <button className={"DayTiming__modalInfo__btn"} onClick={props.getFile}>Скачать файл</button> : null}
+                    </div>
+                    <p className={"DayTiming__modalInfo__details"}><b>Детали встречи:</b> {props.details}</p>
                     <div>
+                        <p className={"DayTiming__modalInfo__participantsTitle"}>Участники встречи:</p>
                         {props.participants}
                     </div>
                 </div> : null}

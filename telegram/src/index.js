@@ -25,6 +25,7 @@ const upload_1 = require("./app/upload");
 const fs_1 = __importDefault(require("fs"));
 const node_fetch_1 = __importDefault(require("node-fetch"));
 const keyboard_1 = require("./app/helpers/keyboard");
+const moment_1 = __importDefault(require("moment"));
 mongoose_1.default.connect(config_1.config.mongoUrl.url + config_1.config.mongoUrl.db, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -82,26 +83,27 @@ app.post('/telegram', upload_1.upload.single('image'), (req, res) => __awaiter(v
 }));
 // Это функция для уведомления о предстоящем платеже создателя заявки
 app.post('/telegram/:id/notification', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    yield statusChangingBody(req, res, "Срок оплаты платежа через 2 дня");
+    yield statusChangingBody(req, res, `Срок оплаты платежа через ${req.body.noticePeriod} дня`);
 }));
 // Оповещение приглашенных пользователей о встрече
 app.post('/telegram/calendarEvents', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         console.log(req.body);
-        for (let i = 0; i < req.body.participants.length; i++) {
-            const user = yield user_model_1.User.findOne({ apiUserId: req.body.participants[i].userId });
+        for (let i = 0; i < req.body.event.participants.length; i++) {
+            const user = yield user_model_1.User.findOne({ apiUserId: req.body.event.participants[i].userId });
             if (!user)
                 continue;
-            const fileMessage = req.body.file !== "null" && "доступны в деталях встречи на сайте во вкладке График встреч" || "нет";
+            const fileMessage = req.body.event.file !== "null" && "доступны в деталях встречи на сайте во вкладке График встреч" || "нет";
+            const date = moment_1.default(req.body.event.date, "DDMMYYYY");
             const meetingMessage = `
-                <b>${user.name}, вы приглашены на встречу: ${req.body.title}</b>
-                \nДата: ${req.body.date}
-                \nВремя: с ${req.body.from} - до ${req.body.to}
-                \nМесто: ${req.body.room}
-                \nСоздатель: ${req.body.user.name} ${req.body.user.surname}
-                \nОписание: ${req.body.description}
+                <b>${user.name}, вы приглашены на встречу: ${req.body.event.title}</b>
+                \nДата: ${date.format("DD-MM-YYYY")}
+                \nВремя: с ${req.body.event.from} - до ${req.body.event.to}
+                \nМесто: ${req.body.event.room}
+                \nСоздатель: ${req.body.creator.name} ${req.body.creator.surname}
+                \nОписание: ${req.body.event.description}
                 \nМатериалы: ${fileMessage} 
-                \nid: ${req.body._id}
+                \nid: ${req.body.event._id}
             `;
             yield bot.sendMessage(user.chatId, meetingMessage, {
                 parse_mode: 'HTML',
@@ -129,14 +131,13 @@ app.post('/telegram/delete/calendarEvents', (req, res) => __awaiter(void 0, void
             const user = yield user_model_1.User.findOne({ apiUserId: req.body.participants[i].userId });
             if (!user)
                 continue;
-            const fileMessage = req.body.file !== "null" && "доступны в деталях встречи на сайте во вкладке График встреч" || "нет";
+            const date = moment_1.default(req.body.date, "DDMMYYYY");
             const meetingMessage = `
                 <b>ВСТРЕЧА ОТМЕНЕНА</b>
-                 \nДата: ${req.body.date}
+                 \nДата: ${date.format("DD-MM-YYYY")}
                 \nВремя: с ${req.body.from} - до ${req.body.to}
                 \nМесто: ${req.body.room}
                 \nОписание: ${req.body.description}
-                \nМатериалы: ${fileMessage} 
                 \nid: ${req.body._id}
               
             `;
@@ -187,6 +188,7 @@ bot.on('callback_query', (query) => __awaiter(void 0, void 0, void 0, function* 
                 try {
                     yield axios_1.default.get(`${config_1.config.localApiUrl}/payments/telegram/${id}/approved`, { headers: { Authorization: user.token } });
                     yield bot.sendMessage(query.message.chat.id, `Заявка ${id} подтверждена`);
+                    yield bot.deleteMessage(query.message.chat.id, query.message.message_id.toString());
                 }
                 catch (err) {
                     yield bot.sendMessage(query.message.chat.id, `Что-то пошло не так с заявкой ${id}, либо у вас нет прав на данное действие`);
@@ -197,6 +199,7 @@ bot.on('callback_query', (query) => __awaiter(void 0, void 0, void 0, function* 
                 try {
                     yield axios_1.default.get(`${config_1.config.localApiUrl}/payments/telegram/${id}/date`, { headers: { Authorization: user.token } });
                     yield bot.sendMessage(query.message.chat.id, `Заявка ${id} перенесена на завтра`);
+                    yield bot.deleteMessage(query.message.chat.id, query.message.message_id.toString());
                 }
                 catch (err) {
                     yield bot.sendMessage(query.message.chat.id, `Что-то пошло не так с заявкой ${id}, либо у вас нет прав на данное действие`);
@@ -265,7 +268,7 @@ bot.on('message', (msg) => __awaiter(void 0, void 0, void 0, function* () {
     switch (msg.text) {
         case kb_1.kb.home.getPayments:
             try {
-                const resp = yield axios_1.default.get(`${config_1.config.localApiUrl}/payments/due/today`, { headers: { Authorization: user.token } });
+                const resp = yield axios_1.default.get(`${config_1.config.localApiUrl}/payments/due/today/telegram`, { headers: { Authorization: user.token } });
                 const headMessage = `
 <b>Сегодняшние заявки</b>
 <b>Всего заявок на сегодня: ${resp.data.length}шт</b>`;
@@ -347,6 +350,68 @@ bot.on('message', (msg) => __awaiter(void 0, void 0, void 0, function* () {
                 yield bot.sendMessage(chatId, "Ваши права не позволяют просматривать заявки на оплату");
             }
             break;
+        case kb_1.kb.home.seeEvents:
+            try {
+                const resp = yield axios_1.default.get(`${config_1.config.localApiUrl}/calendarEvents/${user.apiUserId}/myEvents`, { headers: { Authorization: user.token } });
+                ////////////////////////////
+                const headMessage = `
+<b>Ваши предстоящие встечи ${user.name}</b>
+<b>Всего встреч: ${resp.data.length}шт</b>`;
+                yield bot.sendMessage(chatId, headMessage, {
+                    parse_mode: 'HTML'
+                });
+                for (let i = 0; i < resp.data.length; i++) {
+                    const participant = resp.data[i].participants.filter(p => p.userId === user.apiUserId);
+                    console.log(participant[0]);
+                    const numeration = `
+<pre>  </pre>
+            -------<b>${i + 1}</b>-------
+
+`;
+                    const fileMessage = resp.data[i].file !== "null" && "доступны в деталях встречи на сайте во вкладке График встреч" || "нет";
+                    const date = moment_1.default(resp.data[i].date, "DDMMYYYY");
+                    const meetingMessage = `
+                <b>${user.name}, вы приглашены на встречу: ${resp.data[i].title}</b>
+                \nДата: ${date.format("DD-MM-YYYY")}
+                \nВремя: с ${resp.data[i].from} - до ${resp.data[i].to}
+                \nМесто: ${resp.data[i].room}
+                \nСоздатель: ${resp.data[i].user.name} ${resp.data[i].user.surname}
+                \nОписание: ${resp.data[i].description}
+                \nМатериалы: ${fileMessage} 
+                <pre>--------------------------</pre>
+<b>Статус: ${participant[0].accepted === null ? "Решение еще не принято" : participant[0].accepted ? "Вы подтвердили эту встречу" : "Вы отклонили эту встречу"}</b>
+                <pre>--------------------------</pre>
+                \nid: ${resp.data[i]._id}
+            `;
+                    yield bot.sendMessage(user.chatId, numeration, {
+                        parse_mode: 'HTML'
+                    });
+                    if (participant[0].accepted === null) {
+                        yield bot.sendMessage(user.chatId, meetingMessage, {
+                            parse_mode: 'HTML',
+                            reply_markup: {
+                                inline_keyboard: [
+                                    [
+                                        { text: kb_1.kb.meeting.accept, callback_data: kb_1.kb.meeting.accept },
+                                        { text: kb_1.kb.meeting.reject, callback_data: kb_1.kb.meeting.reject }
+                                    ]
+                                ]
+                            }
+                        });
+                    }
+                    else {
+                        yield bot.sendMessage(user.chatId, meetingMessage, {
+                            parse_mode: 'HTML',
+                        });
+                    }
+                }
+                ///////////////////////
+            }
+            catch (err) {
+                yield bot.sendMessage(chatId, "Ваши права не позволяют просматривать предстоящие встречи");
+            }
+            break;
+        //////////////////
         case kb_1.kb.home.myPage:
             let opts = {
                 reply_markup: {
@@ -394,7 +459,7 @@ bot.on('message', (msg) => __awaiter(void 0, void 0, void 0, function* () {
                 yield bot.sendMessage(chatId, 'Вы разлогинились');
             }
             catch (err) {
-                yield bot.sendMessage(chatId, 'Ошибка при удалении учетной записи: ' + err);
+                yield bot.sendMessage(chatId, 'Ошибка при выходе из учетной записи: ' + err);
             }
             break;
         case kb_1.kb.goBack:

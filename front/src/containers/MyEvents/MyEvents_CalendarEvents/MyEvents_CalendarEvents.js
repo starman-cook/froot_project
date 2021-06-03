@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getUserCalendarEvents} from "../../../store/actions/calendarAction";
 import {apiURL} from "../../../config";
 import axiosApi from "../../../axiosApi";
-
+import moment from 'moment'
 
 const MyEvents_CalendarEvents = () => {
     const dispatch = useDispatch()
@@ -26,13 +26,12 @@ const MyEvents_CalendarEvents = () => {
     }
     if (events) {
         allEvents = events.map((el, i) => {
-
-            const date = `${el.date[0]}${el.date[1]}-${el.date[2]}${el.date[3]}-${el.date[4]}${el.date[5]}${el.date[6]}${el.date[7]}`
+            const date = moment(el.date, "DDMMYYYY")
             const thisUser = el.participants.filter(u => u.userId === user._id)
             return (
                 <div key={i} className={"MyEvents_CalendarEvents__item"}>
                     <p className={"MyEvents_CalendarEvents__title"}>{el.title}</p>
-                    <p className={"MyEvents_CalendarEvents__text"}><b>Дата встречи:</b> {date}</p>
+                    <p className={"MyEvents_CalendarEvents__text"}><b>Дата встречи:</b> {date.format("DD-MM-YYYY")}</p>
                     <p className={"MyEvents_CalendarEvents__text"}><b>C:</b> {el.from}</p>
                     <p className={"MyEvents_CalendarEvents__text"}><b>По:</b> {el.to}</p>
                     <p className={"MyEvents_CalendarEvents__text"}><b>Описание:</b> {el.description}</p>

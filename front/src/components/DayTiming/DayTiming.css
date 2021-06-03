@@ -148,5 +148,7 @@
     transform: scale(0.99);
     box-shadow: 0 0 1px 1px black;
 }
-
+.DayTiming__table__title {
+    color: deeppink;
+}
 
