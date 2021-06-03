@@ -22,10 +22,10 @@ export const config = {
         // db: `telega3`
     },
     uploadPath: `${__dirname}/public/images`,
-    localApiUrl: "http://localhost:" + apiPort,
-    imagePathFromApi: 'http://localhost:' + apiPort,
-    // imagePathFromApi: process.env.BACKEND_HOST ? `http://${baseUrlForBackend}:` + apiPort : 'http://localhost:' + apiPort, //docker
-    // localApiUrl:process.env.BACKEND_HOST ? `http://${baseUrlForBackend}:` + apiPort : 'http://localhost:' + apiPort, //docker
+    // localApiUrl: "http://localhost:" + apiPort,
+    // imagePathFromApi: 'http://localhost:' + apiPort,
+    imagePathFromApi: process.env.BACKEND_HOST ? `http://${baseUrlForBackend}:` + apiPort : 'http://localhost:' + apiPort, //docker
+    localApiUrl:process.env.BACKEND_HOST ? `http://${baseUrlForBackend}:` + apiPort : 'http://localhost:' + apiPort, //docker
     telegramToken: "1688455909:AAG6JNSW5JfBA8Z5JrkS22EbnbJPuZk1SpI", //@FrootNotify
     // telegramToken: "1786540893:AAGlvXIiohO_NYDER4v5hft8r4aBvZwt0hc", //@TestingFrootBot
     // telegramToken: "1786540893:AAEVWiaoe1LUbx5hKZ6essSU8Wc75W1RgTg", //Default

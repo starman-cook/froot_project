@@ -151,4 +151,13 @@
 .DayTiming__table__title {
     color: deeppink;
 }
-
+.LoaderCalendar {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    z-index: 100;
+    background: url("../../assets/images/loader.gif") center center no-repeat;
+}

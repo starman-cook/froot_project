@@ -4,7 +4,10 @@ export const GET_ALL_CALENDAR_EVENTS = 'GET_ALL_CALENDAR_EVENTS'
 export const GET_BUSY_MONTH = 'GET_BUSY_MONTH'
 export const GET_ALL_ROOMS = 'GET_ALL_ROOMS'
 export const GET_USER_EVENTS = 'GET_USER_EVENTS'
+export const SET_LOADER = 'SET_LOADER'
 
+
+export const setLoaderCalendar = (value) => ({type: SET_LOADER, value})
 export const getUserEventsSuccess = (value) => ({type: GET_USER_EVENTS, value})
 export const getAllEventsSuccess = (value) => ({type: GET_ALL_CALENDAR_EVENTS, value})
 export const getBusyMonthSuccess = (value) => ({type: GET_BUSY_MONTH, value})
@@ -34,31 +37,37 @@ export const getUserCalendarEvents = (userId) => {
 
 export const getBusyMonth = (room, date) => {
     return async dispatch => {
+        dispatch(setLoaderCalendar(true))
         try {
             const response = await axios.get(`/calendarEvents/${room}/${date}/monthly`)
             dispatch(getBusyMonthSuccess(response.data))
         } catch(err) {
             console.log(err)
         }
+        dispatch(setLoaderCalendar(false))
     }
 }
 export const createCalendarEvent = (data) => {
-    return async () => {
+    return async (dispatch) => {
+        dispatch(setLoaderCalendar(true))
         try {
             await axios.post(`/calendarEvents`, data)
         } catch(err) {
             console.log(err)
         }
+        dispatch(setLoaderCalendar(false))
     }
 }
 
 export const deleteCalendarEvent = (id) => {
-    return async () => {
+    return async (dispatch) => {
+        dispatch(setLoaderCalendar(true))
         try {
             await axios.delete(`/calendarEvents/${id}`)
         } catch(err) {
             console.log(err)
         }
+        dispatch(setLoaderCalendar(false))
     }
 }
 

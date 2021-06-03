@@ -15,7 +15,7 @@ const upload = multer();
 
 router.get('/all', [auth, permit('viewAllContentlinks')], async(req, res) => {
     try {
-        let jobs = await BigBrother.find().sort({created_add: -1}).skip((req.query.page - 1) * 10).limit(10)
+        let jobs = await BigBrother.find().sort({createdAt: -1}).skip((req.query.page - 1) * 10).limit(10)
         const count = await BigBrother.countDocuments()
         res.send({jobs: jobs, count: count})
     } catch (err) {
@@ -25,7 +25,7 @@ router.get('/all', [auth, permit('viewAllContentlinks')], async(req, res) => {
 
 router.get('/single', [auth, permit('viewAllContentlinks', 'viewOwnContentlinks')], async(req, res) => {
     try {
-        const jobs = await BigBrother.find({user: req.query.userId}).populate("User").sort({created_add: -1}).skip((req.query.page - 1) * 10).limit(10)
+        const jobs = await BigBrother.find({user: req.query.userId}).populate("User").sort({createdAt: -1}).skip((req.query.page - 1) * 10).limit(10)
         const count = await BigBrother.find({user: req.query.userId}).populate("User").countDocuments()
         res.send({jobs: jobs, count: count})
     } catch (err) {
@@ -85,24 +85,27 @@ router.post('/', upload.none(), async (req, res) => {
     }
 });
 
-router.get('/excel', [auth, permit('viewAllContentlinks')], async (req, res) => {
-        const filter = {
-            create_add: {
-                $gte: moment().subtract(30, 'day').format('DD-MM-YYYY')
-            }
-        };
-        try {
-            const contentLinks = await BigBrother.find(filter).populate('user', 'surname name workEmail');
-
-            if (process.env.NODE_ENV !== 'test') {
-            const contentLinksByUsers = await helpers.buildContentlinksReportExcelFile(contentLinks);
-            res.send(contentLinksByUsers);
-            }else{
-                res.send(contentLinks)
-            }
-        } catch (error) {
-            res.status(500).send(error);
-        }
-    });
+// router.get('/excel', [auth, permit('viewAllContentlinks')], async (req, res) => {
+//         // const filter = {
+//         //     createdAt: {
+//         //         $gte: moment().subtract(30, 'day')
+//         //     }
+//         // };
+//         // try {
+//             // const contentLinks = await BigBrother.find(filter).populate('user');
+//
+//
+//             // if (process.env.NODE_ENV !== 'test') {
+//             // const contentLinksByUsers = await helpers.buildContentlinksReportExcelFile(contentLinks);
+//                 await helpers.buildContentlinksReportExcelFile();
+//             res.send("contentLinksByUsers");
+//             // }else{
+//             //     res.send("contentLinks")
+//             // }
+//         // } catch (error) {
+//         //     res.status(500).send(error);
+//         //     console.log("MOTHER FUCK!")
+//         // }
+//     });
 
 module.exports = router;

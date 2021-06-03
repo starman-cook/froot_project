@@ -45,6 +45,7 @@ const DayTiming = (props) => {
     const [firstClick, setFirstClick] = useState(null)
     const [secondClick, setSecondClick] = useState(null)
     const [color, setColor] = useState(getRandomColor())
+    const loader = useSelector(state => state.calendarEvents.loader)
 
     const activeTimes = useSelector(state => state.calendarEvents.events)
     const allWorkers = useSelector(state => state.users.users)
@@ -140,7 +141,7 @@ const DayTiming = (props) => {
                         if (index > -1) {
                             isOwner = user._id === activeTimes[index].user._id
                             participants = activeTimes[index].participants.map((el, i) => {
-                                return <div className={"DayTiming__modalInfo__participantsBlock"}>
+                                return <div key={i} className={"DayTiming__modalInfo__participantsBlock"}>
                                         <p className={"DayTiming__modalInfo__participantsName"} key={i}>{el.name}</p>
                                     <p className={"DayTiming__modalInfo__participantsStatus"}>{el.accepted === null ? "Еще не подтвердил" : el.accepted ? "Подтвердил" : "Отклонил"}</p>
                                     </div>
@@ -162,7 +163,7 @@ const DayTiming = (props) => {
                             details={index > -1 ? activeTimes[index].description : ""}
                             participants={participants}
                             bgColor={index > -1 ? activeTimes[index].color : "#fff"}
-                            isBottom={i > 12}
+                            isBottom={i > 10}
                             isOwner={isOwner}
                         />
                     })
@@ -268,7 +269,7 @@ const DayTiming = (props) => {
 
     return (
         <div className='DayTiming'>
-            {timeTable}
+            {loader  ? <div className={"LoaderCalendar"} /> : timeTable}
             <div className='DayTiming__footer'>
                 {chosenTime ? <p className='DayTiming__footer--text'>{chosenTime}</p> :
                     <div className='DayTiming__emptySpace'/>}

@@ -20,6 +20,7 @@ const Calendar = () => {
     const [year, setYear] = useState(moment().year());
     const [month, setMonth] = useState(moment().month());
     const [day, setDay] = useState(moment().date());
+    const loader = useSelector(state => state.calendarEvents.loader)
 
     const user = useSelector(state => state.users.user)
     let canAddRoom
@@ -257,7 +258,7 @@ const Calendar = () => {
                 {room ? <Fragment>
                     {tableHead}
 
-                <div className="CalendarOne__table">
+                    {loader && (!isModalMonth && !isModalRoom && !isModalYear && !isDayTiming) ? <div className={"LoaderCalendar"} /> : <div className="CalendarOne__table">
                     {tableBody.map((el, i) => {
                         const fullDate = getFullDateString(el, month, year)
                         let business = 0
@@ -291,7 +292,7 @@ const Calendar = () => {
                             return (<div key={i} className="CalendarOne__column">{el}</div>)
                         }
                     })}
-                </div>
+                </div>}
                 </Fragment>: <h4>Выберите комнату</h4>}
 
             </div>
