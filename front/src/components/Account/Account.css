@@ -68,6 +68,15 @@ h4 {
 .Account__btn:hover, .Account__btn:focus {
   background-color: #c4c7c7;
 }
+.Account__btn_img {
+  cursor: pointer;
+  color: #ff067c;
+  text-decoration: underline;
+}
+.Account__btn_img:hover {
+  background-color: #ff067c;
+  color: white;
+}
 
 .show {display: block;}
 

@@ -11,3 +11,19 @@
     outline: none;
     font-size: 14px;
 }
+.flexs {
+    display: flex;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.tac {
+    margin: 0 auto;
+}
+.border {
+    border: 1px solid #ff077d;
+    border-radius: 10%;
+    padding: 5px;
+    margin: 5px;
+}

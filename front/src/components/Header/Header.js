@@ -95,15 +95,14 @@ const Header = ({ user }) => {
                 </NavLink>
                 </MenuItem>
               )}
-              {user.role.includes("viewTodayPayments") &&
-                !user.role.includes("payPayment") &&
-                !user.role.includes("approvePayment") && (
-                  <MenuItem>
-                    <NavLink className="Header__link" to="/registry">
-                      Платежи на сегодня
-                  </NavLink>{" "}
-                  </MenuItem>
-                )}
+              {user.role.includes("payPayment") && (
+                <MenuItem>
+                  <NavLink className="Header__link" to="/pay-registry">
+                    Платежи для Оплаты
+                </NavLink>
+                </MenuItem>
+              )}
+
               {user.role.includes("addPayment") && (
                 <MenuItem>
                   <NavLink to="/new-payment" className="Header__link">
