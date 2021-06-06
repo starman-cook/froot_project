@@ -139,7 +139,7 @@ const Header = ({ user }) => {
             Новости
           </NavLink>
         )}
-        {user && (
+        {user && user.role.includes("viewAllPayments") && (
             <NavLink to="/myEvents" className="Header__link">
               Мои события
             </NavLink>

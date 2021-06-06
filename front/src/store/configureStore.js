@@ -5,7 +5,6 @@ import { createBrowserHistory } from "history";
 import { loadFromLocalStorage, saveToLocalStorage } from "./localStorage";
 import paymentReducer from "./reducers/paymentReducer";
 import usersReducer from "./reducers/usersReducer";
-import meetingReducer from "./reducers/meetingReducer";
 import calendarReducer from "./reducers/calendarReducer";
 import contentReducer from "./reducers/contentReducer";
 import newsReducer from "./reducers/newsReducer";
@@ -16,7 +15,6 @@ export const history = createBrowserHistory();
 const rootReducer = combineReducers({
   payments: paymentReducer,
   users: usersReducer,
-  meetings:meetingReducer,
   calendarEvents: calendarReducer,
   contentManagers:contentReducer,
   news: newsReducer,

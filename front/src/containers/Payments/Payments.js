@@ -186,7 +186,7 @@ const Payments = () => {
                   {showModal.show && <Modal body={body} name={'filter'} close={closeModal} />}
                 </div>
               </div>
-              <Total payments={payments}/>
+              {payments.length && <Total payments={payments}/>}
            </div>
         <Account payments={payments}
           statusDateChange = {statusChangeHandler}
