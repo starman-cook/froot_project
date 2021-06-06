@@ -52,7 +52,6 @@ const bot = new node_telegram_bot_api_1.default(config_1.config.telegramToken, {
 app.post('/telegram', upload_1.upload.single('image'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (req.body.image) {
         try {
-            // const response = await fetch("http://" + process.env.BACKEND_HOST + ":8000/uploads/" + req.body.image);
             const response = yield node_fetch_1.default(config_1.config.imagePathFromApi + "/uploads/" + req.body.image);
             const fileStream = fs_1.default.createWriteStream("./public/images/" + req.body.image);
             yield new Promise((resolve, reject) => {
@@ -148,7 +147,7 @@ app.post('/telegram/delete/calendarEvents', (req, res) => __awaiter(void 0, void
         res.send({ message: "Success" });
     }
     catch (error) {
-        console.log(error); ////////
+        console.log(error);
         res.status(500).send({ message: 'Telegram Error' });
     }
 }));
@@ -353,7 +352,6 @@ bot.on('message', (msg) => __awaiter(void 0, void 0, void 0, function* () {
         case kb_1.kb.home.seeEvents:
             try {
                 const resp = yield axios_1.default.get(`${config_1.config.localApiUrl}/calendarEvents/${user.apiUserId}/myEvents`, { headers: { Authorization: user.token } });
-                ////////////////////////////
                 const headMessage = `
 <b>Ваши предстоящие встечи ${user.name}</b>
 <b>Всего встреч: ${resp.data.length}шт</b>`;
@@ -405,13 +403,11 @@ bot.on('message', (msg) => __awaiter(void 0, void 0, void 0, function* () {
                         });
                     }
                 }
-                ///////////////////////
             }
             catch (err) {
                 yield bot.sendMessage(chatId, "Ваши права не позволяют просматривать предстоящие встречи");
             }
             break;
-        //////////////////
         case kb_1.kb.home.myPage:
             let opts = {
                 reply_markup: {
