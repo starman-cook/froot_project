@@ -132,6 +132,7 @@ const PaymentForm = ({ onSubmit, paymentId }) => {
                     placeholder="Сумма платежа"
                     label="Сумма платежа *"
                     onChange={inputChangeHandler}
+                    type="number"
                     name="sum"
                     value={state.sum}
                     required
@@ -194,7 +195,6 @@ const PaymentForm = ({ onSubmit, paymentId }) => {
                     >
                         <option value="Выбрать периодичность платежа">Выбрать периодичность платежа</option>
                         <option value="monthly">Оплата раз в месяц</option>
-                        {/* <option value="Оплата 2 раза в месяц">Оплата 2 раза в месяц</option> */}
                         <option value="weekly">Оплата раз в неделю</option>
                     </select>
                 </div>
@@ -204,7 +204,7 @@ const PaymentForm = ({ onSubmit, paymentId }) => {
                     onChange={inputChangeHandler}
                     name="noticePeriod"
                     value={state.noticePeriod}
-                    type='number'
+                    type="number"
                     min = {0}
                 />
                 <button className="PaymentForm__btn" type="submit">{paymentId ? "Редактировать платеж" : "Добавить платеж"}</button>
