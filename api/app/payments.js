@@ -26,15 +26,12 @@ schedule.scheduleJob("16 21 * * *", async  function(){
 const createRouter = () => {
 
     router.get('/', auth, async (req, res) => {
-        let filter = {}
-        if (req.query.date) {
-            filter.dateOfPayment = req.query.date
-        }
+        
         try {
-            const payments = await Payment.find(filter).populate('user', 'surname name workEmail')
+            const payments = await Payment.find().populate('user', 'surname name workEmail').sort({dateOfPayment: -1});
             res.send(payments);
         } catch (e) {
-            logger.error('GET /payments '+e);
+            logger.error('GET /payments '+ e);
             res.status(500).send(e);
         }
     });
@@ -67,14 +64,14 @@ const createRouter = () => {
 
                     await axios.post(config.baseUrlForTelegram + ':8001/telegram', payment);
 
-            } catch (err) {
-                console.log(err)
-            }
+                } catch (err) {
+                    console.log(err)
+                }
             }
 
             res.send(payment);
         } catch (err) {
-            logger.error('POST /payments '+err);
+            logger.error('POST /payments '+ err);
             res.status(400).send({ message: err });
         }
     });
@@ -184,7 +181,7 @@ const createRouter = () => {
                     await axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/paid/cancel`, payment);
 
             } catch (err) {
-                // console.log(err)
+                console.log(err)
             }
             }
             res.send(payment);
@@ -291,23 +288,6 @@ const createRouter = () => {
         }
     })
 
-    // не используется
-    // router.get('/:id/date', [auth, permit('postponePayment')], async (req, res) => {
-    //     const payment = await Payment.findById(req.params.id)
-    //     const today = new Date();
-    //     const tomorrow = today.setDate(today.getDate() + 1);
-    //     payment.dateOfPayment = tomorrow
-    //     try {
-    //         await payment.save();
-    //         if (process.env.NODE_ENV !== 'test') { 
-    //             await axios.post(config.baseUrlForTelegram + `:8001/telegram/${payment.user._id}/date`, payment);
-    //         }
-    //         res.send(payment);
-    //     } catch (e) {
-    //         res.status(400).send(e);
-    //     }
-    // });
-    // не используется
     router.get('/due/to-be-paid', [auth, permit('viewToBePaid')], async (req, res) => {
         let filter = { paided: false, approved: true };
         try {
@@ -318,7 +298,7 @@ const createRouter = () => {
             res.status(500).send(e);
         }
     });
-    // не используется
+
     router.delete('/:id/delete', [auth, permit('deletePayment')], async (req, res) => {
         try {
             const payment = await Payment.findById(req.params.id);
@@ -329,7 +309,6 @@ const createRouter = () => {
         }
     });
 
-    // нет тестов
     router.get('/telegram/:id/approved', [auth, permit('approvePayment')], async (req, res) => {
         try {
             const payment = await Payment.findById(req.params.id)
@@ -346,11 +325,9 @@ const createRouter = () => {
             res.status(404).send({ message: "Not found" });
         }
     });
-    // нет тестов
     router.get('/telegram/:id/date', [auth, permit('postponePayment')], async (req, res) => {
         try {
             const payment = await Payment.findById(req.params.id)
-            // const momentObj = moment(payment.dateOfPayment, 'YYYY-MM-DD')
             const tomorrow = moment().add(1, 'days').format('YYYY-MM-DD')
             payment.dateOfPayment = tomorrow
             await payment.save();

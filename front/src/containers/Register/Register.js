@@ -92,14 +92,6 @@ const Register = () => {
                     required
                     error={getError('position')}
                 />
-                {/* <FormElement
-                    placeholder="Имя в телеграм"
-                    label="Telegram name"
-                    onChange={inputChangeHandler}
-                    name="telegramName"
-                    value={state.telegramName}
-                    required
-                /> */}
                 <FormElement
                     placeholder="Телефон"
                     label="Phone"

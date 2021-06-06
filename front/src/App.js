@@ -8,7 +8,6 @@ import Payments from "./containers/Payments/Payments";
 import "./App.css"
 import Register from "./containers/Register/Register";
 import Login from "./containers/Login/Login";
-import Registry from "./containers/Registry/Registry";
 import AdminPanel from "./containers/AdminPanel/AdminPanel";
 import Employee from "./containers/Employee/Employee";
 import EditPayment from "./containers/EditPayment/EditPayment";
@@ -18,8 +17,8 @@ import RegistryForAccountant from "./containers/RegistryForAccountant/RegistryFo
 import RegistryForApprove from "./containers/RegistryForApprove/RegistryForApprove";
 import Calendar from "./containers/Calendar/Calendar";
 import ContentManager from "./containers/ContentManager/ContentManager";
-import ContenLinksReport from "./containers/ContentLinksReport/ContentLinksReport";
-import AllContent from "./containers/ContentManager/ContentManager";
+// import ContenLinksReport from "./containers/ContentLinksReport/ContentLinksReport";
+// import AllContent from "./containers/ContentManager/ContentManager";
 import MyEvents from "./containers/MyEvents/MyEvents";
 import MyEvents_Applications from "./containers/MyEvents/MyEvents_Applications/MyEvents_Applications";
 import MyEvents_CalendarEvents from "./containers/MyEvents/MyEvents_CalendarEvents/MyEvents_CalendarEvents";
@@ -40,7 +39,6 @@ const App = () => {
                 exact
                 component={Payments}
               />
-              <Route path="/registry" exact component={Registry} />
               <ProtectedRoute
                 isAllowed={
                   user && user.role.includes("approvePayment")
@@ -109,13 +107,13 @@ const App = () => {
                 exact
                 component={ContentManager}
               />
-              <ProtectedRoute
+              {/* <ProtectedRoute
                 isAllowed={user && user.role.includes('viewAllContentlinks')}
                 redirectTo={"/"}
                 path="/content-report"
                 exact
                 component={ContenLinksReport}
-              />
+              /> */}
               <ProtectedRoute
                   isAllowed={user}
                   redirectTo={"/"}

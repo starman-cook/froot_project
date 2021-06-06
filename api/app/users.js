@@ -74,8 +74,6 @@ const createRouter = () => {
     });
     router.post('/sessions', async (req, res) => {
         try{
-            logger.error('TEST  **** POST /users/sessions ');
-
             const user = await User.findOne({ workEmail: req.body.workEmail });
             if (!user) {
                 return res.status(400).send({ error: 'Неправильный email или пароль!' });
@@ -103,12 +101,9 @@ const createRouter = () => {
             if (!isMatch) {
                 return res.status(400).send({ error: 'Неправильный пароль!' });
             }
-            // user.chatId = req.body.chatId
             await user.generationToken('telegram')
-            // console.log("NEW GENERATED TOKEN: *****************************, " , user.token)
             await user.save({ validateBeforeSave: false });
             res.send({ user: user })
-            // res.send({message: 'Email and password correct!'});
         }
         catch(e){
             logger.error('POST /users/telegram_sessions '+e);

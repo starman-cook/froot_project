@@ -113,7 +113,6 @@ router.delete('/:id', auth, async (req, res) => {
 })
 
 
-// не используется
 router.get('/:id/accept', auth, async (req, res) => {
     try {
         const meeting = await CalendarEvent.findById(req.params.id);

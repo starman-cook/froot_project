@@ -24,7 +24,6 @@ export const getAllContent = (page) => {
             const response = await axiosApi.get(`/bigBrother/all?page=${page}`)
             await dispatch(getContent(response.data))
             dispatch(setLoader(false))
-            console.log("CONTENT RESPONSE *********  ",response.data)
         } catch(err) {
             console.log(err)
         }

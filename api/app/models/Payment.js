@@ -19,7 +19,6 @@ const PaymentSchema = new Schema({
     },
     costCenter: {
         type: String,
-        // required:true
     },
     invoice: {
         type: String,

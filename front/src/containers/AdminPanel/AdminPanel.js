@@ -64,7 +64,7 @@ const AdminPanel = () => {
             <h1>Сотрудники</h1>
             {users &&
                 <FormControl variant="outlined" >
-                    <div classname='tac'>
+                    <div className='tac'>
                     <InputLabel id="demo-mutiple-name-label">Фильтр</InputLabel>
                     <Select
                         labelId="demo-mutiple-name-label"
@@ -99,7 +99,6 @@ const AdminPanel = () => {
                                 <p><b>Почта:</b> {value.workEmail}</p>
                                 <p><b>Телефон:</b> {value.phone}</p>
                                 <p><b>Имя в телеграме:</b> {value.telegramName}</p>
-                                {/* <p><b>Роль: </b>{user.role}</p> */}
                                 <NavLink className='AdminPanel__navlink' to={'/users/' + value._id + '/edit'}>Редактировать</NavLink>
                                 <NavLink className='AdminPanel__navlink' to={'/users/' + value._id + '/role'}>Редактировать права</NavLink>
                                 <button className='AdminPanel__navlink' onClick={() => deleteUserById(value._id)}>Удалить</button>

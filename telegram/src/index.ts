@@ -45,7 +45,6 @@ const bot = new TelegramBot(config.telegramToken, {
 app.post('/telegram', upload.single('image'), async (req, res) => {
     if (req.body.image) {
         try {
-            // const response = await fetch("http://" + process.env.BACKEND_HOST + ":8000/uploads/" + req.body.image);
             const response = await fetch(config.imagePathFromApi + "/uploads/" + req.body.image);
             const fileStream = fs.createWriteStream("./public/images/" + req.body.image);
             await new Promise((resolve, reject) => {
@@ -143,7 +142,7 @@ app.post('/telegram/delete/calendarEvents', async (req, res) => {
         }
         res.send({message: "Success"});
     } catch (error) {
-        console.log(error); ////////
+        console.log(error); 
         res.status(500).send({ message: 'Telegram Error' })
     }
 })
@@ -350,7 +349,6 @@ bot.on('message', async msg => {
         case kb.home.seeEvents:
             try {
                 const resp = await axios.get(`${config.localApiUrl}/calendarEvents/${user.apiUserId}/myEvents`, { headers: { Authorization: user.token } })
-                    ////////////////////////////
                 const headMessage = `
 <b>Ваши предстоящие встечи ${user.name}</b>
 <b>Всего встреч: ${resp.data.length}шт</b>`
@@ -403,15 +401,12 @@ bot.on('message', async msg => {
                     }
 
                 }
-                ///////////////////////
-
             } catch (err) {
                 await bot.sendMessage(chatId, "Ваши права не позволяют просматривать предстоящие встречи")
             }
             break
-        //////////////////
         case kb.home.myPage:
-            let opts = { //// исправление отображения кнопок логина / удаления юзера - тикет 64
+            let opts = { 
                 reply_markup: {
                     keyboard: [
                         [{ text: kb.loginPage!.info }],

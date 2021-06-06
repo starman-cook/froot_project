@@ -78,10 +78,6 @@ const UserSchema = new Schema({
         required: true,
         default: ["", ""]
     },
-    // tokenTelegram: {
-    //     type: String,
-    //     required: true
-    // },
     chatId: String
 })
 UserSchema.pre('save', async function (next) {
@@ -101,8 +97,6 @@ UserSchema.methods.checkPassword = function (password) {
     return bcrypt.compare(password, this.password);
 }
 UserSchema.methods.generationToken = function (tokenType) {
-    // console.log("a",this.token)
-    // console.log(tokenType)
     const copy = [...this.token]
     if (tokenType === 'telegram') {
         copy[1] = nanoid()
@@ -111,9 +105,6 @@ UserSchema.methods.generationToken = function (tokenType) {
     }
     return this.token = copy;
 }
-// UserSchema.methods.generationTokenTelegram = function () {
-//     return this.tokenTelegram = nanoid();
-// }
 
 const User = mongoose.model('User', UserSchema);
 module.exports = User;

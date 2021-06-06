@@ -31,16 +31,7 @@ const EditPayment = () => {
     useEffect(() => {
         dispatch(fetchPaymentById(id))
     }, [dispatch]);
-    // useEffect(() => {
-    //     dispatch(fetchPaymentById(id)).then(payment=> {
-    //         let stateCopy = {};
-    //         Object.keys(state).forEach(key => {
-    //             stateCopy[key] = payment[key];
-    //         });
-    //         setState({...stateCopy});
-    //         console.log('state', state)
-    //     })
-    // }, [dispatch]);
+   
     const inputChangeHandler = (event) => {
         const { name, value } = event.target;
         setState((prevState) => {

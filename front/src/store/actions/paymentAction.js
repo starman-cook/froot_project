@@ -76,7 +76,6 @@ export const fetchSortedData = (data) => {
   return async (dispatch) => {
     try {
       const response = await axiosApi.post("/payments/filter", data);
-      console.log('response', response.data)
       dispatch(fetchPaymentsSuccess(response.data));
     } catch (e) {
       console.error(e);

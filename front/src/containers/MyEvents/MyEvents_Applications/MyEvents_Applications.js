@@ -28,22 +28,6 @@ const MyEvents_Applications = () => {
     }
 
 
-
-
-    // image: "GH6mjrSsGtcXy9VgEpFUF.jpg"
-
-
-
-
-    // periodicity: "weekly"
-    // priority: "стандартный"
-    // purpose: "wefwefwef"
-    // repeatability: true
-    // repeatabilityApplied: false
-    // repeatabilityClosed: false
-    // repeatabilityId: "60b5f058cec0291de85dd311"
-    // sum: "123"
-
     if (payments.length) {
         allPayments = payments.map((el,i) => {
             return (
@@ -55,8 +39,6 @@ const MyEvents_Applications = () => {
                         <p className={"MyEvents_Applications__text"}><b>Назначение:</b> {el.purpose}</p>
                         <p className={"MyEvents_Applications__text"}><b>Основание договора/счёта:</b> {el.invoice}</p>
                         <p className={"MyEvents_Applications__text"}><b>Наименование контрагента:</b> {el.contractor}</p>
-                        {/*<p className={"MyEvents_Applications__text"}>Условия платежа: {el.contractor}</p>*/}
-                        {/*<p className={"MyEvents_Applications__text"}>Дни по условию платежа: {el.contractor}</p>*/}
                         <p className={"MyEvents_Applications__text"}><b>Кост центр:</b> {el.costCenter}</p>
                         <p className={"MyEvents_Applications__text"}><b>Комментарий:</b> {el.comment}</p>
                         <p className={"MyEvents_Applications__text"}><b>Приоритет платежа:</b> {el.priority}</p>

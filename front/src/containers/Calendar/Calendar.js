@@ -9,10 +9,6 @@ import { Fragment } from 'react';
 
 const Calendar = () => {
 
-    // передавать номер переговорки через query и добавлять его в запрос на получение данных именно этой переговорки
-    // ВАЖНО при получении данных на месяц (не детальных, детальные по каждому дню при отрытии дня получаем),
-    // нужно коэфициент загруженности показывать, чтобы пометить дату соответсвуюшим оттенком цвета
-
     const dispatch = useDispatch()
     const rooms = useSelector(state => state.calendarEvents.rooms);
 
@@ -113,7 +109,6 @@ const Calendar = () => {
     let tableBody = [];
     let firstDayOfTheMonth = moment().set('year', year).set('month', month).startOf('month').weekday();
     const pickTheDay = (event) => {
-        console.log(event.target.className)
         if (event.target.className === "CalendarOne__column CalendarOne__column--inactive") return
         setDay(event.target.textContent)
         openDayTiming()

@@ -129,11 +129,11 @@ const Header = ({ user }) => {
             Счетчик ссылок
           </NavLink>
         )}
-        {user && user.role.includes("viewAllContentlinks") && (
+        {/* {user && user.role.includes("viewAllContentlinks") && (
           <NavLink to="/content-report" className="Header__link">
             Отчет по ссылкам
           </NavLink>
-        )}
+        )} */}
         {user && user.role.includes('viewAllNews') && (
           <NavLink to="/news" className="Header__link">
             Новости
