@@ -11,7 +11,6 @@ const MyEvents_Applications = () => {
     const payments = useSelector(state => state.payments.payments)
     useEffect(() => {
         dispatch(fetchSortedData({user: user._id}))
-        console.log(payments)
     }, [])
 
     let allPayments

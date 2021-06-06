@@ -12,7 +12,6 @@ const MyEvents_CalendarEvents = () => {
     const events = useSelector(state => state.calendarEvents.userEvents)
     useEffect(() => {
         dispatch(getUserCalendarEvents(user._id))
-        console.log(events)
     }, [])
     let allEvents
 

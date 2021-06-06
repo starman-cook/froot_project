@@ -30,6 +30,13 @@
     "redux-thunk": "^2.3.0",
     "web-vitals": "^1.1.0"
   },
+  "type": "commonjs",
+  "exports": {
+    ".": "./index.js",
+    "./jsx-dev-runtime": "./jsx-dev-runtime.js",
+    "./jsx-runtime": "./jsx-runtime.js",
+    "./": "./"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

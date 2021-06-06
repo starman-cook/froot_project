@@ -1,7 +1,8 @@
 import React from 'react'
 import './MyEvents.css'
-import {useDispatch, useSelector} from "react-redux";
+import { useSelector} from "react-redux";
 import {NavLink} from "react-router-dom";
+import ButtonPink from "../../components/UI/Buttons/ButtonPink/ButtonPink"
 
 const MyEvents = () => {
     const user = useSelector(state => state.users.user)
@@ -11,18 +12,18 @@ const MyEvents = () => {
             <h1 className={"MyEvents__title"}>Привет {user.name}</h1>
             <div className={"MyEvents__menuBlock"}>
                 {user && (
-                    <NavLink to="/myEvents_applications" className="MyEvents__link">
-                        Мои заявки
+                    <NavLink to="/myEvents_applications">
+                        <ButtonPink text="Мои заявки"/>
                     </NavLink>
                 )}
                 {user && (
-                    <NavLink to="/myEvents_calendarEvents" className="MyEvents__link">
-                        Мои встречи (переговорка)
+                    <NavLink to="/myEvents_calendarEvents">
+                        <ButtonPink text="Мои встречи"/>
                     </NavLink>
                 )}
                 {user && (
-                    <NavLink to="/myEvents_instructions" className="MyEvents__link">
-                        Мои инструкции
+                    <NavLink to="/myEvents_instructions">
+                        <ButtonPink text="Мои инструкции"/>
                     </NavLink>
                 )}
             </div>

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useParams } from 'react-router-dom'
 import { apiURL } from '../../config'
 import { fetchPaymentById } from '../../store/actions/paymentAction'
+import ButtonPink from "../../components/UI/Buttons/ButtonPink/ButtonPink"
 import './PaymentById.css'
 
 const PaymentById = () => {
@@ -24,7 +25,7 @@ const PaymentById = () => {
             <div className="PaymentById__header">
                 <h2 className="PaymentById__title">Платеж ID: {id}</h2>
                 <NavLink to={`/payments/${id}/edit`}>
-                    <button className="Payment__btn" >Редактировать</button>
+                    <ButtonPink text="Редактировать"/>
                 </NavLink>
             </div>
             <div className="PaymentById__content">
